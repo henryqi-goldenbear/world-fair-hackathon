@@ -1,10 +1,13 @@
 env
 .deps/
+.verify_deps/
 __pycache__/
 *.pyc
 ingestor_data/
+ingestor_data_local_verify/
 ingestor_test_data*/
 ingestor_feature_test_data/
 received_ferbai_sessions.jsonl
+uvicorn_local.*
 ferbai-upstream/node_modules/
 ferbai-upstream/dist/

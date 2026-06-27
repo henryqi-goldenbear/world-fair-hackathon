@@ -4,12 +4,13 @@ import asyncio
 import json
 import logging
 import os
+from contextlib import suppress
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 import httpx
-from fastapi import BackgroundTasks, FastAPI, HTTPException, Response, status
+from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, Response, status
 from pydantic import BaseModel, Field
 
 from feature_extraction import dump_model, extract_feature_bundle
@@ -102,11 +103,18 @@ class VerdictReport(BaseModel):
 app = FastAPI(
     title="FerbAI FastAPI Ingestor",
     description="Public-facing ingestion API for FerbAI session outputs.",
-    version="0.2.0",
+    version="0.3.0",
 )
 
 _mongo_client: Any = None
 _mongo_failed = False
+_generation_task: asyncio.Task[None] | None = None
+_generation_started_at: str | None = None
+_generation_last_session_id: str | None = None
+_generation_last_report: dict[str, Any] | None = None
+_generation_count = 0
+_generation_stop_reason = "not_started"
+_generation_interval_seconds = float(os.getenv("FERBAI_GENERATION_INTERVAL_SECONDS", "15"))
 
 
 def model_dump(model: BaseModel) -> dict[str, Any]:
@@ -212,6 +220,13 @@ async def save_report(report: dict[str, Any]) -> bool:
     return saved_to_mongo
 
 
+async def generate_report_for_session(session_id: str) -> dict[str, Any]:
+    session = await read_json(session_path(session_id))
+    report = extract_verdict(session, await read_streamed_events(session_id))
+    report["saved_to_mongodb"] = await save_report(report)
+    return report
+
+
 def extract_verdict(session: dict[str, Any], streamed_events: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     transcript = session.get("transcript") or []
     events = [model_dump(event) if isinstance(event, BaseModel) else event for event in session.get("events") or []]
@@ -284,9 +299,7 @@ def extract_verdict(session: dict[str, Any], streamed_events: list[dict[str, Any
 
 async def process_session(session_id: str) -> None:
     try:
-        session = await read_json(session_path(session_id))
-        report = extract_verdict(session, await read_streamed_events(session_id))
-        report["saved_to_mongodb"] = await save_report(report)
+        await generate_report_for_session(session_id)
         logger.info("session_processed", extra={"session_id": session_id})
     except Exception:
         logger.exception("session_processing_failed", extra={"session_id": session_id})
@@ -300,6 +313,75 @@ def assert_agent_session(payload: FerbAISessionOutput) -> None:
         )
 
 
+def generation_running() -> bool:
+    return _generation_task is not None and not _generation_task.done()
+
+
+def generation_status() -> dict[str, Any]:
+    return {
+        "running": generation_running(),
+        "started_at": _generation_started_at,
+        "generated_count": _generation_count,
+        "last_session_id": _generation_last_session_id,
+        "last_report_url": (
+            f"/sessions/{_generation_last_session_id}/report" if _generation_last_session_id else None
+        ),
+        "last_verdict": _generation_last_report.get("verdict") if _generation_last_report else None,
+        "last_score": _generation_last_report.get("score") if _generation_last_report else None,
+        "interval_seconds": _generation_interval_seconds,
+        "stop_reason": _generation_stop_reason,
+    }
+
+
+async def ingest_generated_session(payload: FerbAISessionOutput, stream_events: int) -> dict[str, Any]:
+    assert_agent_session(payload)
+    record = model_dump(payload)
+    await save_session(record)
+    for event in record.get("events", [])[:stream_events]:
+        streamed_event = {
+            **event,
+            "payload": {
+                **event.get("payload", {}),
+                "generated_stream": True,
+                "source": "continuous_ferbai_generator",
+            },
+        }
+        await save_event(payload.session_id, streamed_event)
+    return await generate_report_for_session(payload.session_id)
+
+
+async def continuous_generation_loop(interval_seconds: float, limit: int, stream_events: int) -> None:
+    global _generation_count, _generation_interval_seconds, _generation_last_report
+    global _generation_last_session_id, _generation_stop_reason, _generation_task
+
+    run_count = 0
+    _generation_interval_seconds = interval_seconds
+    _generation_stop_reason = "running"
+    try:
+        while limit == 0 or run_count < limit:
+            payload = load_demo_payload()
+            next_count = _generation_count + 1
+            payload.session_id = f"continuous_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}_{next_count}"
+            payload.timestamp = utc_now()
+            report = await ingest_generated_session(payload, stream_events)
+            _generation_count = next_count
+            _generation_last_session_id = payload.session_id
+            _generation_last_report = report
+            run_count += 1
+            logger.info("continuous_session_generated", extra={"session_id": payload.session_id})
+            if limit == 0 or run_count < limit:
+                await asyncio.sleep(interval_seconds)
+        _generation_stop_reason = "limit_reached"
+    except asyncio.CancelledError:
+        _generation_stop_reason = "stopped"
+        raise
+    except Exception:
+        _generation_stop_reason = "error"
+        logger.exception("continuous_generation_failed")
+    finally:
+        _generation_task = None
+
+
 @app.on_event("startup")
 async def startup() -> None:
     ensure_dirs()
@@ -309,6 +391,10 @@ async def startup() -> None:
 
 @app.on_event("shutdown")
 async def shutdown() -> None:
+    if generation_running():
+        _generation_task.cancel()
+        with suppress(asyncio.CancelledError):
+            await _generation_task
     if _mongo_client is not None:
         _mongo_client.close()
     logger.info("ingestor_stopped")
@@ -321,7 +407,84 @@ async def health() -> dict[str, Any]:
         "service": "ferbai-fastapi-ingestor",
         "mongodb_configured": bool(MONGODB_URI),
         "storage": str(DATA_DIR),
+        "generation_running": generation_running(),
     }
+
+
+@app.get("/")
+async def root() -> dict[str, Any]:
+    return {
+        "service": "ferbai-fastapi-ingestor",
+        "ok": True,
+        "routes": {
+            "health": "/health",
+            "demo": "/demo",
+            "ingest_session": "POST /sessions",
+            "stream_event": "POST /sessions/{session_id}/event",
+            "report": "GET /sessions/{session_id}/report",
+            "generation_status": "/generation/status",
+            "generation_start": "POST /generation/start?interval_seconds=15&limit=0",
+            "generation_stop": "POST /generation/stop",
+        },
+        "generation": generation_status(),
+    }
+
+
+@app.get("/generation/status")
+async def get_generation_status() -> dict[str, Any]:
+    return generation_status()
+
+
+@app.post("/generation/start", status_code=status.HTTP_202_ACCEPTED)
+async def start_generation(
+    interval_seconds: float = Query(
+        default=15,
+        ge=0.2,
+        le=3600,
+        description="Seconds between generated FerbAI agent-student sessions.",
+    ),
+    limit: int = Query(
+        default=0,
+        ge=0,
+        le=100000,
+        description="Number of sessions to generate. Use 0 for continuous generation.",
+    ),
+    stream_events: int = Query(
+        default=2,
+        ge=0,
+        le=10,
+        description="How many interaction events to replay through POST /sessions/{id}/event storage.",
+    ),
+) -> dict[str, Any]:
+    global _generation_interval_seconds, _generation_started_at, _generation_stop_reason, _generation_task
+
+    if generation_running():
+        return {"ok": True, "already_running": True, "generation": generation_status()}
+    _generation_interval_seconds = interval_seconds
+    _generation_started_at = utc_now()
+    _generation_stop_reason = "starting"
+    _generation_task = asyncio.create_task(continuous_generation_loop(interval_seconds, limit, stream_events))
+    logger.info("continuous_generation_started")
+    return {
+        "ok": True,
+        "started": True,
+        "continuous": limit == 0,
+        "generation": generation_status(),
+    }
+
+
+@app.post("/generation/stop")
+async def stop_generation() -> dict[str, Any]:
+    global _generation_stop_reason
+
+    task = _generation_task
+    if task is None or task.done():
+        _generation_stop_reason = "not_running"
+        return {"ok": True, "stopped": False, "generation": generation_status()}
+    task.cancel()
+    with suppress(asyncio.CancelledError):
+        await task
+    return {"ok": True, "stopped": True, "generation": generation_status()}
 
 
 @app.post("/sessions", status_code=status.HTTP_202_ACCEPTED)

@@ -9,6 +9,9 @@ Public-facing ingestion API for FerbAI session outputs.
 - `POST /sessions/{session_id}/event` - stream incremental interaction events.
 - `GET /sessions/{session_id}/report` - fetch the generated verdict report.
 - `GET /demo` - run a full synthetic agent-student session through ingest, extraction, persistence, and report generation.
+- `GET /generation/status` - inspect the continuous FerbAI agent-student generator.
+- `POST /generation/start?interval_seconds=15&limit=0` - continuously generate sessions. `limit=0` means keep running.
+- `POST /generation/stop` - stop the continuous generator.
 
 ## Feature Extraction
 
@@ -30,6 +33,25 @@ rule-based filters. No GPU or external service is required.
 $env:PYTHONPATH = "$PWD\.deps"
 python -m uvicorn fastapi_session_receiver:app --host 127.0.0.1 --port 8899
 ```
+
+## Continuous Agent Generation
+
+The ingestor can continuously produce FerbAI synthetic agent-student sessions
+inside the same DigitalOcean container. Generated sessions use the normal
+`POST /sessions` storage path, replay a few interaction events through the
+event stream storage, run feature extraction, and save a report.
+
+Useful demo calls:
+
+```text
+GET  /generation/status
+POST /generation/start?interval_seconds=10&limit=0
+POST /generation/start?interval_seconds=1&limit=3
+POST /generation/stop
+```
+
+Use `limit=0` for a persistent synthetic swarm. Use a small positive `limit`
+when you want a bounded smoke test during deployment checks.
 
 ## DigitalOcean App Platform
 
