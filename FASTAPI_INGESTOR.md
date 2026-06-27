@@ -12,6 +12,7 @@ Public-facing ingestion API for FerbAI session outputs.
 - `GET /generation/status` - inspect the continuous FerbAI agent-student generator.
 - `POST /generation/start?interval_seconds=15&limit=0` - continuously generate sessions. `limit=0` means keep running.
 - `POST /generation/stop` - stop the continuous generator.
+- `GET /evaluators/status` - show Gemini/MiniMax configuration and agreement logic.
 
 ## Feature Extraction
 
@@ -26,6 +27,33 @@ with the report document:
 
 The extractor uses a lightweight spaCy English pipeline with an EntityRuler plus
 rule-based filters. No GPU or external service is required.
+
+## Dual LLM Evaluators
+
+`llm_evaluators.py` runs Gemini and MiniMax as outbound API calls from the
+DigitalOcean app. The calls are made in parallel with `asyncio.gather()` and an
+8 second default timeout, matching the architecture diagram's MiniMax guidance.
+
+- Gemini is the primary evaluator.
+- MiniMax MoE is the independent cross-check evaluator.
+- Agreement produces higher confidence.
+- Disagreement or score delta above `0.3` produces an `uncertain` verdict.
+- If either API is not configured or fails, the report falls back gracefully to
+  the local feature-based verdict.
+
+Reports include:
+
+```json
+{
+  "llm_evaluation": {
+    "mode": "dual_external | gemini_only | minimax_only | local_fallback",
+    "confidence": "low | medium | high",
+    "score_delta": 0.12,
+    "agreement": true,
+    "evaluators": [{ "provider": "gemini" }, { "provider": "minimax" }]
+  }
+}
+```
 
 ## Runtime
 
@@ -65,6 +93,12 @@ DATA_DIR=/app/ingestor_data
 MONGODB_URI=<your MongoDB Atlas URI>
 MONGODB_DB=ferbai
 LOG_LEVEL=INFO
+GEMINI_API_KEY=<your Gemini API key>
+GEMINI_MODEL=gemini-3.5-flash
+MINIMAX_API_KEY=<your MiniMax token>
+MINIMAX_MODEL=MiniMax-Text-01
+MINIMAX_API_URL=https://api.minimax.io/v1/text/chatcompletion_v2
+EVALUATOR_TIMEOUT_SECONDS=8
 ```
 
 If `MONGODB_URI` is absent, the app still works with local JSON persistence. When MongoDB is configured, `sessions`, `events`, and `reports` are upserted into MongoDB.

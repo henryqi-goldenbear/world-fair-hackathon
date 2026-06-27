@@ -14,6 +14,7 @@ from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, Response, st
 from pydantic import BaseModel, Field
 
 from feature_extraction import dump_model, extract_feature_bundle
+from llm_evaluators import evaluate_with_external_llms
 
 
 DATA_DIR = Path(os.getenv("DATA_DIR", "ingestor_data"))
@@ -103,7 +104,7 @@ class VerdictReport(BaseModel):
 app = FastAPI(
     title="FerbAI FastAPI Ingestor",
     description="Public-facing ingestion API for FerbAI session outputs.",
-    version="0.3.0",
+    version="0.4.0",
 )
 
 _mongo_client: Any = None
@@ -223,8 +224,21 @@ async def save_report(report: dict[str, Any]) -> bool:
 async def generate_report_for_session(session_id: str) -> dict[str, Any]:
     session = await read_json(session_path(session_id))
     report = extract_verdict(session, await read_streamed_events(session_id))
+    await attach_external_evaluation(session, report)
     report["saved_to_mongodb"] = await save_report(report)
     return report
+
+
+async def attach_external_evaluation(session: dict[str, Any], report: dict[str, Any]) -> None:
+    agreement = await evaluate_with_external_llms(session, report)
+    agreement_data = model_dump(agreement)
+    report["llm_evaluation"] = agreement_data
+    report["verdict"] = agreement.final_verdict
+    report["score"] = agreement.final_score
+    report["evidence"]["llm_mode"] = agreement.mode
+    report["evidence"]["llm_confidence"] = agreement.confidence
+    report["evidence"]["llm_agreement"] = agreement.agreement
+    report["evidence"]["llm_score_delta"] = agreement.score_delta
 
 
 def extract_verdict(session: dict[str, Any], streamed_events: list[dict[str, Any]] | None = None) -> dict[str, Any]:
@@ -425,8 +439,31 @@ async def root() -> dict[str, Any]:
             "generation_status": "/generation/status",
             "generation_start": "POST /generation/start?interval_seconds=15&limit=0",
             "generation_stop": "POST /generation/stop",
+            "evaluator_status": "/evaluators/status",
         },
         "generation": generation_status(),
+    }
+
+
+@app.get("/evaluators/status")
+async def evaluator_status() -> dict[str, Any]:
+    return {
+        "gemini": {
+            "configured": bool(os.getenv("GEMINI_API_KEY", "")),
+            "model": os.getenv("GEMINI_MODEL", "gemini-3.5-flash"),
+            "role": "primary evaluator via external Google API call from DigitalOcean",
+        },
+        "minimax": {
+            "configured": bool(os.getenv("MINIMAX_API_KEY") or os.getenv("MINIMAX_ACCESS_TOKEN", "")),
+            "model": os.getenv("MINIMAX_MODEL", "MiniMax-Text-01"),
+            "role": "parallel MoE cross-check evaluator",
+            "timeout_seconds": float(os.getenv("EVALUATOR_TIMEOUT_SECONDS", "8")),
+        },
+        "agreement_logic": {
+            "parallel": True,
+            "score_delta_uncertain_threshold": 0.3,
+            "fallback": "local feature verdict when external evaluators are unavailable",
+        },
     }
 
 
@@ -549,6 +586,7 @@ async def demo() -> dict[str, Any]:
     record = model_dump(payload)
     saved_session_to_mongo = await save_session(record)
     report = extract_verdict(record)
+    await attach_external_evaluation(record, report)
     report["saved_to_mongodb"] = await save_report(report)
     logger.info("demo_completed", extra={"session_id": payload.session_id})
     return {
