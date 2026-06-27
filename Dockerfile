@@ -11,7 +11,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY fastapi_session_receiver.py ./
 COPY ferbai_session_outputs.py ./
-COPY ferbai_agent_swarm_sessions.json ./
 COPY ferbai_session_outputs.json ./
 
 EXPOSE 8080
