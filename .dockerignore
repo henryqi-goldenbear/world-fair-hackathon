@@ -1,0 +1,9 @@
+.deps
+.git
+ferbai-upstream/node_modules
+ferbai-upstream/dist
+node_modules
+__pycache__
+*.pyc
+ingestor_data
+received_ferbai_sessions.jsonl
