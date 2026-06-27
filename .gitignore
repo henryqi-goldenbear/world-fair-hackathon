@@ -4,6 +4,7 @@ __pycache__/
 *.pyc
 ingestor_data/
 ingestor_test_data*/
+ingestor_feature_test_data/
 received_ferbai_sessions.jsonl
 ferbai-upstream/node_modules/
 ferbai-upstream/dist/

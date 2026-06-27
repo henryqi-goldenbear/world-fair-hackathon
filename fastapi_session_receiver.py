@@ -12,6 +12,8 @@ import httpx
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Response, status
 from pydantic import BaseModel, Field
 
+from feature_extraction import dump_model, extract_feature_bundle
+
 
 DATA_DIR = Path(os.getenv("DATA_DIR", "ingestor_data"))
 SESSIONS_DIR = DATA_DIR / "sessions"
@@ -108,9 +110,7 @@ _mongo_failed = False
 
 
 def model_dump(model: BaseModel) -> dict[str, Any]:
-    if hasattr(model, "model_dump"):
-        return model.model_dump()
-    return model.dict()
+    return dump_model(model)
 
 
 def utc_now() -> str:
@@ -219,6 +219,8 @@ def extract_verdict(session: dict[str, Any], streamed_events: list[dict[str, Any
         events.extend(streamed_events)
     drawings = session.get("drawings") or []
     metadata = session.get("metadata") or {}
+    feature_bundle = extract_feature_bundle(session, streamed_events)
+    feature_data = model_dump(feature_bundle)
     student_turns = [turn for turn in transcript if str(turn.get("speaker", "")).lower() == "student"]
     text = " ".join(str(turn.get("text", "")) for turn in transcript).lower()
     misconception_hits = sum(
@@ -240,6 +242,8 @@ def extract_verdict(session: dict[str, Any], streamed_events: list[dict[str, Any
     base += min(0.15, len(drawings) * 0.08)
     base += min(0.1, board_events * 0.01)
     base += min(0.1, revision_hits * 0.05)
+    base += min(0.08, feature_bundle.metadata["verifiable_claim_count"] * 0.01)
+    base += min(0.05, feature_bundle.behavior.drawing_score * 0.05)
     base -= min(0.2, misconception_hits * 0.04)
     score = round(max(0.0, min(1.0, base)), 3)
     if score >= 0.72:
@@ -268,7 +272,12 @@ def extract_verdict(session: dict[str, Any], streamed_events: list[dict[str, Any
             "duration_ms": metadata.get("duration_ms"),
             "student_id": metadata.get("student_id"),
             "human_student": metadata.get("human_student", False),
+            "verifiable_claim_count": feature_bundle.metadata["verifiable_claim_count"],
+            "rewatch_rate": feature_bundle.behavior.rewatch_rate,
+            "hesitation_ms": feature_bundle.behavior.hesitation_ms,
+            "drawing_score": feature_bundle.behavior.drawing_score,
         },
+        "features": feature_data,
         "saved_to_mongodb": False,
     }
 

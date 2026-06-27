@@ -10,6 +10,20 @@ Public-facing ingestion API for FerbAI session outputs.
 - `GET /sessions/{session_id}/report` - fetch the generated verdict report.
 - `GET /demo` - run a full synthetic agent-student session through ingest, extraction, persistence, and report generation.
 
+## Feature Extraction
+
+`feature_extraction.py` runs inside the same DigitalOcean container as the API.
+It produces a `FeatureBundle` that is attached to every verdict report and saved
+with the report document:
+
+- `claims`: sentence-level transcript claims tagged as verifiable or not.
+- `behavior.rewatch_rate`: rewatch events per minute.
+- `behavior.hesitation_ms`: average long pause before student responses.
+- `behavior.drawing_score`: 0-1 complexity score from strokes and SVG coverage.
+
+The extractor uses a lightweight spaCy English pipeline with an EntityRuler plus
+rule-based filters. No GPU or external service is required.
+
 ## Runtime
 
 ```powershell
@@ -56,7 +70,15 @@ After streaming an extra event, the report showed:
     "student_turns": 4,
     "event_count": 10,
     "drawing_count": 1,
+    "verifiable_claim_count": 2,
+    "rewatch_rate": 1.667,
+    "hesitation_ms": 3940.0,
+    "drawing_score": 0.604,
     "human_student": false
+  },
+  "features": {
+    "claims": [{ "claim": "Chlorophyll captures light energy.", "sentence_idx": 7, "verifiable": true }],
+    "behavior": { "rewatch_rate": 1.667, "hesitation_ms": 3940.0, "drawing_score": 0.604 }
   }
 }
 ```
