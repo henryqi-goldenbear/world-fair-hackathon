@@ -667,7 +667,7 @@ def render_dashboard_html(status_data: dict[str, Any], latest_report: dict[str, 
     form {{ display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }}
     input {{ width: 88px; padding: 8px; border: 1px solid #cfd6df; border-radius: 6px; }}
     button, a {{ display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border-radius: 6px; border: 1px solid #b9c3cf; background: #fff; color: #16324f; text-decoration: none; font-weight: 700; }}
-    button.primary {{ background: #0d6b63; border-color: #0d6b63; color: #fff; }}
+    button.primary, a.primary {{ background: #0d6b63; border-color: #0d6b63; color: #fff; }}
     ul {{ padding-left: 18px; }}
     li span {{ display: block; color: #5b6472; }}
     code {{ background: #eef1f5; padding: 2px 5px; border-radius: 4px; }}
@@ -698,13 +698,9 @@ def render_dashboard_html(status_data: dict[str, Any], latest_report: dict[str, 
       <div class="metric"><span>Score spread</span><strong>{escape(str((status_data.get('score_range') or {}).get('spread') if (status_data.get('score_range') or {}).get('spread') is not None else 'none yet'))}</strong></div>
       <section class="wide">
         <h2>Controls</h2>
-        <form method="post" action="/generation/start?interval_seconds=120&limit=0&stream_events=2">
-          <button class="primary" type="submit">Start continuous generation</button>
-        </form>
-        <form method="post" action="/generation/start?interval_seconds=5&limit=3&stream_events=2" style="margin-top:8px">
-          <button type="submit">Run 3-session smoke test</button>
-        </form>
-        <div style="margin-top:8px">
+        <div class="actions">
+          <a class="primary" href="/generation/start?interval_seconds=120&limit=0&stream_events=2">Start continuous generation</a>
+          <a href="/generation/start?interval_seconds=5&limit=3&stream_events=2">Run 3-session smoke test</a>
           <a href="/generation/stop">Stop generation</a>
         </div>
       </section>
@@ -1080,6 +1076,24 @@ async def get_generation_status_text() -> PlainTextResponse:
     return PlainTextResponse(format_generation_status_text(generation_status()))
 
 
+async def start_generation_task(interval_seconds: float, limit: int, stream_events: int) -> dict[str, Any]:
+    global _generation_interval_seconds, _generation_started_at, _generation_stop_reason, _generation_task
+
+    if generation_running():
+        return {"ok": True, "already_running": True, "generation": generation_status()}
+    _generation_interval_seconds = interval_seconds
+    _generation_started_at = utc_now()
+    _generation_stop_reason = "starting"
+    _generation_task = asyncio.create_task(continuous_generation_loop(interval_seconds, limit, stream_events))
+    logger.info("continuous_generation_started")
+    return {
+        "ok": True,
+        "started": True,
+        "continuous": limit == 0,
+        "generation": generation_status(),
+    }
+
+
 @app.post("/generation/start", status_code=status.HTTP_202_ACCEPTED)
 async def start_generation(
     interval_seconds: float = Query(
@@ -1101,21 +1115,17 @@ async def start_generation(
         description="How many interaction events to replay through POST /sessions/{id}/event storage.",
     ),
 ) -> dict[str, Any]:
-    global _generation_interval_seconds, _generation_started_at, _generation_stop_reason, _generation_task
+    return await start_generation_task(interval_seconds, limit, stream_events)
 
-    if generation_running():
-        return {"ok": True, "already_running": True, "generation": generation_status()}
-    _generation_interval_seconds = interval_seconds
-    _generation_started_at = utc_now()
-    _generation_stop_reason = "starting"
-    _generation_task = asyncio.create_task(continuous_generation_loop(interval_seconds, limit, stream_events))
-    logger.info("continuous_generation_started")
-    return {
-        "ok": True,
-        "started": True,
-        "continuous": limit == 0,
-        "generation": generation_status(),
-    }
+
+@app.get("/generation/start")
+async def start_generation_from_browser(
+    interval_seconds: float = Query(default=15, ge=0.2, le=3600),
+    limit: int = Query(default=0, ge=0, le=100000),
+    stream_events: int = Query(default=2, ge=0, le=10),
+) -> RedirectResponse:
+    await start_generation_task(interval_seconds, limit, stream_events)
+    return RedirectResponse(url="/generation/status.txt", status_code=status.HTTP_303_SEE_OTHER)
 
 
 async def stop_generation_task() -> dict[str, Any]:
