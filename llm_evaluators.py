@@ -70,6 +70,7 @@ class LocalVerdict:
 def evaluator_prompt(session: dict[str, Any], local_report: dict[str, Any]) -> str:
     features = local_report.get("features", {})
     evidence = local_report.get("evidence", {})
+    self_improvement = local_report.get("self_improvement_context") or {}
     compact_transcript = [
         {
             "t": turn.get("t"),
@@ -92,6 +93,7 @@ def evaluator_prompt(session: dict[str, Any], local_report: dict[str, Any]) -> s
             "score": local_report.get("score"),
             "evidence": evidence,
         },
+        "self_improvement": self_improvement,
         "features": features,
         "transcript": compact_transcript,
         "drawings_count": len(session.get("drawings", [])),
@@ -161,12 +163,46 @@ def claim_key(item: dict[str, Any]) -> str:
     return normalize_claim_text(item)
 
 
-def collect_flagged_claims(results: list[EvaluatorResult]) -> list[dict[str, Any]]:
+FALSE_FLAG_PHRASES = (
+    "nice revision",
+    "good revision",
+    "great job",
+    "good job",
+    "thanks",
+    "thank you",
+    "confidence is about",
+    "my confidence is about",
+)
+
+
+def should_ignore_flagged_claim(item: dict[str, Any], prompt_version: int) -> bool:
+    if prompt_version < 2:
+        return False
+    key = claim_key(item)
+    if any(phrase in key for phrase in FALSE_FLAG_PHRASES):
+        return True
+    words = key.split()
+    if len(words) <= 3 and not any(word in key for word in ("light", "oxygen", "glucose", "water", "carbon")):
+        return True
+    return False
+
+
+def prompt_version_from_report(local_report: dict[str, Any] | None) -> int:
+    context = (local_report or {}).get("self_improvement_context") or {}
+    try:
+        return int(context.get("prompt_version") or 1)
+    except (TypeError, ValueError):
+        return 1
+
+
+def collect_flagged_claims(results: list[EvaluatorResult], prompt_version: int = 1) -> list[dict[str, Any]]:
     claims: dict[str, dict[str, Any]] = {}
     for result in results:
         if not result.ok:
             continue
         for item in result.flagged_claims:
+            if should_ignore_flagged_claim(item, prompt_version):
+                continue
             key = claim_key(item)
             if not key:
                 continue
@@ -182,12 +218,16 @@ def collect_flagged_claims(results: list[EvaluatorResult]) -> list[dict[str, Any
     return list(claims.values())
 
 
-def has_claim_disagreement(results: list[EvaluatorResult]) -> bool:
+def has_claim_disagreement(results: list[EvaluatorResult], prompt_version: int = 1) -> bool:
     usable = [result for result in results if result.ok]
     if len(usable) < 2:
         return False
     claim_sets = [
-        {claim_key(item) for item in result.flagged_claims if claim_key(item)}
+        {
+            claim_key(item)
+            for item in result.flagged_claims
+            if claim_key(item) and not should_ignore_flagged_claim(item, prompt_version)
+        }
         for result in usable
     ]
     first = claim_sets[0]
@@ -344,8 +384,9 @@ def merge_agreement(
     local_report: dict[str, Any] | None = None,
 ) -> AgreementResult:
     usable = [result for result in results if result.ok and result.score is not None and result.verdict]
-    flagged_claims = collect_flagged_claims(results)
-    claim_disagreement = has_claim_disagreement(results)
+    prompt_version = prompt_version_from_report(local_report)
+    flagged_claims = collect_flagged_claims(results, prompt_version)
+    claim_disagreement = has_claim_disagreement(results, prompt_version)
     behavioral_notes = behavioral_notes_from_report(local_report or {})
     if not usable:
         confidence = adjust_confidence_for_behavior("medium", behavioral_notes, uncertain=False)
@@ -366,7 +407,7 @@ def merge_agreement(
     verdict_disagreement = len(verdicts) != 1
     agreement = not verdict_disagreement and not score_disagreement and not claim_disagreement
     if agreement:
-        final_score = round(sum(scores) / len(scores), 3)
+        final_score = round((sum(scores) + local.score) / (len(scores) + 1), 3)
         final_verdict = usable[0].verdict or local.verdict
         confidence = adjust_confidence_for_behavior("high" if len(usable) > 1 else "medium", behavioral_notes, False)
         reason = None

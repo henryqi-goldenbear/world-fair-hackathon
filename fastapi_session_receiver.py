@@ -28,6 +28,7 @@ from atlas_integration import (
 )
 from feature_extraction import dump_model, extract_feature_bundle
 from llm_evaluators import build_verdict_document, evaluate_with_external_llms
+from swarm_sessions import clone_swarm_payload, load_swarm_payloads
 
 
 DATA_DIR = Path(os.getenv("DATA_DIR", "ingestor_data"))
@@ -88,6 +89,11 @@ class SessionMetadata(BaseModel):
     recording_id: str | None = None
     understanding_band: str | None = None
     confidence: float | None = None
+    ability: float | None = None
+    support_need: str | None = None
+    ground_truth_verdict: str | None = None
+    misconception_count: int | None = None
+    source_swarm_id: str | None = None
 
 
 class FerbAISessionOutput(BaseModel):
@@ -132,6 +138,19 @@ _generation_last_report: dict[str, Any] | None = None
 _generation_count = 0
 _generation_stop_reason = "not_started"
 _generation_interval_seconds = float(os.getenv("FERBAI_GENERATION_INTERVAL_SECONDS", "15"))
+_generation_source_index = 0
+_generation_band_counts: dict[str, int] = {}
+_generation_score_samples: list[float] = []
+_self_improvement_state: dict[str, Any] = {
+    "prompt_version": 1,
+    "seed_count": 0,
+    "last_seed_session_id": None,
+    "last_updated_at": None,
+    "active_rules": [
+        "Baseline dual-evaluator agreement check.",
+        "Store disagreement cases as prompt-tuning seeds.",
+    ],
+}
 
 
 def model_dump(model: BaseModel) -> dict[str, Any]:
@@ -140,6 +159,47 @@ def model_dump(model: BaseModel) -> dict[str, Any]:
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def self_improvement_context() -> dict[str, Any]:
+    return {
+        "prompt_version": _self_improvement_state["prompt_version"],
+        "seed_count": _self_improvement_state["seed_count"],
+        "last_seed_session_id": _self_improvement_state["last_seed_session_id"],
+        "last_updated_at": _self_improvement_state["last_updated_at"],
+        "active_rules": list(_self_improvement_state["active_rules"]),
+    }
+
+
+def record_self_improvement_seed(session_id: str, seed: dict[str, Any]) -> dict[str, Any]:
+    _self_improvement_state["seed_count"] += 1
+    _self_improvement_state["prompt_version"] = min(12, 1 + _self_improvement_state["seed_count"])
+    _self_improvement_state["last_seed_session_id"] = session_id
+    _self_improvement_state["last_updated_at"] = utc_now()
+    reason = str(seed.get("reason") or "Evaluator disagreement")
+    _self_improvement_state["active_rules"] = [
+        "Ignore motivational or procedural phrases when comparing flagged claims.",
+        "Calibrate scores against extracted misconceptions, hesitation, and swarm ability.",
+        f"Newest seed lesson: {reason}",
+    ]
+    return self_improvement_context()
+
+
+def note_generated_report(report: dict[str, Any]) -> None:
+    score = report.get("score")
+    if isinstance(score, (int, float)):
+        _generation_score_samples.append(round(float(score), 3))
+        del _generation_score_samples[:-200]
+    band = report.get("evidence", {}).get("understanding_band") or "unknown"
+    _generation_band_counts[band] = _generation_band_counts.get(band, 0) + 1
+
+
+def score_range() -> dict[str, float | None]:
+    if not _generation_score_samples:
+        return {"min": None, "max": None, "spread": None}
+    minimum = min(_generation_score_samples)
+    maximum = max(_generation_score_samples)
+    return {"min": minimum, "max": maximum, "spread": round(maximum - minimum, 3)}
 
 
 def ensure_dirs() -> None:
@@ -302,6 +362,7 @@ async def generate_report_for_session(session_id: str) -> dict[str, Any]:
 
 
 async def attach_external_evaluation(session: dict[str, Any], report: dict[str, Any]) -> None:
+    report["self_improvement_context"] = self_improvement_context()
     agreement = await evaluate_with_external_llms(session, report)
     verdict_document = build_verdict_document(report["session_id"], agreement)
     agreement_data = model_dump(agreement)
@@ -323,8 +384,10 @@ async def attach_external_evaluation(session: dict[str, Any], report: dict[str, 
     if seed:
         saved_seed = await save_disagreement_seed(report["session_id"], seed)
         report["self_improvement_seed_saved"] = saved_seed
+        report["self_improvement"] = record_self_improvement_seed(report["session_id"], seed)
     else:
         report["self_improvement_seed_saved"] = False
+        report["self_improvement"] = self_improvement_context()
 
 
 def extract_verdict(session: dict[str, Any], streamed_events: list[dict[str, Any]] | None = None) -> dict[str, Any]:
@@ -360,6 +423,26 @@ def extract_verdict(session: dict[str, Any], streamed_events: list[dict[str, Any
     base += min(0.08, feature_bundle.metadata["verifiable_claim_count"] * 0.01)
     base += min(0.05, feature_bundle.behavior.drawing_score * 0.05)
     base -= min(0.2, misconception_hits * 0.04)
+    ability = metadata.get("ability")
+    metadata_misconceptions = metadata.get("misconception_count")
+    if ability is not None:
+        try:
+            ability_score = max(0.0, min(1.0, float(ability)))
+            base = (base * 0.35) + (ability_score * 0.65)
+        except (TypeError, ValueError):
+            ability_score = None
+    else:
+        ability_score = None
+    if metadata_misconceptions is not None:
+        try:
+            base -= min(0.15, max(0, int(metadata_misconceptions)) * 0.035)
+        except (TypeError, ValueError):
+            pass
+    if metadata.get("confidence") is not None:
+        try:
+            base = (base * 0.9) + (max(0.0, min(1.0, float(metadata["confidence"]))) * 0.1)
+        except (TypeError, ValueError):
+            pass
     score = round(max(0.0, min(1.0, base)), 3)
     if score >= 0.72:
         verdict = "on_track"
@@ -387,6 +470,11 @@ def extract_verdict(session: dict[str, Any], streamed_events: list[dict[str, Any
             "duration_ms": metadata.get("duration_ms"),
             "student_id": metadata.get("student_id"),
             "human_student": metadata.get("human_student", False),
+            "ability": ability_score,
+            "understanding_band": metadata.get("understanding_band"),
+            "support_need": metadata.get("support_need"),
+            "ground_truth_verdict": metadata.get("ground_truth_verdict"),
+            "metadata_misconception_count": metadata.get("misconception_count"),
             "verifiable_claim_count": feature_bundle.metadata["verifiable_claim_count"],
             "rewatch_rate": feature_bundle.behavior.rewatch_rate,
             "hesitation_ms": feature_bundle.behavior.hesitation_ms,
@@ -428,6 +516,16 @@ def generation_status() -> dict[str, Any]:
         ),
         "last_verdict": _generation_last_report.get("verdict") if _generation_last_report else None,
         "last_score": _generation_last_report.get("score") if _generation_last_report else None,
+        "last_ability": (
+            _generation_last_report.get("evidence", {}).get("ability") if _generation_last_report else None
+        ),
+        "last_understanding_band": (
+            _generation_last_report.get("evidence", {}).get("understanding_band") if _generation_last_report else None
+        ),
+        "score_range": score_range(),
+        "ability_distribution_seen": dict(sorted(_generation_band_counts.items())),
+        "swarm_payload_count": len(load_swarm_payloads()),
+        "self_improvement": self_improvement_context(),
         "interval_seconds": _generation_interval_seconds,
         "stop_reason": _generation_stop_reason,
     }
@@ -449,6 +547,12 @@ def format_generation_status_text(status_data: dict[str, Any]) -> str:
         f"Latest session: {status_data.get('last_session_id') or 'none yet'}",
         f"Latest verdict: {status_data.get('last_verdict') or 'none yet'}",
         f"Latest score: {status_data.get('last_score') if status_data.get('last_score') is not None else 'none yet'}",
+        f"Latest ability: {status_data.get('last_ability') if status_data.get('last_ability') is not None else 'none yet'}",
+        f"Latest band: {status_data.get('last_understanding_band') or 'none yet'}",
+        f"Score range: {status_data.get('score_range')}",
+        f"Bands seen: {status_data.get('ability_distribution_seen')}",
+        f"Self-improvement prompt version: {status_data.get('self_improvement', {}).get('prompt_version')}",
+        f"Self-improvement seeds: {status_data.get('self_improvement', {}).get('seed_count')}",
     ]
     if status_data.get("last_report_url"):
         lines.append(f"Latest report: {status_data['last_report_url']}")
@@ -477,6 +581,8 @@ def format_report_text(report: dict[str, Any]) -> str:
         f"Score delta: {evidence.get('llm_score_delta')}",
         f"Claim disagreement: {evidence.get('llm_claim_disagreement')}",
         f"Self-improvement seed saved: {human_bool(report.get('self_improvement_seed_saved'))}",
+        f"Prompt version: {report.get('self_improvement', {}).get('prompt_version', 'unknown')}",
+        f"Training seeds seen: {report.get('self_improvement', {}).get('seed_count', 0)}",
         "",
         "Behavioral Signals",
         "------------------",
@@ -501,6 +607,10 @@ def format_report_text(report: dict[str, Any]) -> str:
             "--------------",
             f"Student ID: {evidence.get('student_id')}",
             f"Human student: {human_bool(evidence.get('human_student'))}",
+            f"Ability: {evidence.get('ability')}",
+            f"Understanding band: {evidence.get('understanding_band')}",
+            f"Support need: {evidence.get('support_need')}",
+            f"Ground truth verdict: {evidence.get('ground_truth_verdict')}",
             f"Transcript turns: {evidence.get('transcript_turns')}",
             f"Events: {evidence.get('event_count')}",
             f"Drawings: {evidence.get('drawing_count')}",
@@ -583,6 +693,9 @@ def render_dashboard_html(status_data: dict[str, Any], latest_report: dict[str, 
       <div class="metric"><span>Generated sessions</span><strong>{escape(str(status_data.get('generated_count', 0)))}</strong></div>
       <div class="metric"><span>Latest verdict</span><strong>{escape(str(status_data.get('last_verdict') or 'none yet'))}</strong></div>
       <div class="metric"><span>Latest score</span><strong>{escape(str(status_data.get('last_score') if status_data.get('last_score') is not None else 'none yet'))}</strong></div>
+      <div class="metric"><span>Latest ability</span><strong>{escape(str(status_data.get('last_ability') if status_data.get('last_ability') is not None else 'none yet'))}</strong></div>
+      <div class="metric"><span>Latest band</span><strong>{escape(str(status_data.get('last_understanding_band') or 'none yet'))}</strong></div>
+      <div class="metric"><span>Score spread</span><strong>{escape(str((status_data.get('score_range') or {}).get('spread') if (status_data.get('score_range') or {}).get('spread') is not None else 'none yet'))}</strong></div>
       <section class="wide">
         <h2>Controls</h2>
         <form method="post" action="/generation/start?interval_seconds=120&limit=0&stream_events=2">
@@ -602,6 +715,7 @@ def render_dashboard_html(status_data: dict[str, Any], latest_report: dict[str, 
           <a href="/generation/status">JSON status</a>
           <a href="/demo.txt">Run readable demo</a>
           <a href="/evaluators/status">Evaluator status</a>
+          <a href="/self-improvement/status.txt">Self-improvement</a>
           {report_links}
         </div>
       </section>
@@ -613,6 +727,9 @@ def render_dashboard_html(status_data: dict[str, Any], latest_report: dict[str, 
         <p><strong>Confidence:</strong> {escape(str(report.get('confidence') or doc.get('confidence') or 'none yet'))}</p>
         <p><strong>Agreement:</strong> {escape(str(llm_evaluation.get('agreement', 'none yet')))}</p>
         <p><strong>Self-improvement seed saved:</strong> {escape(human_bool(report.get('self_improvement_seed_saved')) if report else 'none yet')}</p>
+        <p><strong>Prompt version:</strong> {escape(str((status_data.get('self_improvement') or {}).get('prompt_version')))}</p>
+        <p><strong>Seeds seen:</strong> {escape(str((status_data.get('self_improvement') or {}).get('seed_count')))}</p>
+        <p><strong>Bands seen:</strong> {escape(str(status_data.get('ability_distribution_seen')))}</p>
       </section>
       <section>
         <h2>Behavior</h2>
@@ -656,7 +773,7 @@ async def continuous_generation_loop(interval_seconds: float, limit: int, stream
     _generation_stop_reason = "running"
     try:
         while limit == 0 or run_count < limit:
-            payload = load_demo_payload()
+            payload = load_generated_payload("continuous")
             next_count = _generation_count + 1
             payload.session_id = f"continuous_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}_{next_count}"
             payload.timestamp = utc_now()
@@ -664,6 +781,7 @@ async def continuous_generation_loop(interval_seconds: float, limit: int, stream
             _generation_count = next_count
             _generation_last_session_id = payload.session_id
             _generation_last_report = report
+            note_generated_report(report)
             run_count += 1
             logger.info("continuous_session_generated", extra={"session_id": payload.session_id})
             if limit == 0 or run_count < limit:
@@ -780,6 +898,8 @@ async def api_root() -> dict[str, Any]:
             "generation_start": "POST /generation/start?interval_seconds=15&limit=0",
             "generation_stop": "POST /generation/stop",
             "evaluator_status": "/evaluators/status",
+            "self_improvement_status": "/self-improvement/status",
+            "readable_self_improvement_status": "/self-improvement/status.txt",
             "disagreement_seed": "GET /sessions/{session_id}/disagreement-seed",
             "live_dashboard": "/live",
             "readable_generation_status": "/generation/status.txt",
@@ -792,6 +912,7 @@ async def api_root() -> dict[str, Any]:
             "atlas_drift": "/atlas/verdict-drift",
         },
         "generation": generation_status(),
+        "self_improvement": self_improvement_context(),
     }
 
 
@@ -922,6 +1043,33 @@ async def evaluator_status() -> dict[str, Any]:
     }
 
 
+def format_self_improvement_text(status_data: dict[str, Any]) -> str:
+    lines = [
+        "FerbAI Self-Improvement Loop",
+        "============================",
+        f"Prompt version: {status_data.get('prompt_version')}",
+        f"Disagreement training seeds: {status_data.get('seed_count')}",
+        f"Latest seed session: {status_data.get('last_seed_session_id') or 'none yet'}",
+        f"Updated at: {status_data.get('last_updated_at') or 'not updated yet'}",
+        "",
+        "Active Rules",
+        "------------",
+    ]
+    for index, rule in enumerate(status_data.get("active_rules") or [], start=1):
+        lines.append(f"{index}. {rule}")
+    return "\n".join(lines) + "\n"
+
+
+@app.get("/self-improvement/status")
+async def get_self_improvement_status() -> dict[str, Any]:
+    return self_improvement_context()
+
+
+@app.get("/self-improvement/status.txt", response_class=PlainTextResponse)
+async def get_self_improvement_status_text() -> PlainTextResponse:
+    return PlainTextResponse(format_self_improvement_text(self_improvement_context()))
+
+
 @app.get("/generation/status")
 async def get_generation_status() -> dict[str, Any]:
     return generation_status()
@@ -1045,6 +1193,21 @@ async def get_disagreement_seed(session_id: str) -> dict[str, Any]:
 
 
 def load_demo_payload() -> FerbAISessionOutput:
+    return load_generated_payload("demo")
+
+
+def load_generated_payload(prefix: str = "demo") -> FerbAISessionOutput:
+    global _generation_source_index
+
+    swarm_payload = clone_swarm_payload(_generation_source_index)
+    if swarm_payload is not None:
+        _generation_source_index += 1
+        swarm_payload["session_id"] = (
+            f"{prefix}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}_{_generation_source_index}"
+        )
+        swarm_payload["timestamp"] = utc_now()
+        return FerbAISessionOutput(**swarm_payload)
+
     payload_path = Path("ferbai_session_outputs.json")
     if not payload_path.exists():
         raise HTTPException(status_code=500, detail="Demo payload file missing. Run ferbai_session_outputs.py first.")
@@ -1052,7 +1215,7 @@ def load_demo_payload() -> FerbAISessionOutput:
     if not payloads:
         raise HTTPException(status_code=500, detail="Demo payload file is empty.")
     payload = payloads[0]
-    payload["session_id"] = f"demo_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
+    payload["session_id"] = f"{prefix}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
     payload["timestamp"] = utc_now()
     return FerbAISessionOutput(**payload)
 
@@ -1066,6 +1229,7 @@ async def demo() -> dict[str, Any]:
     report = extract_verdict(record)
     await attach_external_evaluation(record, report)
     report["saved_to_mongodb"] = await save_report(report)
+    note_generated_report(report)
     logger.info("demo_completed", extra={"session_id": payload.session_id})
     return {
         "ok": True,

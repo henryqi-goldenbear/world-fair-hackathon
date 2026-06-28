@@ -13,8 +13,10 @@ COPY fastapi_session_receiver.py ./
 COPY atlas_integration.py ./
 COPY feature_extraction.py ./
 COPY llm_evaluators.py ./
+COPY swarm_sessions.py ./
 COPY ferbai_session_outputs.py ./
 COPY ferbai_session_outputs.json ./
+COPY synthetic_student_swarm.json ./
 
 EXPOSE 8080
 

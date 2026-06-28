@@ -16,6 +16,7 @@ class LlmEvaluatorTests(unittest.TestCase):
         self.assertTrue(agreement.agreement)
         self.assertEqual(agreement.confidence, "high")
         self.assertEqual(agreement.final_verdict, "on_track")
+        self.assertEqual(agreement.final_score, 0.72)
 
     def test_disagreement_returns_uncertain(self) -> None:
         agreement = merge_agreement(
@@ -74,6 +75,37 @@ class LlmEvaluatorTests(unittest.TestCase):
         self.assertTrue(agreement.claim_disagreement)
         self.assertEqual(agreement.final_verdict, "flagged_for_review")
         self.assertIsNotNone(agreement.self_improvement_seed)
+
+    def test_prompt_version_filters_false_claim_disagreement(self) -> None:
+        results = [
+            EvaluatorResult(
+                provider="gemini",
+                configured=True,
+                ok=True,
+                verdict="needs_targeted_support",
+                score=0.66,
+                flagged_claims=[{"claim": "Nice revision.", "reason": "not actually a content claim"}],
+            ),
+            EvaluatorResult(
+                provider="minimax",
+                configured=True,
+                ok=True,
+                verdict="needs_targeted_support",
+                score=0.66,
+                flagged_claims=[],
+            ),
+        ]
+        v1 = merge_agreement(LocalVerdict(verdict="needs_targeted_support", score=0.5), results)
+        v2 = merge_agreement(
+            LocalVerdict(verdict="needs_targeted_support", score=0.5),
+            results,
+            {"self_improvement_context": {"prompt_version": 2}},
+        )
+        self.assertTrue(v1.claim_disagreement)
+        self.assertEqual(v1.final_verdict, "flagged_for_review")
+        self.assertFalse(v2.claim_disagreement)
+        self.assertTrue(v2.agreement)
+        self.assertEqual(v2.final_verdict, "needs_targeted_support")
 
     def test_behavioral_notes_dampen_confidence(self) -> None:
         agreement = merge_agreement(
