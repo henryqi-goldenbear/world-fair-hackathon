@@ -10,6 +10,7 @@ COPY requirements-fastapi.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY fastapi_session_receiver.py ./
+COPY atlas_integration.py ./
 COPY feature_extraction.py ./
 COPY llm_evaluators.py ./
 COPY ferbai_session_outputs.py ./
