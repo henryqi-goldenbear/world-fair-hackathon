@@ -232,7 +232,7 @@ async def save_disagreement_seed(session_id: str, seed: dict[str, Any]) -> bool:
     await write_json(disagreement_path(session_id), record)
     db = await get_mongo()
     if db is None:
-        return False
+        return True
     await db.disagreements.update_one({"session_id": session_id}, {"$set": record}, upsert=True)
     return True
 
