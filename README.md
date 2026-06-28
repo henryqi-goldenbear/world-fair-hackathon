@@ -165,6 +165,19 @@ Bootstrap Atlas manually if needed:
 curl -X POST "$BASE/atlas/bootstrap"
 ```
 
+Reconnect Atlas after changing Network Access or env vars:
+
+```bash
+curl -X POST "$BASE/atlas/reconnect"
+```
+
+On Windows PowerShell, use `curl.exe` explicitly. If Schannel fails, use the
+browser-friendly route:
+
+```text
+https://ferbai-fastapi-ingestor-ej6yt.ondigitalocean.app/atlas/reconnect.txt
+```
+
 Check Atlas connection and index definitions:
 
 ```bash

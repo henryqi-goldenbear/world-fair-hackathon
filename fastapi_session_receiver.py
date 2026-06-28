@@ -786,6 +786,8 @@ async def api_root() -> dict[str, Any]:
             "readable_demo": "/demo.txt",
             "atlas_status": "/atlas/status",
             "atlas_bootstrap": "POST /atlas/bootstrap",
+            "atlas_reconnect": "GET or POST /atlas/reconnect",
+            "readable_atlas_reconnect": "/atlas/reconnect.txt",
             "atlas_analytics": "/atlas/analytics",
             "atlas_drift": "/atlas/verdict-drift",
         },
@@ -822,8 +824,7 @@ async def atlas_bootstrap() -> dict[str, Any]:
     }
 
 
-@app.post("/atlas/reconnect")
-async def atlas_reconnect() -> dict[str, Any]:
+async def run_atlas_reconnect() -> dict[str, Any]:
     db = await reset_mongo_connection()
     if db is None:
         payload = await mongo_status_payload()
@@ -835,6 +836,33 @@ async def atlas_reconnect() -> dict[str, Any]:
     payload = await mongo_status_payload()
     payload["ok"] = True
     return payload
+
+
+@app.post("/atlas/reconnect")
+async def atlas_reconnect() -> dict[str, Any]:
+    return await run_atlas_reconnect()
+
+
+@app.get("/atlas/reconnect")
+async def atlas_reconnect_get() -> dict[str, Any]:
+    return await run_atlas_reconnect()
+
+
+@app.get("/atlas/reconnect.txt", response_class=PlainTextResponse)
+async def atlas_reconnect_text() -> PlainTextResponse:
+    payload = await run_atlas_reconnect()
+    lines = [
+        "FerbAI Atlas Reconnect",
+        "======================",
+        f"OK: {human_bool(payload.get('ok'))}",
+        f"Configured: {human_bool(payload.get('configured'))}",
+        f"Connected: {human_bool(payload.get('connected'))}",
+        f"Database: {payload.get('database')}",
+        f"Provider: {payload.get('provider')}",
+    ]
+    if payload.get("last_error"):
+        lines.extend(["", "Last error:", str(payload["last_error"])])
+    return PlainTextResponse("\n".join(lines) + "\n")
 
 
 @app.get("/atlas/analytics")
