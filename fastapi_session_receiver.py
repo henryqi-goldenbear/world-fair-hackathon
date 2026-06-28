@@ -14,12 +14,13 @@ from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, Response, st
 from pydantic import BaseModel, Field
 
 from feature_extraction import dump_model, extract_feature_bundle
-from llm_evaluators import evaluate_with_external_llms
+from llm_evaluators import build_verdict_document, evaluate_with_external_llms
 
 
 DATA_DIR = Path(os.getenv("DATA_DIR", "ingestor_data"))
 SESSIONS_DIR = DATA_DIR / "sessions"
 REPORTS_DIR = DATA_DIR / "reports"
+DISAGREEMENTS_DIR = DATA_DIR / "disagreements"
 STREAM_EVENTS_DIR = DATA_DIR / "stream_events"
 EVENTS_PATH = DATA_DIR / "events.jsonl"
 RECEIVED_PATH = Path("received_ferbai_sessions.jsonl")
@@ -104,7 +105,7 @@ class VerdictReport(BaseModel):
 app = FastAPI(
     title="FerbAI FastAPI Ingestor",
     description="Public-facing ingestion API for FerbAI session outputs.",
-    version="0.4.0",
+    version="0.5.0",
 )
 
 _mongo_client: Any = None
@@ -129,6 +130,7 @@ def utc_now() -> str:
 def ensure_dirs() -> None:
     SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    DISAGREEMENTS_DIR.mkdir(parents=True, exist_ok=True)
     STREAM_EVENTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -138,6 +140,10 @@ def session_path(session_id: str) -> Path:
 
 def report_path(session_id: str) -> Path:
     return REPORTS_DIR / f"{session_id}.json"
+
+
+def disagreement_path(session_id: str) -> Path:
+    return DISAGREEMENTS_DIR / f"{session_id}.json"
 
 
 def stream_events_path(session_id: str) -> Path:
@@ -221,6 +227,16 @@ async def save_report(report: dict[str, Any]) -> bool:
     return saved_to_mongo
 
 
+async def save_disagreement_seed(session_id: str, seed: dict[str, Any]) -> bool:
+    record = {"session_id": session_id, "created_at": utc_now(), **seed}
+    await write_json(disagreement_path(session_id), record)
+    db = await get_mongo()
+    if db is None:
+        return False
+    await db.disagreements.update_one({"session_id": session_id}, {"$set": record}, upsert=True)
+    return True
+
+
 async def generate_report_for_session(session_id: str) -> dict[str, Any]:
     session = await read_json(session_path(session_id))
     report = extract_verdict(session, await read_streamed_events(session_id))
@@ -231,14 +247,28 @@ async def generate_report_for_session(session_id: str) -> dict[str, Any]:
 
 async def attach_external_evaluation(session: dict[str, Any], report: dict[str, Any]) -> None:
     agreement = await evaluate_with_external_llms(session, report)
+    verdict_document = build_verdict_document(report["session_id"], agreement)
     agreement_data = model_dump(agreement)
+    verdict_document_data = model_dump(verdict_document)
     report["llm_evaluation"] = agreement_data
+    report["verdict_document"] = verdict_document_data
     report["verdict"] = agreement.final_verdict
     report["score"] = agreement.final_score
+    report["overall_score"] = agreement.final_score
+    report["confidence"] = agreement.confidence
+    report["flagged_claims"] = agreement.flagged_claims
+    report["behavioral_notes"] = agreement.behavioral_notes
     report["evidence"]["llm_mode"] = agreement.mode
     report["evidence"]["llm_confidence"] = agreement.confidence
     report["evidence"]["llm_agreement"] = agreement.agreement
     report["evidence"]["llm_score_delta"] = agreement.score_delta
+    report["evidence"]["llm_claim_disagreement"] = agreement.claim_disagreement
+    seed = verdict_document.self_improvement_seed
+    if seed:
+        saved_seed = await save_disagreement_seed(report["session_id"], seed)
+        report["self_improvement_seed_saved"] = saved_seed
+    else:
+        report["self_improvement_seed_saved"] = False
 
 
 def extract_verdict(session: dict[str, Any], streamed_events: list[dict[str, Any]] | None = None) -> dict[str, Any]:
@@ -440,6 +470,7 @@ async def root() -> dict[str, Any]:
             "generation_start": "POST /generation/start?interval_seconds=15&limit=0",
             "generation_stop": "POST /generation/stop",
             "evaluator_status": "/evaluators/status",
+            "disagreement_seed": "GET /sessions/{session_id}/disagreement-seed",
         },
         "generation": generation_status(),
     }
@@ -462,6 +493,8 @@ async def evaluator_status() -> dict[str, Any]:
         "agreement_logic": {
             "parallel": True,
             "score_delta_uncertain_threshold": 0.3,
+            "claim_disagreement": "flagged_for_review and saved as a self-improvement seed",
+            "behavioral_confidence_adjustment": "rewatch and hesitation dampen confidence; strong drawing can amplify it",
             "fallback": "local feature verdict when external evaluators are unavailable",
         },
     }
@@ -563,6 +596,14 @@ async def get_report(session_id: str, response: Response) -> dict[str, Any]:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Unknown session_id")
         response.status_code = status.HTTP_202_ACCEPTED
         return {"session_id": session_id, "status": "processing"}
+    return await read_json(path)
+
+
+@app.get("/sessions/{session_id}/disagreement-seed")
+async def get_disagreement_seed(session_id: str) -> dict[str, Any]:
+    path = disagreement_path(session_id)
+    if not path.exists():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No disagreement seed for session_id")
     return await read_json(path)
 
 

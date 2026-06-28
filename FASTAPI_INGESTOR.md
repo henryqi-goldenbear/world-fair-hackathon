@@ -13,6 +13,7 @@ Public-facing ingestion API for FerbAI session outputs.
 - `POST /generation/start?interval_seconds=15&limit=0` - continuously generate sessions. `limit=0` means keep running.
 - `POST /generation/stop` - stop the continuous generator.
 - `GET /evaluators/status` - show Gemini/MiniMax configuration and agreement logic.
+- `GET /sessions/{session_id}/disagreement-seed` - fetch a stored self-improvement seed when models disagree.
 
 ## Feature Extraction
 
@@ -45,6 +46,15 @@ Reports include:
 
 ```json
 {
+  "verdict_document": {
+    "overall_score": 0.66,
+    "confidence": "high",
+    "flagged_claims": [{ "claim": "Sunlight turns directly into glucose.", "reason": "incorrect" }],
+    "behavioral_notes": {
+      "rewatch": { "rate": 1.667, "note": "high_rewatch" },
+      "hesitation": { "average_ms": 3940.0, "note": "high_hesitation" }
+    }
+  },
   "llm_evaluation": {
     "mode": "dual_external | gemini_only | minimax_only | local_fallback",
     "confidence": "low | medium | high",
@@ -54,6 +64,20 @@ Reports include:
   }
 }
 ```
+
+The verdict engine itself is pure Python. It performs no I/O while deciding the
+final score, confidence, flagged claims, behavioral notes, or self-improvement
+seed. After the document is produced, the FastAPI layer saves the report and,
+when present, writes disagreement seeds to local JSON and MongoDB
+`disagreements`.
+
+Agreement logic:
+
+- both evaluators agree on verdict, score, and flagged claims -> high confidence;
+- claim-level disagreement -> `flagged_for_review` and a prompt-tuning seed;
+- score delta above `0.3` -> `uncertain`;
+- high rewatch or hesitation dampens confidence;
+- strong drawing evidence can amplify confidence.
 
 ## Runtime
 

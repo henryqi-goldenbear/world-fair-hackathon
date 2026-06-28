@@ -37,10 +37,28 @@ class AgreementResult(BaseModel):
     confidence: str
     score_delta: float | None = None
     agreement: bool | None = None
+    claim_disagreement: bool = False
     disagreement_reason: str | None = None
     final_verdict: str
     final_score: float
+    flagged_claims: list[dict[str, Any]] = Field(default_factory=list)
+    behavioral_notes: dict[str, Any] = Field(default_factory=dict)
+    self_improvement_seed: dict[str, Any] | None = None
     evaluators: list[EvaluatorResult]
+
+
+class VerdictDocument(BaseModel):
+    session_id: str
+    overall_score: float = Field(..., ge=0.0, le=1.0)
+    verdict: str
+    confidence: str
+    flagged_claims: list[dict[str, Any]] = Field(default_factory=list)
+    behavioral_notes: dict[str, Any] = Field(default_factory=dict)
+    evaluator_mode: str
+    agreement: bool | None = None
+    score_delta: float | None = None
+    claim_disagreement: bool = False
+    self_improvement_seed: dict[str, Any] | None = None
 
 
 @dataclass(frozen=True)
@@ -133,6 +151,109 @@ def coerce_result(provider: str, configured: bool, data: dict[str, Any], latency
     )
 
 
+def normalize_claim_text(value: Any) -> str:
+    if isinstance(value, dict):
+        value = value.get("claim") or value.get("text") or value.get("statement") or ""
+    return " ".join(str(value).lower().strip().split())
+
+
+def claim_key(item: dict[str, Any]) -> str:
+    return normalize_claim_text(item)
+
+
+def collect_flagged_claims(results: list[EvaluatorResult]) -> list[dict[str, Any]]:
+    claims: dict[str, dict[str, Any]] = {}
+    for result in results:
+        if not result.ok:
+            continue
+        for item in result.flagged_claims:
+            key = claim_key(item)
+            if not key:
+                continue
+            current = claims.setdefault(
+                key,
+                {
+                    "claim": item.get("claim") or item.get("text") or key,
+                    "reason": item.get("reason") or "provider_flagged",
+                    "providers": [],
+                },
+            )
+            current["providers"].append(result.provider)
+    return list(claims.values())
+
+
+def has_claim_disagreement(results: list[EvaluatorResult]) -> bool:
+    usable = [result for result in results if result.ok]
+    if len(usable) < 2:
+        return False
+    claim_sets = [
+        {claim_key(item) for item in result.flagged_claims if claim_key(item)}
+        for result in usable
+    ]
+    first = claim_sets[0]
+    return any(claims != first for claims in claim_sets[1:])
+
+
+def behavioral_notes_from_report(local_report: dict[str, Any]) -> dict[str, Any]:
+    evidence = local_report.get("evidence", {})
+    return {
+        "rewatch": {
+            "rate": evidence.get("rewatch_rate", 0),
+            "note": "high_rewatch" if float(evidence.get("rewatch_rate") or 0) >= 1.5 else "normal",
+        },
+        "hesitation": {
+            "average_ms": evidence.get("hesitation_ms", 0),
+            "note": "high_hesitation" if float(evidence.get("hesitation_ms") or 0) >= 3500 else "normal",
+        },
+        "drawing": {
+            "score": evidence.get("drawing_score", 0),
+            "note": "strong_board_work" if float(evidence.get("drawing_score") or 0) >= 0.6 else "limited_board_work",
+        },
+    }
+
+
+def adjust_confidence_for_behavior(confidence: str, behavioral_notes: dict[str, Any], uncertain: bool) -> str:
+    if uncertain:
+        return "low"
+    levels = ["low", "medium", "high"]
+    idx = levels.index(confidence)
+    if behavioral_notes.get("hesitation", {}).get("note") == "high_hesitation":
+        idx = max(0, idx - 1)
+    if behavioral_notes.get("rewatch", {}).get("note") == "high_rewatch":
+        idx = max(0, idx - 1)
+    if behavioral_notes.get("drawing", {}).get("note") == "strong_board_work" and idx < 2:
+        idx += 1
+    return levels[idx]
+
+
+def make_self_improvement_seed(
+    local: LocalVerdict,
+    results: list[EvaluatorResult],
+    reason: str | None,
+    flagged_claims: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    if not reason:
+        return None
+    return {
+        "seed_type": "evaluator_disagreement",
+        "reason": reason,
+        "local_baseline": {"verdict": local.verdict, "score": local.score},
+        "evaluator_outputs": [
+            {
+                "provider": result.provider,
+                "verdict": result.verdict,
+                "score": result.score,
+                "confidence": result.confidence,
+                "flagged_claims": result.flagged_claims,
+                "reasoning_flags": result.reasoning_flags,
+            }
+            for result in results
+        ],
+        "flagged_claims": flagged_claims,
+        "next_action": "Use as prompt-tuning seed, label the disagreement, then re-evaluate the session.",
+    }
+
+
 async def call_gemini(session: dict[str, Any], local_report: dict[str, Any]) -> EvaluatorResult:
     import httpx
 
@@ -217,40 +338,80 @@ async def call_minimax(session: dict[str, Any], local_report: dict[str, Any]) ->
         return EvaluatorResult(provider="minimax", configured=True, ok=False, error=str(exc), latency_ms=elapsed)
 
 
-def merge_agreement(local: LocalVerdict, results: list[EvaluatorResult]) -> AgreementResult:
+def merge_agreement(
+    local: LocalVerdict,
+    results: list[EvaluatorResult],
+    local_report: dict[str, Any] | None = None,
+) -> AgreementResult:
     usable = [result for result in results if result.ok and result.score is not None and result.verdict]
+    flagged_claims = collect_flagged_claims(results)
+    claim_disagreement = has_claim_disagreement(results)
+    behavioral_notes = behavioral_notes_from_report(local_report or {})
     if not usable:
+        confidence = adjust_confidence_for_behavior("medium", behavioral_notes, uncertain=False)
         return AgreementResult(
             mode="local_fallback",
-            confidence="medium",
+            confidence=confidence,
             final_verdict=local.verdict,
             final_score=local.score,
             evaluators=results,
+            flagged_claims=flagged_claims,
+            behavioral_notes=behavioral_notes,
             disagreement_reason="No external evaluator returned a usable result.",
         )
     scores = [result.score for result in usable if result.score is not None]
     score_delta = round(max(scores) - min(scores), 3) if len(scores) > 1 else None
     verdicts = {str(result.verdict) for result in usable}
-    agreement = len(verdicts) == 1 and (score_delta is None or score_delta <= 0.3)
+    score_disagreement = score_delta is not None and score_delta > 0.3
+    verdict_disagreement = len(verdicts) != 1
+    agreement = not verdict_disagreement and not score_disagreement and not claim_disagreement
     if agreement:
         final_score = round(sum(scores) / len(scores), 3)
         final_verdict = usable[0].verdict or local.verdict
-        confidence = "high" if len(usable) > 1 else "medium"
+        confidence = adjust_confidence_for_behavior("high" if len(usable) > 1 else "medium", behavioral_notes, False)
         reason = None
     else:
         final_score = round((sum(scores) + local.score) / (len(scores) + 1), 3)
-        final_verdict = "uncertain"
-        confidence = "low"
-        reason = "Evaluator verdicts diverged or score delta exceeded 0.3."
+        final_verdict = "uncertain" if score_disagreement else "flagged_for_review"
+        confidence = adjust_confidence_for_behavior("low", behavioral_notes, True)
+        reasons = []
+        if verdict_disagreement:
+            reasons.append("Evaluator verdicts diverged.")
+        if claim_disagreement:
+            reasons.append("Evaluators disagreed on flagged claims.")
+        if score_disagreement:
+            reasons.append("Score delta exceeded 0.3.")
+        reason = " ".join(reasons)
+    self_improvement_seed = make_self_improvement_seed(local, results, reason, flagged_claims)
     return AgreementResult(
         mode="dual_external" if len(usable) > 1 else f"{usable[0].provider}_only",
         confidence=confidence,
         score_delta=score_delta,
         agreement=agreement,
+        claim_disagreement=claim_disagreement,
         disagreement_reason=reason,
         final_verdict=final_verdict,
         final_score=final_score,
+        flagged_claims=flagged_claims,
+        behavioral_notes=behavioral_notes,
+        self_improvement_seed=self_improvement_seed,
         evaluators=results,
+    )
+
+
+def build_verdict_document(session_id: str, agreement: AgreementResult) -> VerdictDocument:
+    return VerdictDocument(
+        session_id=session_id,
+        overall_score=agreement.final_score,
+        verdict=agreement.final_verdict,
+        confidence=agreement.confidence,
+        flagged_claims=agreement.flagged_claims,
+        behavioral_notes=agreement.behavioral_notes,
+        evaluator_mode=agreement.mode,
+        agreement=agreement.agreement,
+        score_delta=agreement.score_delta,
+        claim_disagreement=agreement.claim_disagreement,
+        self_improvement_seed=agreement.self_improvement_seed,
     )
 
 
@@ -262,4 +423,5 @@ async def evaluate_with_external_llms(session: dict[str, Any], local_report: dic
     return merge_agreement(
         LocalVerdict(verdict=str(local_report["verdict"]), score=float(local_report["score"])),
         list(results),
+        local_report,
     )
