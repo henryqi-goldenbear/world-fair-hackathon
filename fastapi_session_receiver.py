@@ -15,6 +15,17 @@ from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, Response, st
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 
+from atlas_integration import (
+    atlas_search_index_definitions,
+    ensure_atlas_indexes,
+    load_personas,
+    prepare_disagreement_document,
+    prepare_session_document,
+    prepare_verdict_document,
+    seed_personas,
+    swarm_analytics,
+    verdict_drift,
+)
 from feature_extraction import dump_model, extract_feature_bundle
 from llm_evaluators import build_verdict_document, evaluate_with_external_llms
 
@@ -29,6 +40,7 @@ RECEIVED_PATH = Path("received_ferbai_sessions.jsonl")
 MONGODB_URI = os.getenv("MONGODB_URI", "")
 MONGODB_DB = os.getenv("MONGODB_DB", "ferbai")
 REPORT_WEBHOOK_URL = os.getenv("REPORT_WEBHOOK_URL", "")
+ATLAS_BOOTSTRAP_ON_STARTUP = os.getenv("ATLAS_BOOTSTRAP_ON_STARTUP", "true").lower() == "true"
 
 
 class JsonFormatter(logging.Formatter):
@@ -107,7 +119,7 @@ class VerdictReport(BaseModel):
 app = FastAPI(
     title="FerbAI FastAPI Ingestor",
     description="Public-facing ingestion API for FerbAI session outputs.",
-    version="0.6.0",
+    version="0.7.0",
 )
 
 _mongo_client: Any = None
@@ -188,6 +200,16 @@ async def get_mongo() -> Any:
         return None
 
 
+async def require_mongo() -> Any:
+    db = await get_mongo()
+    if db is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="MongoDB Atlas is not configured. Set MONGODB_URI in DigitalOcean App Platform.",
+        )
+    return db
+
+
 async def save_session(record: dict[str, Any]) -> bool:
     ensure_dirs()
     await write_json(session_path(record["session_id"]), record)
@@ -195,7 +217,11 @@ async def save_session(record: dict[str, Any]) -> bool:
     db = await get_mongo()
     if db is None:
         return False
-    await db.sessions.update_one({"session_id": record["session_id"]}, {"$set": record}, upsert=True)
+    await db.sessions.update_one(
+        {"session_id": record["session_id"]},
+        {"$set": prepare_session_document(record)},
+        upsert=True,
+    )
     return True
 
 
@@ -221,7 +247,21 @@ async def save_report(report: dict[str, Any]) -> bool:
     db = await get_mongo()
     saved_to_mongo = False
     if db is not None:
-        await db.reports.update_one({"session_id": report["session_id"]}, {"$set": report}, upsert=True)
+        verdict_doc = prepare_verdict_document(report)
+        await db.verdicts.update_one({"session_id": report["session_id"]}, {"$set": verdict_doc}, upsert=True)
+        await db.reports.update_one({"session_id": report["session_id"]}, {"$set": verdict_doc}, upsert=True)
+        await db.sessions.update_one(
+            {"session_id": report["session_id"]},
+            {
+                "$set": {
+                    "features": report.get("features", {}),
+                    "latest_verdict": report.get("verdict"),
+                    "latest_score": report.get("overall_score", report.get("score")),
+                    "latest_confidence": report.get("confidence"),
+                }
+            },
+            upsert=False,
+        )
         saved_to_mongo = True
     if REPORT_WEBHOOK_URL:
         async with httpx.AsyncClient(timeout=5) as client:
@@ -230,7 +270,8 @@ async def save_report(report: dict[str, Any]) -> bool:
 
 
 async def save_disagreement_seed(session_id: str, seed: dict[str, Any]) -> bool:
-    record = {"session_id": session_id, "created_at": utc_now(), **seed}
+    created_at = utc_now()
+    record = prepare_disagreement_document(session_id, seed, created_at)
     await write_json(disagreement_path(session_id), record)
     db = await get_mongo()
     if db is None:
@@ -628,7 +669,14 @@ async def continuous_generation_loop(interval_seconds: float, limit: int, stream
 @app.on_event("startup")
 async def startup() -> None:
     ensure_dirs()
-    await get_mongo()
+    db = await get_mongo()
+    if db is not None and ATLAS_BOOTSTRAP_ON_STARTUP:
+        try:
+            await ensure_atlas_indexes(db)
+            persona_count = await seed_personas(db, load_personas())
+            logger.info("atlas_bootstrapped", extra={"duration_ms": persona_count})
+        except Exception:
+            logger.exception("atlas_bootstrap_failed")
     logger.info("ingestor_started")
 
 
@@ -665,6 +713,27 @@ async def latest_report_for_dashboard() -> dict[str, Any] | None:
     return await read_json(path)
 
 
+async def mongo_status_payload() -> dict[str, Any]:
+    configured = bool(MONGODB_URI)
+    db = await get_mongo()
+    if db is None:
+        return {
+            "configured": configured,
+            "connected": False,
+            "database": MONGODB_DB,
+            "provider": "MongoDB Atlas on GCP",
+            "collections": ["sessions", "events", "verdicts", "disagreements", "personas"],
+        }
+    names = await db.list_collection_names()
+    return {
+        "configured": configured,
+        "connected": True,
+        "database": MONGODB_DB,
+        "provider": "MongoDB Atlas on GCP",
+        "collections": sorted(name for name in names if not name.startswith("system.")),
+    }
+
+
 @app.get("/", response_class=HTMLResponse)
 async def root() -> HTMLResponse:
     status_data = generation_status()
@@ -698,9 +767,75 @@ async def api_root() -> dict[str, Any]:
             "live_dashboard": "/live",
             "readable_generation_status": "/generation/status.txt",
             "readable_demo": "/demo.txt",
+            "atlas_status": "/atlas/status",
+            "atlas_bootstrap": "POST /atlas/bootstrap",
+            "atlas_analytics": "/atlas/analytics",
+            "atlas_drift": "/atlas/verdict-drift",
         },
         "generation": generation_status(),
     }
+
+
+@app.get("/atlas/status")
+async def atlas_status() -> dict[str, Any]:
+    payload = await mongo_status_payload()
+    payload["search_indexes"] = atlas_search_index_definitions()
+    payload["connection_notes"] = {
+        "driver": "motor async PyMongo",
+        "pooling": "global AsyncIOMotorClient reused across requests",
+        "write_order": "sessions first, verdicts after consensus, disagreements only when seeds exist",
+    }
+    return payload
+
+
+@app.post("/atlas/bootstrap")
+async def atlas_bootstrap() -> dict[str, Any]:
+    db = await require_mongo()
+    indexes = await ensure_atlas_indexes(db)
+    personas = load_personas()
+    persona_count = await seed_personas(db, personas)
+    return {
+        "ok": True,
+        "database": MONGODB_DB,
+        "provider": "MongoDB Atlas on GCP",
+        "indexes": indexes,
+        "personas_seeded": persona_count,
+        "search_index_definitions": atlas_search_index_definitions(),
+        "note": "Create the Atlas Search and Vector Search definitions in Atlas if your cluster does not allow driver-managed search index creation.",
+    }
+
+
+@app.get("/atlas/analytics")
+async def atlas_analytics() -> dict[str, Any]:
+    db = await require_mongo()
+    return await swarm_analytics(db)
+
+
+@app.get("/atlas/verdict-drift")
+async def atlas_verdict_drift(limit: int = Query(default=50, ge=1, le=500)) -> dict[str, Any]:
+    db = await require_mongo()
+    return {"items": await verdict_drift(db, limit)}
+
+
+@app.get("/personas")
+async def list_personas(limit: int = Query(default=20, ge=1, le=100)) -> dict[str, Any]:
+    db = await get_mongo()
+    if db is not None:
+        cursor = db.personas.find({}, {"_id": False}).sort("persona_id", 1).limit(limit)
+        return {"source": "mongodb_atlas", "items": [doc async for doc in cursor]}
+    return {"source": "local_file", "items": load_personas()[:limit]}
+
+
+@app.get("/disagreements")
+async def list_disagreements(limit: int = Query(default=20, ge=1, le=100)) -> dict[str, Any]:
+    db = await get_mongo()
+    if db is not None:
+        cursor = db.disagreements.find({}, {"_id": False}).sort("created_at", -1).limit(limit)
+        return {"source": "mongodb_atlas", "items": [doc async for doc in cursor]}
+    items = []
+    for path in sorted(DISAGREEMENTS_DIR.glob("*.json"), key=lambda item: item.stat().st_mtime, reverse=True)[:limit]:
+        items.append(await read_json(path))
+    return {"source": "local_json", "items": items}
 
 
 @app.get("/evaluators/status")

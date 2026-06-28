@@ -65,6 +65,12 @@ Use these when you want raw machine-readable data:
 ```text
 GET /api
 GET /health
+GET /atlas/status
+POST /atlas/bootstrap
+GET /atlas/analytics
+GET /atlas/verdict-drift
+GET /personas
+GET /disagreements
 GET /generation/status
 GET /evaluators/status
 GET /demo
@@ -131,6 +137,66 @@ Fetch the latest report:
 curl "$BASE/sessions/continuous_20260628000331_1/report.txt"
 ```
 
+## MongoDB Atlas On GCP
+
+The app is ready for MongoDB Atlas. After claiming the Atlas Sandbox, create a
+cluster on GCP and add the connection string to DigitalOcean App Platform:
+
+```text
+MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
+MONGODB_DB=ferbai
+ATLAS_BOOTSTRAP_ON_STARTUP=true
+```
+
+Once `MONGODB_URI` is set and the app redeploys, it uses `motor`
+(async PyMongo) with a pooled global client.
+
+Atlas collections:
+
+- `sessions` - raw ingest plus backfilled feature bundles and latest verdict.
+- `events` - streamed clicks, pauses, rewatches, and generated events.
+- `verdicts` - final evaluated outputs after Gemini/MiniMax consensus.
+- `disagreements` - self-improvement training seed pool.
+- `personas` - synthetic student profiles from the swarm.
+
+Bootstrap Atlas manually if needed:
+
+```bash
+curl -X POST "$BASE/atlas/bootstrap"
+```
+
+Check Atlas connection and index definitions:
+
+```bash
+curl "$BASE/atlas/status"
+```
+
+View swarm analytics:
+
+```bash
+curl "$BASE/atlas/analytics"
+```
+
+View verdict drift over recent sessions:
+
+```bash
+curl "$BASE/atlas/verdict-drift?limit=50"
+```
+
+The app stores deterministic embedding vectors for `flagged_claims` in
+`flagged_claim_embeddings`. Use the `/atlas/status` response to copy the Atlas
+Search and Vector Search index definitions into Atlas if your cluster does not
+allow driver-managed search index creation.
+
+Write order:
+
+1. raw session goes to `sessions`;
+2. events go to `events`;
+3. feature extraction and dual LLM evaluation run;
+4. final verdict goes to `verdicts`;
+5. disagreement seeds go to `disagreements`;
+6. session document is backfilled with features and latest verdict.
+
 ## Local Development
 
 Install dependencies:
@@ -154,7 +220,7 @@ http://127.0.0.1:8899/live
 Run tests:
 
 ```bash
-python -m unittest test_feature_extraction.py test_llm_evaluators.py
+python -m unittest test_feature_extraction.py test_llm_evaluators.py test_atlas_integration.py
 ```
 
 ## Verdict Engine
