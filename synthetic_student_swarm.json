@@ -1,0 +1,5401 @@
+{
+  "swarm_id": "swarm_8b4a9b4f3497",
+  "subject": "photosynthesis",
+  "count": 50,
+  "seed": 20260627,
+  "ability_distribution": {
+    "novice": 9,
+    "developing": 19,
+    "proficient": 19,
+    "advanced": 3
+  },
+  "sessions": [
+    {
+      "session_id": "sess_10413940c4524f21a951f066112eddcb",
+      "student_id": "stu_001_03d538db",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.378952Z",
+      "persona": {
+        "persona_id": "stu_001_03d538db",
+        "name": "Elena 01",
+        "subject": "photosynthesis",
+        "ability": 0.816,
+        "understanding_band": "advanced",
+        "confidence": 0.698,
+        "pace": "fast",
+        "learning_style": "visual",
+        "language_profile": "native English",
+        "behavior": "hesitates before committing",
+        "mastered_concepts": [
+          "water is absorbed by roots",
+          "chlorophyll captures light",
+          "plants use light energy",
+          "glucose stores chemical energy",
+          "carbon dioxide enters through leaves",
+          "oxygen is released as a byproduct"
+        ],
+        "misconceptions": [
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "extension challenge"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.378952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:28.378952Z",
+          "speaker": "student",
+          "text": "I can explain it and test it with a different example."
+        },
+        {
+          "t": "2026-06-27T20:34:42.378952Z",
+          "speaker": "student",
+          "text": "I think oxygen is the main input plants consume."
+        },
+        {
+          "t": "2026-06-27T20:34:58.378952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:08.378952Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: water is absorbed by roots matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:41.378952Z",
+          "speaker": "student",
+          "text": "My confidence is about 70 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.0,
+        "hesitation_score": 0.16,
+        "self_revision": true,
+        "confidence": 0.698,
+        "pace": "fast",
+        "behavior": "hesitates before committing"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M33,51 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M123,89 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M67,89 L99,89"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M204,39 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M148,39 L180,39"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M271,66 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M215,66 L247,66"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M356,44 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M300,44 L332,44"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.816,
+        "understanding_band": "advanced",
+        "has_misconception": true,
+        "misconceptions": [
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "extension challenge",
+        "expected_verdict": "partially_correct"
+      }
+    },
+    {
+      "session_id": "sess_7c5a4021f2ad44899ce65c85418da122",
+      "student_id": "stu_002_6ccdf03f",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.378952Z",
+      "persona": {
+        "persona_id": "stu_002_6ccdf03f",
+        "name": "Felix 02",
+        "subject": "photosynthesis",
+        "ability": 0.516,
+        "understanding_band": "developing",
+        "confidence": 0.7,
+        "pace": "steady",
+        "learning_style": "verbal",
+        "language_profile": "concise speaker",
+        "behavior": "draws while thinking",
+        "mastered_concepts": [
+          "plants use light energy",
+          "water is absorbed by roots",
+          "chlorophyll captures light"
+        ],
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "plants do not respire"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.378952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:33.378952Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:44.378952Z",
+          "speaker": "student",
+          "text": "I think oxygen is the main input plants consume."
+        },
+        {
+          "t": "2026-06-27T20:34:52.378952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:16.378952Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: plants use light energy matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:41.378952Z",
+          "speaker": "student",
+          "text": "My confidence is about 70 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.5,
+        "hesitation_score": 0.38,
+        "self_revision": true,
+        "confidence": 0.7,
+        "pace": "steady",
+        "behavior": "draws while thinking"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M35,88 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M121,82 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M65,82 L97,82"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M209,68 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M153,68 L185,68"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.516,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "plants do not respire"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_e3f3a46dabc24d46b4907f4866ad7179",
+      "student_id": "stu_003_ea93a42e",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.379951Z",
+      "persona": {
+        "persona_id": "stu_003_ea93a42e",
+        "name": "Grace 03",
+        "subject": "photosynthesis",
+        "ability": 0.475,
+        "understanding_band": "developing",
+        "confidence": 0.263,
+        "pace": "fast",
+        "learning_style": "procedural",
+        "language_profile": "uses informal language",
+        "behavior": "draws while thinking",
+        "mastered_concepts": [
+          "glucose stores chemical energy",
+          "carbon dioxide enters through leaves",
+          "plants use light energy"
+        ],
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "plants do not respire"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:31.379951Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:37.379951Z",
+          "speaker": "student",
+          "text": "I think oxygen is the main input plants consume."
+        },
+        {
+          "t": "2026-06-27T20:34:59.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:09.379951Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: glucose stores chemical energy matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:41.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 26 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.5,
+        "hesitation_score": 0.16,
+        "self_revision": true,
+        "confidence": 0.263,
+        "pace": "fast",
+        "behavior": "draws while thinking"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M38,58 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M116,66 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M60,66 L92,66"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M197,38 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M141,38 L173,38"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.475,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "plants do not respire"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_0816e17310b2447793c96d165dcd6f78",
+      "student_id": "stu_004_1bc19814",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.379951Z",
+      "persona": {
+        "persona_id": "stu_004_1bc19814",
+        "name": "Theo 04",
+        "subject": "photosynthesis",
+        "ability": 0.762,
+        "understanding_band": "proficient",
+        "confidence": 0.928,
+        "pace": "steady",
+        "learning_style": "reflective",
+        "language_profile": "English language learner",
+        "behavior": "overconfident when uncertain",
+        "mastered_concepts": [
+          "plants use light energy",
+          "oxygen is released as a byproduct",
+          "water is absorbed by roots"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:29.379951Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:36.379951Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:51.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:04.379951Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: plants use light energy matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:41.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 93 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 10.5,
+        "hesitation_score": 0.38,
+        "self_revision": true,
+        "confidence": 0.928,
+        "pace": "steady",
+        "behavior": "overconfident when uncertain"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M41,81 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M119,56 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M63,56 L95,56"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M194,65 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M138,65 L170,65"
+        },
+        {
+          "type": "node",
+          "label": "sunlight turns directly into oxygen",
+          "svg_path": "M285,35 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M229,35 L261,35"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.762,
+        "understanding_band": "proficient",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "targeted feedback",
+        "expected_verdict": "partially_correct"
+      }
+    },
+    {
+      "session_id": "sess_6394b26722214111a21a28f444dad2d6",
+      "student_id": "stu_005_5c2481b1",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.379951Z",
+      "persona": {
+        "persona_id": "stu_005_5c2481b1",
+        "name": "Quinn 05",
+        "subject": "photosynthesis",
+        "ability": 0.588,
+        "understanding_band": "proficient",
+        "confidence": 0.496,
+        "pace": "fast",
+        "learning_style": "guess-and-check",
+        "language_profile": "verbose explainer",
+        "behavior": "draws while thinking",
+        "mastered_concepts": [
+          "plants use light energy",
+          "water is absorbed by roots",
+          "glucose stores chemical energy"
+        ],
+        "misconceptions": [],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:33.379951Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:43.379951Z",
+          "speaker": "student",
+          "text": "The key is that plants use light energy, and that connects to water is absorbed by roots."
+        },
+        {
+          "t": "2026-06-27T20:34:58.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:20.379951Z",
+          "speaker": "student",
+          "text": "So the stronger explanation is that plants use light energy because water is absorbed by roots."
+        },
+        {
+          "t": "2026-06-27T20:35:40.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 50 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 12.8,
+        "hesitation_score": 0.16,
+        "self_revision": false,
+        "confidence": 0.496,
+        "pace": "fast",
+        "behavior": "draws while thinking"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M41,39 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M130,84 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M74,84 L106,84"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M208,71 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M152,71 L184,71"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M285,82 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M229,82 L261,82"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.588,
+        "understanding_band": "proficient",
+        "has_misconception": false,
+        "misconceptions": [],
+        "support_need": "targeted feedback",
+        "expected_verdict": "correct"
+      }
+    },
+    {
+      "session_id": "sess_7baf777b6c2847d587701689f4c7d6a1",
+      "student_id": "stu_006_69387990",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.379951Z",
+      "persona": {
+        "persona_id": "stu_006_69387990",
+        "name": "Uma 06",
+        "subject": "photosynthesis",
+        "ability": 0.601,
+        "understanding_band": "proficient",
+        "confidence": 0.818,
+        "pace": "slow",
+        "learning_style": "visual",
+        "language_profile": "English language learner",
+        "behavior": "asks clarifying questions",
+        "mastered_concepts": [
+          "chlorophyll captures light",
+          "carbon dioxide enters through leaves",
+          "glucose stores chemical energy",
+          "water is absorbed by roots"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:27.379951Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:42.379951Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:48.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:16.379951Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: chlorophyll captures light matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:30.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 82 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 10.2,
+        "hesitation_score": 0.72,
+        "self_revision": true,
+        "confidence": 0.818,
+        "pace": "slow",
+        "behavior": "asks clarifying questions"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M39,69 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M117,71 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M61,71 L93,71"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M208,74 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M152,74 L184,74"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M279,37 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M223,37 L255,37"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.601,
+        "understanding_band": "proficient",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "targeted feedback",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_fe8a1f11368e4df9bdd58edc7d84c0d7",
+      "student_id": "stu_007_f92f1427",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.379951Z",
+      "persona": {
+        "persona_id": "stu_007_f92f1427",
+        "name": "Elena 07",
+        "subject": "photosynthesis",
+        "ability": 0.762,
+        "understanding_band": "proficient",
+        "confidence": 0.286,
+        "pace": "fast",
+        "learning_style": "guess-and-check",
+        "language_profile": "native English",
+        "behavior": "checks work aloud",
+        "mastered_concepts": [
+          "water is absorbed by roots",
+          "chlorophyll captures light",
+          "oxygen is released as a byproduct",
+          "plants use light energy",
+          "glucose stores chemical energy"
+        ],
+        "misconceptions": [],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:30.379951Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:38.379951Z",
+          "speaker": "student",
+          "text": "The key is that water is absorbed by roots, and that connects to chlorophyll captures light."
+        },
+        {
+          "t": "2026-06-27T20:34:48.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:15.379951Z",
+          "speaker": "student",
+          "text": "So the stronger explanation is that water is absorbed by roots because chlorophyll captures light."
+        },
+        {
+          "t": "2026-06-27T20:35:34.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 29 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 12.2,
+        "hesitation_score": 0.16,
+        "self_revision": false,
+        "confidence": 0.286,
+        "pace": "fast",
+        "behavior": "checks work aloud"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M40,53 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M129,61 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M73,61 L105,61"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M199,49 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M143,49 L175,49"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M270,47 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M214,47 L246,47"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.762,
+        "understanding_band": "proficient",
+        "has_misconception": false,
+        "misconceptions": [],
+        "support_need": "targeted feedback",
+        "expected_verdict": "correct"
+      }
+    },
+    {
+      "session_id": "sess_1c2ee71501b948a4901d85518d1f3b28",
+      "student_id": "stu_008_3a85c1ba",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.379951Z",
+      "persona": {
+        "persona_id": "stu_008_3a85c1ba",
+        "name": "Zane 08",
+        "subject": "photosynthesis",
+        "ability": 0.719,
+        "understanding_band": "proficient",
+        "confidence": 0.598,
+        "pace": "steady",
+        "learning_style": "verbal",
+        "language_profile": "concise speaker",
+        "behavior": "checks work aloud",
+        "mastered_concepts": [
+          "water is absorbed by roots",
+          "oxygen is released as a byproduct",
+          "glucose stores chemical energy",
+          "plants use light energy",
+          "carbon dioxide enters through leaves"
+        ],
+        "misconceptions": [],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:28.379951Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:40.379951Z",
+          "speaker": "student",
+          "text": "The key is that water is absorbed by roots, and that connects to oxygen is released as a byproduct."
+        },
+        {
+          "t": "2026-06-27T20:34:59.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:02.379951Z",
+          "speaker": "student",
+          "text": "So the stronger explanation is that water is absorbed by roots because oxygen is released as a byproduct."
+        },
+        {
+          "t": "2026-06-27T20:35:36.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 60 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 13.8,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.598,
+        "pace": "steady",
+        "behavior": "checks work aloud"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M40,40 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M111,82 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M55,82 L87,82"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M192,85 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M136,85 L168,85"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M287,86 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M231,86 L263,86"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.719,
+        "understanding_band": "proficient",
+        "has_misconception": false,
+        "misconceptions": [],
+        "support_need": "targeted feedback",
+        "expected_verdict": "correct"
+      }
+    },
+    {
+      "session_id": "sess_79f526eb76e34dd082465b48812f800a",
+      "student_id": "stu_009_45ab40bf",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.379951Z",
+      "persona": {
+        "persona_id": "stu_009_45ab40bf",
+        "name": "Ben 09",
+        "subject": "photosynthesis",
+        "ability": 0.232,
+        "understanding_band": "novice",
+        "confidence": 0.389,
+        "pace": "steady",
+        "learning_style": "verbal",
+        "language_profile": "English language learner",
+        "behavior": "overconfident when uncertain",
+        "mastered_concepts": [
+          "plants use light energy"
+        ],
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "high scaffolding"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:27.379951Z",
+          "speaker": "student",
+          "text": "I kind of remember the words, but I am not sure how they fit together."
+        },
+        {
+          "t": "2026-06-27T20:34:37.379951Z",
+          "speaker": "student",
+          "text": "I think oxygen is the main input plants consume."
+        },
+        {
+          "t": "2026-06-27T20:34:57.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:20.379951Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:40.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 39 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.8,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.389,
+        "pace": "steady",
+        "behavior": "overconfident when uncertain"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M43,86 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is the main input plants consume",
+          "svg_path": "M120,35 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M64,35 L96,35"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.232,
+        "understanding_band": "novice",
+        "has_misconception": true,
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "high scaffolding",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_743b4df2526442c0a4c6863d52ba9db7",
+      "student_id": "stu_010_441d2b5e",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.379951Z",
+      "persona": {
+        "persona_id": "stu_010_441d2b5e",
+        "name": "Theo 10",
+        "subject": "photosynthesis",
+        "ability": 0.561,
+        "understanding_band": "proficient",
+        "confidence": 0.317,
+        "pace": "slow",
+        "learning_style": "procedural",
+        "language_profile": "verbose explainer",
+        "behavior": "hesitates before committing",
+        "mastered_concepts": [
+          "chlorophyll captures light",
+          "glucose stores chemical energy",
+          "carbon dioxide enters through leaves",
+          "water is absorbed by roots",
+          "oxygen is released as a byproduct"
+        ],
+        "misconceptions": [
+          "plants get most of their food from soil"
+        ],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:31.379951Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:44.379951Z",
+          "speaker": "student",
+          "text": "I think plants get most of their food from soil."
+        },
+        {
+          "t": "2026-06-27T20:34:54.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:09.379951Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: chlorophyll captures light matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:27.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 32 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.0,
+        "hesitation_score": 0.72,
+        "self_revision": true,
+        "confidence": 0.317,
+        "pace": "slow",
+        "behavior": "hesitates before committing"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M39,64 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M110,81 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M54,81 L86,81"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M195,42 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M139,42 L171,42"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M289,60 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M233,60 L265,60"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.561,
+        "understanding_band": "proficient",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants get most of their food from soil"
+        ],
+        "support_need": "targeted feedback",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_1a8dbc2df1c0491299bffdab63a9d8f7",
+      "student_id": "stu_011_1880dc9b",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.379951Z",
+      "persona": {
+        "persona_id": "stu_011_1880dc9b",
+        "name": "Vera 11",
+        "subject": "photosynthesis",
+        "ability": 0.396,
+        "understanding_band": "developing",
+        "confidence": 0.319,
+        "pace": "steady",
+        "learning_style": "reflective",
+        "language_profile": "native English",
+        "behavior": "hesitates before committing",
+        "mastered_concepts": [
+          "oxygen is released as a byproduct",
+          "glucose stores chemical energy",
+          "chlorophyll captures light"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "photosynthesis only happens in flowers",
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:30.379951Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:39.379951Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:51.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:08.379951Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:29.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 32 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.0,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.319,
+        "pace": "steady",
+        "behavior": "hesitates before committing"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M38,81 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M123,69 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M67,69 L99,69"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M197,56 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M141,56 L173,56"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.396,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "photosynthesis only happens in flowers",
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_ff83905818604595ac7346e8345a82e2",
+      "student_id": "stu_012_390e24f1",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.379951Z",
+      "persona": {
+        "persona_id": "stu_012_390e24f1",
+        "name": "Zane 12",
+        "subject": "photosynthesis",
+        "ability": 0.232,
+        "understanding_band": "novice",
+        "confidence": 0.152,
+        "pace": "fast",
+        "learning_style": "verbal",
+        "language_profile": "verbose explainer",
+        "behavior": "checks work aloud",
+        "mastered_concepts": [
+          "water is absorbed by roots",
+          "carbon dioxide enters through leaves"
+        ],
+        "misconceptions": [
+          "photosynthesis only happens in flowers",
+          "sunlight turns directly into oxygen",
+          "plants get most of their food from soil"
+        ],
+        "support_need": "high scaffolding"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:28.379951Z",
+          "speaker": "student",
+          "text": "I kind of remember the words, but I am not sure how they fit together."
+        },
+        {
+          "t": "2026-06-27T20:34:43.379951Z",
+          "speaker": "student",
+          "text": "I think photosynthesis only happens in flowers."
+        },
+        {
+          "t": "2026-06-27T20:34:59.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:21.379951Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:29.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 15 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.2,
+        "hesitation_score": 0.16,
+        "self_revision": false,
+        "confidence": 0.152,
+        "pace": "fast",
+        "behavior": "checks work aloud"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M36,75 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M122,63 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M66,63 L98,63"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.232,
+        "understanding_band": "novice",
+        "has_misconception": true,
+        "misconceptions": [
+          "photosynthesis only happens in flowers",
+          "sunlight turns directly into oxygen",
+          "plants get most of their food from soil"
+        ],
+        "support_need": "high scaffolding",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_afc73c73cbd64338a6fcca1fb0c156b8",
+      "student_id": "stu_013_1e4acdb8",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.379951Z",
+      "persona": {
+        "persona_id": "stu_013_1e4acdb8",
+        "name": "Zane 13",
+        "subject": "photosynthesis",
+        "ability": 0.127,
+        "understanding_band": "novice",
+        "confidence": 0.203,
+        "pace": "steady",
+        "learning_style": "visual",
+        "language_profile": "English language learner",
+        "behavior": "hesitates before committing",
+        "mastered_concepts": [
+          "carbon dioxide enters through leaves"
+        ],
+        "misconceptions": [
+          "plants get most of their food from soil",
+          "sunlight turns directly into oxygen",
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "high scaffolding"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:28.379951Z",
+          "speaker": "student",
+          "text": "I kind of remember the words, but I am not sure how they fit together."
+        },
+        {
+          "t": "2026-06-27T20:34:36.379951Z",
+          "speaker": "student",
+          "text": "I think plants get most of their food from soil."
+        },
+        {
+          "t": "2026-06-27T20:34:56.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:19.379951Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:38.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 20 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 10.0,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.203,
+        "pace": "steady",
+        "behavior": "hesitates before committing"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M30,71 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "plants get most of their food from soil",
+          "svg_path": "M130,86 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M74,86 L106,86"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.127,
+        "understanding_band": "novice",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants get most of their food from soil",
+          "sunlight turns directly into oxygen",
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "high scaffolding",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_1340ec529dd2409584813805961f7c5e",
+      "student_id": "stu_014_45938a6c",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_014_45938a6c",
+        "name": "Yara 14",
+        "subject": "photosynthesis",
+        "ability": 0.739,
+        "understanding_band": "proficient",
+        "confidence": 0.53,
+        "pace": "steady",
+        "learning_style": "example-driven",
+        "language_profile": "verbose explainer",
+        "behavior": "draws while thinking",
+        "mastered_concepts": [
+          "plants use light energy",
+          "glucose stores chemical energy",
+          "carbon dioxide enters through leaves",
+          "chlorophyll captures light"
+        ],
+        "misconceptions": [
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.379951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:30.379951Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:38.379951Z",
+          "speaker": "student",
+          "text": "I think oxygen is the main input plants consume."
+        },
+        {
+          "t": "2026-06-27T20:34:54.379951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:08.379951Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: plants use light energy matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:38.379951Z",
+          "speaker": "student",
+          "text": "My confidence is about 53 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.0,
+        "hesitation_score": 0.38,
+        "self_revision": true,
+        "confidence": 0.53,
+        "pace": "steady",
+        "behavior": "draws while thinking"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M49,46 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M123,74 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M67,74 L99,74"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M208,72 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M152,72 L184,72"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M270,42 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M214,42 L246,42"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.739,
+        "understanding_band": "proficient",
+        "has_misconception": true,
+        "misconceptions": [
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "targeted feedback",
+        "expected_verdict": "partially_correct"
+      }
+    },
+    {
+      "session_id": "sess_d89f38ea713243139c3ecec542141c19",
+      "student_id": "stu_015_bc328127",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_015_bc328127",
+        "name": "Owen 15",
+        "subject": "photosynthesis",
+        "ability": 0.299,
+        "understanding_band": "novice",
+        "confidence": 0.126,
+        "pace": "steady",
+        "learning_style": "example-driven",
+        "language_profile": "English language learner",
+        "behavior": "asks clarifying questions",
+        "mastered_concepts": [
+          "glucose stores chemical energy"
+        ],
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "sunlight turns directly into oxygen",
+          "plants get most of their food from soil"
+        ],
+        "support_need": "high scaffolding"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:28.380951Z",
+          "speaker": "student",
+          "text": "I kind of remember the words, but I am not sure how they fit together."
+        },
+        {
+          "t": "2026-06-27T20:34:37.380951Z",
+          "speaker": "student",
+          "text": "I think oxygen is the main input plants consume."
+        },
+        {
+          "t": "2026-06-27T20:34:53.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:17.380951Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:26.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 13 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.8,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.126,
+        "pace": "steady",
+        "behavior": "asks clarifying questions"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M30,42 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is the main input plants consume",
+          "svg_path": "M118,42 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M62,42 L94,42"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.299,
+        "understanding_band": "novice",
+        "has_misconception": true,
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "sunlight turns directly into oxygen",
+          "plants get most of their food from soil"
+        ],
+        "support_need": "high scaffolding",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_3e2e6405700343b2b89c05a2f8024991",
+      "student_id": "stu_016_b8b7e278",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_016_b8b7e278",
+        "name": "Will 16",
+        "subject": "photosynthesis",
+        "ability": 0.542,
+        "understanding_band": "developing",
+        "confidence": 0.597,
+        "pace": "slow",
+        "learning_style": "visual",
+        "language_profile": "native English",
+        "behavior": "hesitates before committing",
+        "mastered_concepts": [
+          "carbon dioxide enters through leaves",
+          "glucose stores chemical energy"
+        ],
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "plants do not respire"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:33.380951Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:42.380951Z",
+          "speaker": "student",
+          "text": "I think oxygen is the main input plants consume."
+        },
+        {
+          "t": "2026-06-27T20:34:57.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:13.380951Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: carbon dioxide enters through leaves matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:30.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 60 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.8,
+        "hesitation_score": 0.72,
+        "self_revision": true,
+        "confidence": 0.597,
+        "pace": "slow",
+        "behavior": "hesitates before committing"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M40,60 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M121,76 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M65,76 L97,76"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is the main input plants consume",
+          "svg_path": "M202,65 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M146,65 L178,65"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.542,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "plants do not respire"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_9f282ddc98e440dd9d298f700306981e",
+      "student_id": "stu_017_0a2d8fd8",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_017_0a2d8fd8",
+        "name": "Zane 17",
+        "subject": "photosynthesis",
+        "ability": 0.417,
+        "understanding_band": "developing",
+        "confidence": 0.551,
+        "pace": "steady",
+        "learning_style": "procedural",
+        "language_profile": "uses informal language",
+        "behavior": "asks clarifying questions",
+        "mastered_concepts": [
+          "glucose stores chemical energy",
+          "chlorophyll captures light"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:29.380951Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:44.380951Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:59.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:18.380951Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:36.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 55 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.0,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.551,
+        "pace": "steady",
+        "behavior": "asks clarifying questions"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M49,90 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M130,71 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M74,71 L106,71"
+        },
+        {
+          "type": "node",
+          "label": "sunlight turns directly into oxygen",
+          "svg_path": "M202,38 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M146,38 L178,38"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.417,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_0a61861571f64ef9b39e9a82f0615383",
+      "student_id": "stu_018_848039ae",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_018_848039ae",
+        "name": "Ben 18",
+        "subject": "photosynthesis",
+        "ability": 0.917,
+        "understanding_band": "advanced",
+        "confidence": 0.98,
+        "pace": "steady",
+        "learning_style": "example-driven",
+        "language_profile": "uses informal language",
+        "behavior": "overconfident when uncertain",
+        "mastered_concepts": [
+          "carbon dioxide enters through leaves",
+          "plants use light energy",
+          "chlorophyll captures light",
+          "water is absorbed by roots",
+          "glucose stores chemical energy",
+          "oxygen is released as a byproduct"
+        ],
+        "misconceptions": [
+          "plants do not respire"
+        ],
+        "support_need": "extension challenge"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:28.380951Z",
+          "speaker": "student",
+          "text": "I can explain it and test it with a different example."
+        },
+        {
+          "t": "2026-06-27T20:34:40.380951Z",
+          "speaker": "student",
+          "text": "I think plants do not respire."
+        },
+        {
+          "t": "2026-06-27T20:34:51.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:18.380951Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: carbon dioxide enters through leaves matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:42.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 98 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 10.2,
+        "hesitation_score": 0.38,
+        "self_revision": true,
+        "confidence": 0.98,
+        "pace": "steady",
+        "behavior": "overconfident when uncertain"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M38,35 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M128,52 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M72,52 L104,52"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M203,45 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M147,45 L179,45"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M289,74 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M233,74 L265,74"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M370,63 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M314,63 L346,63"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.917,
+        "understanding_band": "advanced",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants do not respire"
+        ],
+        "support_need": "extension challenge",
+        "expected_verdict": "partially_correct"
+      }
+    },
+    {
+      "session_id": "sess_b79b8a2efd6e4f00bb47915f4d3873c5",
+      "student_id": "stu_019_a376e8d6",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_019_a376e8d6",
+        "name": "Zane 19",
+        "subject": "photosynthesis",
+        "ability": 0.579,
+        "understanding_band": "proficient",
+        "confidence": 0.411,
+        "pace": "fast",
+        "learning_style": "visual",
+        "language_profile": "concise speaker",
+        "behavior": "answers quickly but revises",
+        "mastered_concepts": [
+          "glucose stores chemical energy",
+          "plants use light energy",
+          "water is absorbed by roots"
+        ],
+        "misconceptions": [
+          "plants do not respire"
+        ],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:31.380951Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:36.380951Z",
+          "speaker": "student",
+          "text": "I think plants do not respire."
+        },
+        {
+          "t": "2026-06-27T20:34:57.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:18.380951Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: glucose stores chemical energy matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:31.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 41 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 10.2,
+        "hesitation_score": 0.16,
+        "self_revision": true,
+        "confidence": 0.411,
+        "pace": "fast",
+        "behavior": "answers quickly but revises"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M36,39 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M111,67 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M55,67 L87,67"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M192,68 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M136,68 L168,68"
+        },
+        {
+          "type": "node",
+          "label": "plants do not respire",
+          "svg_path": "M270,41 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M214,41 L246,41"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.579,
+        "understanding_band": "proficient",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants do not respire"
+        ],
+        "support_need": "targeted feedback",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_9ce9b25127ca4145917404e19d5f3f59",
+      "student_id": "stu_020_c4f5a98e",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_020_c4f5a98e",
+        "name": "Will 20",
+        "subject": "photosynthesis",
+        "ability": 0.902,
+        "understanding_band": "advanced",
+        "confidence": 0.98,
+        "pace": "steady",
+        "learning_style": "verbal",
+        "language_profile": "native English",
+        "behavior": "answers quickly but revises",
+        "mastered_concepts": [
+          "water is absorbed by roots",
+          "oxygen is released as a byproduct",
+          "glucose stores chemical energy",
+          "carbon dioxide enters through leaves",
+          "chlorophyll captures light",
+          "plants use light energy"
+        ],
+        "misconceptions": [],
+        "support_need": "extension challenge"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:30.380951Z",
+          "speaker": "student",
+          "text": "I can explain it and test it with a different example."
+        },
+        {
+          "t": "2026-06-27T20:34:42.380951Z",
+          "speaker": "student",
+          "text": "The key is that water is absorbed by roots, and that connects to oxygen is released as a byproduct."
+        },
+        {
+          "t": "2026-06-27T20:34:56.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:19.380951Z",
+          "speaker": "student",
+          "text": "So the stronger explanation is that water is absorbed by roots because oxygen is released as a byproduct."
+        },
+        {
+          "t": "2026-06-27T20:35:43.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 98 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 13.5,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.98,
+        "pace": "steady",
+        "behavior": "answers quickly but revises"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M42,64 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M121,61 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M65,61 L97,61"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M191,37 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M135,37 L167,37"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M280,65 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M224,65 L256,65"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M350,54 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M294,54 L326,54"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.902,
+        "understanding_band": "advanced",
+        "has_misconception": false,
+        "misconceptions": [],
+        "support_need": "extension challenge",
+        "expected_verdict": "correct"
+      }
+    },
+    {
+      "session_id": "sess_0ab79369e3b34082b0841e192f78d2a3",
+      "student_id": "stu_021_30b34917",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_021_30b34917",
+        "name": "Theo 21",
+        "subject": "photosynthesis",
+        "ability": 0.369,
+        "understanding_band": "developing",
+        "confidence": 0.139,
+        "pace": "slow",
+        "learning_style": "verbal",
+        "language_profile": "English language learner",
+        "behavior": "asks clarifying questions",
+        "mastered_concepts": [
+          "oxygen is released as a byproduct",
+          "water is absorbed by roots",
+          "glucose stores chemical energy"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:29.380951Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:37.380951Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:57.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:06.380951Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:37.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 14 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.0,
+        "hesitation_score": 0.72,
+        "self_revision": false,
+        "confidence": 0.139,
+        "pace": "slow",
+        "behavior": "asks clarifying questions"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M33,82 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M121,41 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M65,41 L97,41"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M197,63 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M141,63 L173,63"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.369,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_0a867b1432904f85be1ff78fbc2e9ff1",
+      "student_id": "stu_022_ee3c1870",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_022_ee3c1870",
+        "name": "Amina 22",
+        "subject": "photosynthesis",
+        "ability": 0.149,
+        "understanding_band": "novice",
+        "confidence": 0.26,
+        "pace": "slow",
+        "learning_style": "procedural",
+        "language_profile": "native English",
+        "behavior": "hesitates before committing",
+        "mastered_concepts": [
+          "water is absorbed by roots"
+        ],
+        "misconceptions": [
+          "plants get most of their food from soil",
+          "plants do not respire",
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "high scaffolding"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:27.380951Z",
+          "speaker": "student",
+          "text": "I kind of remember the words, but I am not sure how they fit together."
+        },
+        {
+          "t": "2026-06-27T20:34:44.380951Z",
+          "speaker": "student",
+          "text": "I think plants get most of their food from soil."
+        },
+        {
+          "t": "2026-06-27T20:34:50.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:21.380951Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:37.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 26 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 10.0,
+        "hesitation_score": 0.72,
+        "self_revision": false,
+        "confidence": 0.26,
+        "pace": "slow",
+        "behavior": "hesitates before committing"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M42,56 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "plants get most of their food from soil",
+          "svg_path": "M130,88 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M74,88 L106,88"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.149,
+        "understanding_band": "novice",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants get most of their food from soil",
+          "plants do not respire",
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "high scaffolding",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_726ad5ce12024c55846b60a52d682932",
+      "student_id": "stu_023_02665151",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_023_02665151",
+        "name": "Amina 23",
+        "subject": "photosynthesis",
+        "ability": 0.313,
+        "understanding_band": "developing",
+        "confidence": 0.338,
+        "pace": "slow",
+        "learning_style": "procedural",
+        "language_profile": "native English",
+        "behavior": "draws while thinking",
+        "mastered_concepts": [
+          "carbon dioxide enters through leaves",
+          "chlorophyll captures light",
+          "oxygen is released as a byproduct"
+        ],
+        "misconceptions": [
+          "plants do not respire",
+          "plants get most of their food from soil",
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:32.380951Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:40.380951Z",
+          "speaker": "student",
+          "text": "I think plants do not respire."
+        },
+        {
+          "t": "2026-06-27T20:34:58.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:18.380951Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:45.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 34 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 8.8,
+        "hesitation_score": 0.72,
+        "self_revision": false,
+        "confidence": 0.338,
+        "pace": "slow",
+        "behavior": "draws while thinking"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M46,48 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M123,79 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M67,79 L99,79"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M190,44 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M134,44 L166,44"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.313,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants do not respire",
+          "plants get most of their food from soil",
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_f55d749b5c6e4009a0dae4dfda5af755",
+      "student_id": "stu_024_be65c31e",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_024_be65c31e",
+        "name": "Theo 24",
+        "subject": "photosynthesis",
+        "ability": 0.138,
+        "understanding_band": "novice",
+        "confidence": 0.05,
+        "pace": "slow",
+        "learning_style": "example-driven",
+        "language_profile": "verbose explainer",
+        "behavior": "answers quickly but revises",
+        "mastered_concepts": [
+          "chlorophyll captures light"
+        ],
+        "misconceptions": [
+          "photosynthesis only happens in flowers",
+          "plants do not respire",
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "high scaffolding"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:30.380951Z",
+          "speaker": "student",
+          "text": "I kind of remember the words, but I am not sure how they fit together."
+        },
+        {
+          "t": "2026-06-27T20:34:41.380951Z",
+          "speaker": "student",
+          "text": "I think photosynthesis only happens in flowers."
+        },
+        {
+          "t": "2026-06-27T20:34:56.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:17.380951Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:29.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 5 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.2,
+        "hesitation_score": 0.72,
+        "self_revision": false,
+        "confidence": 0.05,
+        "pace": "slow",
+        "behavior": "answers quickly but revises"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M30,47 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "photosynthesis only happens in flowers",
+          "svg_path": "M121,42 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M65,42 L97,42"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.138,
+        "understanding_band": "novice",
+        "has_misconception": true,
+        "misconceptions": [
+          "photosynthesis only happens in flowers",
+          "plants do not respire",
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "high scaffolding",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_08a28a7274684387b62669035124674f",
+      "student_id": "stu_025_53c178a9",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_025_53c178a9",
+        "name": "Quinn 25",
+        "subject": "photosynthesis",
+        "ability": 0.723,
+        "understanding_band": "proficient",
+        "confidence": 0.199,
+        "pace": "fast",
+        "learning_style": "reflective",
+        "language_profile": "uses informal language",
+        "behavior": "checks work aloud",
+        "mastered_concepts": [
+          "water is absorbed by roots",
+          "glucose stores chemical energy",
+          "carbon dioxide enters through leaves"
+        ],
+        "misconceptions": [],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:33.380951Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:39.380951Z",
+          "speaker": "student",
+          "text": "The key is that water is absorbed by roots, and that connects to glucose stores chemical energy."
+        },
+        {
+          "t": "2026-06-27T20:34:54.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:13.380951Z",
+          "speaker": "student",
+          "text": "So the stronger explanation is that water is absorbed by roots because glucose stores chemical energy."
+        },
+        {
+          "t": "2026-06-27T20:35:27.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 20 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 12.8,
+        "hesitation_score": 0.16,
+        "self_revision": false,
+        "confidence": 0.199,
+        "pace": "fast",
+        "behavior": "checks work aloud"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M48,81 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M124,39 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M68,39 L100,39"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M194,53 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M138,53 L170,53"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M281,53 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M225,53 L257,53"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.723,
+        "understanding_band": "proficient",
+        "has_misconception": false,
+        "misconceptions": [],
+        "support_need": "targeted feedback",
+        "expected_verdict": "correct"
+      }
+    },
+    {
+      "session_id": "sess_79d5886b8fa94ef7a529094201906a5f",
+      "student_id": "stu_026_31a99c8c",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_026_31a99c8c",
+        "name": "Dev 26",
+        "subject": "photosynthesis",
+        "ability": 0.297,
+        "understanding_band": "novice",
+        "confidence": 0.751,
+        "pace": "slow",
+        "learning_style": "procedural",
+        "language_profile": "verbose explainer",
+        "behavior": "hesitates before committing",
+        "mastered_concepts": [
+          "water is absorbed by roots"
+        ],
+        "misconceptions": [
+          "plants do not respire",
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "high scaffolding"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:30.380951Z",
+          "speaker": "student",
+          "text": "I kind of remember the words, but I am not sure how they fit together."
+        },
+        {
+          "t": "2026-06-27T20:34:42.380951Z",
+          "speaker": "student",
+          "text": "I think plants do not respire."
+        },
+        {
+          "t": "2026-06-27T20:34:55.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:02.380951Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:39.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 75 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.0,
+        "hesitation_score": 0.72,
+        "self_revision": false,
+        "confidence": 0.751,
+        "pace": "slow",
+        "behavior": "hesitates before committing"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M47,38 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "plants do not respire",
+          "svg_path": "M122,80 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M66,80 L98,80"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.297,
+        "understanding_band": "novice",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants do not respire",
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "high scaffolding",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_0ada5002f89e47ce82b361399fe1a2ac",
+      "student_id": "stu_027_19a8b1ae",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.380951Z",
+      "persona": {
+        "persona_id": "stu_027_19a8b1ae",
+        "name": "Dev 27",
+        "subject": "photosynthesis",
+        "ability": 0.779,
+        "understanding_band": "proficient",
+        "confidence": 0.937,
+        "pace": "steady",
+        "learning_style": "visual",
+        "language_profile": "native English",
+        "behavior": "hesitates before committing",
+        "mastered_concepts": [
+          "chlorophyll captures light",
+          "carbon dioxide enters through leaves",
+          "plants use light energy",
+          "water is absorbed by roots",
+          "glucose stores chemical energy"
+        ],
+        "misconceptions": [],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.380951Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:28.380951Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:38.380951Z",
+          "speaker": "student",
+          "text": "The key is that chlorophyll captures light, and that connects to carbon dioxide enters through leaves."
+        },
+        {
+          "t": "2026-06-27T20:34:48.380951Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:06.380951Z",
+          "speaker": "student",
+          "text": "So the stronger explanation is that chlorophyll captures light because carbon dioxide enters through leaves."
+        },
+        {
+          "t": "2026-06-27T20:35:39.380951Z",
+          "speaker": "student",
+          "text": "My confidence is about 94 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 12.2,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.937,
+        "pace": "steady",
+        "behavior": "hesitates before committing"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M49,54 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M114,60 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M58,60 L90,60"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M196,64 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M140,64 L172,64"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M280,71 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M224,71 L256,71"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.779,
+        "understanding_band": "proficient",
+        "has_misconception": false,
+        "misconceptions": [],
+        "support_need": "targeted feedback",
+        "expected_verdict": "correct"
+      }
+    },
+    {
+      "session_id": "sess_5a358e251dfb477ebdcf1b15aafc97a2",
+      "student_id": "stu_028_81d62f02",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_028_81d62f02",
+        "name": "Nora 28",
+        "subject": "photosynthesis",
+        "ability": 0.433,
+        "understanding_band": "developing",
+        "confidence": 0.488,
+        "pace": "slow",
+        "learning_style": "visual",
+        "language_profile": "concise speaker",
+        "behavior": "overconfident when uncertain",
+        "mastered_concepts": [
+          "glucose stores chemical energy",
+          "oxygen is released as a byproduct",
+          "plants use light energy"
+        ],
+        "misconceptions": [
+          "plants get most of their food from soil",
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:31.381952Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:38.381952Z",
+          "speaker": "student",
+          "text": "I think plants get most of their food from soil."
+        },
+        {
+          "t": "2026-06-27T20:34:52.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:10.381952Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:43.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 49 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.8,
+        "hesitation_score": 0.72,
+        "self_revision": false,
+        "confidence": 0.488,
+        "pace": "slow",
+        "behavior": "overconfident when uncertain"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M40,42 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M121,73 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M65,73 L97,73"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M197,36 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M141,36 L173,36"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.433,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants get most of their food from soil",
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_73a1be21e17543a1ba387acc897fccfe",
+      "student_id": "stu_029_2a35c46c",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_029_2a35c46c",
+        "name": "Kai 29",
+        "subject": "photosynthesis",
+        "ability": 0.585,
+        "understanding_band": "proficient",
+        "confidence": 0.502,
+        "pace": "slow",
+        "learning_style": "procedural",
+        "language_profile": "native English",
+        "behavior": "asks clarifying questions",
+        "mastered_concepts": [
+          "chlorophyll captures light",
+          "plants use light energy",
+          "water is absorbed by roots"
+        ],
+        "misconceptions": [],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:31.381952Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:44.381952Z",
+          "speaker": "student",
+          "text": "The key is that chlorophyll captures light, and that connects to plants use light energy."
+        },
+        {
+          "t": "2026-06-27T20:34:52.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:03.381952Z",
+          "speaker": "student",
+          "text": "So the stronger explanation is that chlorophyll captures light because plants use light energy."
+        },
+        {
+          "t": "2026-06-27T20:35:43.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 50 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.8,
+        "hesitation_score": 0.72,
+        "self_revision": false,
+        "confidence": 0.502,
+        "pace": "slow",
+        "behavior": "asks clarifying questions"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M45,37 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M116,41 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M60,41 L92,41"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M194,80 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M138,80 L170,80"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M273,81 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M217,81 L249,81"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.585,
+        "understanding_band": "proficient",
+        "has_misconception": false,
+        "misconceptions": [],
+        "support_need": "targeted feedback",
+        "expected_verdict": "correct"
+      }
+    },
+    {
+      "session_id": "sess_318d4ca5fd2c4f52ac61236b4066ce5a",
+      "student_id": "stu_030_e9df6e71",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_030_e9df6e71",
+        "name": "Uma 30",
+        "subject": "photosynthesis",
+        "ability": 0.584,
+        "understanding_band": "proficient",
+        "confidence": 0.406,
+        "pace": "slow",
+        "learning_style": "guess-and-check",
+        "language_profile": "verbose explainer",
+        "behavior": "draws while thinking",
+        "mastered_concepts": [
+          "carbon dioxide enters through leaves",
+          "oxygen is released as a byproduct",
+          "water is absorbed by roots",
+          "chlorophyll captures light",
+          "glucose stores chemical energy"
+        ],
+        "misconceptions": [],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:31.381952Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:42.381952Z",
+          "speaker": "student",
+          "text": "The key is that carbon dioxide enters through leaves, and that connects to oxygen is released as a byproduct."
+        },
+        {
+          "t": "2026-06-27T20:34:58.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:04.381952Z",
+          "speaker": "student",
+          "text": "So the stronger explanation is that carbon dioxide enters through leaves because oxygen is released as a byproduct."
+        },
+        {
+          "t": "2026-06-27T20:35:38.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 41 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 13.8,
+        "hesitation_score": 0.72,
+        "self_revision": false,
+        "confidence": 0.406,
+        "pace": "slow",
+        "behavior": "draws while thinking"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M34,71 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M111,75 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M55,75 L87,75"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M207,85 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M151,85 L183,85"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M272,35 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M216,35 L248,35"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.584,
+        "understanding_band": "proficient",
+        "has_misconception": false,
+        "misconceptions": [],
+        "support_need": "targeted feedback",
+        "expected_verdict": "correct"
+      }
+    },
+    {
+      "session_id": "sess_ad1991331c974eaeb97a6abfc6177d05",
+      "student_id": "stu_031_a51a1bbd",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_031_a51a1bbd",
+        "name": "Ben 31",
+        "subject": "photosynthesis",
+        "ability": 0.429,
+        "understanding_band": "developing",
+        "confidence": 0.548,
+        "pace": "slow",
+        "learning_style": "visual",
+        "language_profile": "native English",
+        "behavior": "draws while thinking",
+        "mastered_concepts": [
+          "oxygen is released as a byproduct",
+          "plants use light energy"
+        ],
+        "misconceptions": [
+          "plants do not respire",
+          "plants get most of their food from soil",
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:28.381952Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:37.381952Z",
+          "speaker": "student",
+          "text": "I think plants do not respire."
+        },
+        {
+          "t": "2026-06-27T20:34:53.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:22.381952Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:32.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 55 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 8.8,
+        "hesitation_score": 0.72,
+        "self_revision": false,
+        "confidence": 0.548,
+        "pace": "slow",
+        "behavior": "draws while thinking"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M32,71 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M124,44 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M68,44 L100,44"
+        },
+        {
+          "type": "node",
+          "label": "plants do not respire",
+          "svg_path": "M191,60 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M135,60 L167,60"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.429,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants do not respire",
+          "plants get most of their food from soil",
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_e3c01115cde34bee864e8d514d660aef",
+      "student_id": "stu_032_78692cd8",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_032_78692cd8",
+        "name": "Zane 32",
+        "subject": "photosynthesis",
+        "ability": 0.39,
+        "understanding_band": "developing",
+        "confidence": 0.516,
+        "pace": "fast",
+        "learning_style": "reflective",
+        "language_profile": "verbose explainer",
+        "behavior": "overconfident when uncertain",
+        "mastered_concepts": [
+          "glucose stores chemical energy",
+          "plants use light energy"
+        ],
+        "misconceptions": [
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:27.381952Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:39.381952Z",
+          "speaker": "student",
+          "text": "I think photosynthesis only happens in flowers."
+        },
+        {
+          "t": "2026-06-27T20:34:50.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:02.381952Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:41.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 52 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.0,
+        "hesitation_score": 0.16,
+        "self_revision": false,
+        "confidence": 0.516,
+        "pace": "fast",
+        "behavior": "overconfident when uncertain"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M42,81 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M111,51 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M55,51 L87,51"
+        },
+        {
+          "type": "node",
+          "label": "photosynthesis only happens in flowers",
+          "svg_path": "M195,65 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M139,65 L171,65"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.39,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_d195120063ce46dba7063376efd53d1a",
+      "student_id": "stu_033_fa2fe541",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_033_fa2fe541",
+        "name": "Dev 33",
+        "subject": "photosynthesis",
+        "ability": 0.464,
+        "understanding_band": "developing",
+        "confidence": 0.601,
+        "pace": "steady",
+        "learning_style": "procedural",
+        "language_profile": "native English",
+        "behavior": "checks work aloud",
+        "mastered_concepts": [
+          "glucose stores chemical energy",
+          "water is absorbed by roots"
+        ],
+        "misconceptions": [
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:33.381952Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:40.381952Z",
+          "speaker": "student",
+          "text": "I think oxygen is the main input plants consume."
+        },
+        {
+          "t": "2026-06-27T20:34:55.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:14.381952Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: glucose stores chemical energy matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:33.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 60 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.5,
+        "hesitation_score": 0.38,
+        "self_revision": true,
+        "confidence": 0.601,
+        "pace": "steady",
+        "behavior": "checks work aloud"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M33,40 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M125,39 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M69,39 L101,39"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is the main input plants consume",
+          "svg_path": "M203,90 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M147,90 L179,90"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.464,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_1fbbb72be29c46baacab11c631433a00",
+      "student_id": "stu_034_c535219b",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_034_c535219b",
+        "name": "Amina 34",
+        "subject": "photosynthesis",
+        "ability": 0.085,
+        "understanding_band": "novice",
+        "confidence": 0.267,
+        "pace": "slow",
+        "learning_style": "guess-and-check",
+        "language_profile": "native English",
+        "behavior": "draws while thinking",
+        "mastered_concepts": [
+          "carbon dioxide enters through leaves"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "plants do not respire"
+        ],
+        "support_need": "high scaffolding"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:31.381952Z",
+          "speaker": "student",
+          "text": "I kind of remember the words, but I am not sure how they fit together."
+        },
+        {
+          "t": "2026-06-27T20:34:36.381952Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:54.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:20.381952Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:31.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 27 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.2,
+        "hesitation_score": 0.72,
+        "self_revision": false,
+        "confidence": 0.267,
+        "pace": "slow",
+        "behavior": "draws while thinking"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M48,39 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "sunlight turns directly into oxygen",
+          "svg_path": "M115,48 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M59,48 L91,48"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.085,
+        "understanding_band": "novice",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "plants do not respire"
+        ],
+        "support_need": "high scaffolding",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_e149b29aec3f4b919e41e83442c11cd4",
+      "student_id": "stu_035_e22db37f",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_035_e22db37f",
+        "name": "Felix 35",
+        "subject": "photosynthesis",
+        "ability": 0.719,
+        "understanding_band": "proficient",
+        "confidence": 0.637,
+        "pace": "slow",
+        "learning_style": "reflective",
+        "language_profile": "uses informal language",
+        "behavior": "asks clarifying questions",
+        "mastered_concepts": [
+          "chlorophyll captures light",
+          "oxygen is released as a byproduct",
+          "plants use light energy"
+        ],
+        "misconceptions": [
+          "plants get most of their food from soil"
+        ],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:30.381952Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:38.381952Z",
+          "speaker": "student",
+          "text": "I think plants get most of their food from soil."
+        },
+        {
+          "t": "2026-06-27T20:34:50.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:13.381952Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: chlorophyll captures light matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:41.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 64 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.0,
+        "hesitation_score": 0.72,
+        "self_revision": true,
+        "confidence": 0.637,
+        "pace": "slow",
+        "behavior": "asks clarifying questions"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M35,41 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M128,69 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M72,69 L104,69"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M192,55 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M136,55 L168,55"
+        },
+        {
+          "type": "node",
+          "label": "plants get most of their food from soil",
+          "svg_path": "M290,56 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M234,56 L266,56"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.719,
+        "understanding_band": "proficient",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants get most of their food from soil"
+        ],
+        "support_need": "targeted feedback",
+        "expected_verdict": "partially_correct"
+      }
+    },
+    {
+      "session_id": "sess_73ac1cd4693b4a05833536bd3c162ffb",
+      "student_id": "stu_036_4181ad94",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_036_4181ad94",
+        "name": "Uma 36",
+        "subject": "photosynthesis",
+        "ability": 0.334,
+        "understanding_band": "developing",
+        "confidence": 0.163,
+        "pace": "steady",
+        "learning_style": "guess-and-check",
+        "language_profile": "verbose explainer",
+        "behavior": "hesitates before committing",
+        "mastered_concepts": [
+          "carbon dioxide enters through leaves",
+          "water is absorbed by roots"
+        ],
+        "misconceptions": [
+          "plants do not respire"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:32.381952Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:43.381952Z",
+          "speaker": "student",
+          "text": "I think plants do not respire."
+        },
+        {
+          "t": "2026-06-27T20:34:51.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:20.381952Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:28.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 16 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 8.8,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.163,
+        "pace": "steady",
+        "behavior": "hesitates before committing"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M32,36 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M127,43 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M71,43 L103,43"
+        },
+        {
+          "type": "node",
+          "label": "plants do not respire",
+          "svg_path": "M190,42 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M134,42 L166,42"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.334,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants do not respire"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_786961f63a5d48b9ab4076ca54a12fc3",
+      "student_id": "stu_037_a14944c5",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_037_a14944c5",
+        "name": "Priya 37",
+        "subject": "photosynthesis",
+        "ability": 0.309,
+        "understanding_band": "developing",
+        "confidence": 0.238,
+        "pace": "steady",
+        "learning_style": "reflective",
+        "language_profile": "concise speaker",
+        "behavior": "answers quickly but revises",
+        "mastered_concepts": [
+          "chlorophyll captures light",
+          "plants use light energy",
+          "carbon dioxide enters through leaves"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "plants do not respire"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:27.381952Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:42.381952Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:58.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:04.381952Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:39.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 24 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.0,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.238,
+        "pace": "steady",
+        "behavior": "answers quickly but revises"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M45,39 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M126,74 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M70,74 L102,74"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M210,39 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M154,39 L186,39"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.309,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "plants do not respire"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_c82e1626d84b448f8ee9627b3db22dd6",
+      "student_id": "stu_038_78e60fa6",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_038_78e60fa6",
+        "name": "Priya 38",
+        "subject": "photosynthesis",
+        "ability": 0.603,
+        "understanding_band": "proficient",
+        "confidence": 0.424,
+        "pace": "fast",
+        "learning_style": "procedural",
+        "language_profile": "verbose explainer",
+        "behavior": "draws while thinking",
+        "mastered_concepts": [
+          "glucose stores chemical energy",
+          "oxygen is released as a byproduct",
+          "carbon dioxide enters through leaves",
+          "chlorophyll captures light",
+          "plants use light energy"
+        ],
+        "misconceptions": [
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:27.381952Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:42.381952Z",
+          "speaker": "student",
+          "text": "I think oxygen is the main input plants consume."
+        },
+        {
+          "t": "2026-06-27T20:34:54.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:16.381952Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: glucose stores chemical energy matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:35.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 42 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.0,
+        "hesitation_score": 0.16,
+        "self_revision": true,
+        "confidence": 0.424,
+        "pace": "fast",
+        "behavior": "draws while thinking"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M31,59 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M114,41 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M58,41 L90,41"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M209,86 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M153,86 L185,86"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M286,37 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M230,37 L262,37"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.603,
+        "understanding_band": "proficient",
+        "has_misconception": true,
+        "misconceptions": [
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "targeted feedback",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_638bd71c4edd449880f5bb4069f2b8b6",
+      "student_id": "stu_039_54a3176e",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_039_54a3176e",
+        "name": "Felix 39",
+        "subject": "photosynthesis",
+        "ability": 0.767,
+        "understanding_band": "proficient",
+        "confidence": 0.771,
+        "pace": "slow",
+        "learning_style": "verbal",
+        "language_profile": "uses informal language",
+        "behavior": "checks work aloud",
+        "mastered_concepts": [
+          "oxygen is released as a byproduct",
+          "water is absorbed by roots",
+          "plants use light energy",
+          "carbon dioxide enters through leaves"
+        ],
+        "misconceptions": [
+          "plants do not respire"
+        ],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:27.381952Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:41.381952Z",
+          "speaker": "student",
+          "text": "I think plants do not respire."
+        },
+        {
+          "t": "2026-06-27T20:34:57.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:10.381952Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: oxygen is released as a byproduct matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:38.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 77 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 10.8,
+        "hesitation_score": 0.72,
+        "self_revision": true,
+        "confidence": 0.771,
+        "pace": "slow",
+        "behavior": "checks work aloud"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M37,38 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M117,74 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M61,74 L93,74"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M193,65 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M137,65 L169,65"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M278,42 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M222,42 L254,42"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.767,
+        "understanding_band": "proficient",
+        "has_misconception": true,
+        "misconceptions": [
+          "plants do not respire"
+        ],
+        "support_need": "targeted feedback",
+        "expected_verdict": "partially_correct"
+      }
+    },
+    {
+      "session_id": "sess_56fcb64dfa2147b8ada6dd0e00feb8e8",
+      "student_id": "stu_040_7b84d4fa",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.381952Z",
+      "persona": {
+        "persona_id": "stu_040_7b84d4fa",
+        "name": "Amina 40",
+        "subject": "photosynthesis",
+        "ability": 0.786,
+        "understanding_band": "proficient",
+        "confidence": 0.774,
+        "pace": "steady",
+        "learning_style": "guess-and-check",
+        "language_profile": "English language learner",
+        "behavior": "answers quickly but revises",
+        "mastered_concepts": [
+          "water is absorbed by roots",
+          "carbon dioxide enters through leaves",
+          "glucose stores chemical energy",
+          "plants use light energy",
+          "oxygen is released as a byproduct"
+        ],
+        "misconceptions": [],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.381952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:33.381952Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:40.381952Z",
+          "speaker": "student",
+          "text": "The key is that water is absorbed by roots, and that connects to carbon dioxide enters through leaves."
+        },
+        {
+          "t": "2026-06-27T20:34:50.381952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:21.381952Z",
+          "speaker": "student",
+          "text": "So the stronger explanation is that water is absorbed by roots because carbon dioxide enters through leaves."
+        },
+        {
+          "t": "2026-06-27T20:35:39.381952Z",
+          "speaker": "student",
+          "text": "My confidence is about 77 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 13.2,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.774,
+        "pace": "steady",
+        "behavior": "answers quickly but revises"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M42,71 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M120,49 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M64,49 L96,49"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M208,81 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M152,81 L184,81"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M278,89 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M222,89 L254,89"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.786,
+        "understanding_band": "proficient",
+        "has_misconception": false,
+        "misconceptions": [],
+        "support_need": "targeted feedback",
+        "expected_verdict": "correct"
+      }
+    },
+    {
+      "session_id": "sess_8e4c38711bfb47d0a342a3fe15220190",
+      "student_id": "stu_041_8a6dc74e",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.382952Z",
+      "persona": {
+        "persona_id": "stu_041_8a6dc74e",
+        "name": "Owen 41",
+        "subject": "photosynthesis",
+        "ability": 0.512,
+        "understanding_band": "developing",
+        "confidence": 0.313,
+        "pace": "fast",
+        "learning_style": "verbal",
+        "language_profile": "concise speaker",
+        "behavior": "answers quickly but revises",
+        "mastered_concepts": [
+          "oxygen is released as a byproduct",
+          "chlorophyll captures light",
+          "water is absorbed by roots"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "oxygen is the main input plants consume",
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.382952Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:29.382952Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:42.382952Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:57.382952Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:17.382952Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: oxygen is released as a byproduct matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:29.382952Z",
+          "speaker": "student",
+          "text": "My confidence is about 31 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.5,
+        "hesitation_score": 0.16,
+        "self_revision": true,
+        "confidence": 0.313,
+        "pace": "fast",
+        "behavior": "answers quickly but revises"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M33,87 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M127,52 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M71,52 L103,52"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M192,81 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M136,81 L168,81"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.512,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "oxygen is the main input plants consume",
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_5f1bc4afbf3d4773966d39172731c285",
+      "student_id": "stu_042_1051adcb",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.384055Z",
+      "persona": {
+        "persona_id": "stu_042_1051adcb",
+        "name": "Carla 42",
+        "subject": "photosynthesis",
+        "ability": 0.436,
+        "understanding_band": "developing",
+        "confidence": 0.669,
+        "pace": "steady",
+        "learning_style": "example-driven",
+        "language_profile": "verbose explainer",
+        "behavior": "draws while thinking",
+        "mastered_concepts": [
+          "carbon dioxide enters through leaves",
+          "plants use light energy"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.384055Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:29.384055Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:40.384055Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:58.384055Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:17.384055Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:30.384055Z",
+          "speaker": "student",
+          "text": "My confidence is about 67 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.0,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.669,
+        "pace": "steady",
+        "behavior": "draws while thinking"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M46,81 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M123,76 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M67,76 L99,76"
+        },
+        {
+          "type": "node",
+          "label": "sunlight turns directly into oxygen",
+          "svg_path": "M206,90 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M150,90 L182,90"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.436,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_4984405c450940adb9aa81f36caf1b6e",
+      "student_id": "stu_043_0c16aaf2",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.384055Z",
+      "persona": {
+        "persona_id": "stu_043_0c16aaf2",
+        "name": "Zane 43",
+        "subject": "photosynthesis",
+        "ability": 0.512,
+        "understanding_band": "developing",
+        "confidence": 0.543,
+        "pace": "steady",
+        "learning_style": "verbal",
+        "language_profile": "English language learner",
+        "behavior": "asks clarifying questions",
+        "mastered_concepts": [
+          "glucose stores chemical energy",
+          "water is absorbed by roots",
+          "carbon dioxide enters through leaves"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "plants do not respire",
+          "plants get most of their food from soil"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.384055Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:27.384055Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:43.384055Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:53.384055Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:17.384055Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: glucose stores chemical energy matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:36.384055Z",
+          "speaker": "student",
+          "text": "My confidence is about 54 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 11.0,
+        "hesitation_score": 0.38,
+        "self_revision": true,
+        "confidence": 0.543,
+        "pace": "steady",
+        "behavior": "asks clarifying questions"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M50,69 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M111,79 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M55,79 L87,79"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M193,67 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M137,67 L169,67"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.512,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen",
+          "plants do not respire",
+          "plants get most of their food from soil"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_0c0c6d6da2be4339883be92c5078629c",
+      "student_id": "stu_044_1ec48d05",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.384055Z",
+      "persona": {
+        "persona_id": "stu_044_1ec48d05",
+        "name": "Vera 44",
+        "subject": "photosynthesis",
+        "ability": 0.755,
+        "understanding_band": "proficient",
+        "confidence": 0.556,
+        "pace": "slow",
+        "learning_style": "verbal",
+        "language_profile": "uses informal language",
+        "behavior": "draws while thinking",
+        "mastered_concepts": [
+          "plants use light energy",
+          "oxygen is released as a byproduct",
+          "glucose stores chemical energy",
+          "water is absorbed by roots"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.384055Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:33.384055Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:43.384055Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:52.384055Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:21.384055Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: plants use light energy matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:45.384055Z",
+          "speaker": "student",
+          "text": "My confidence is about 56 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 10.5,
+        "hesitation_score": 0.72,
+        "self_revision": true,
+        "confidence": 0.556,
+        "pace": "slow",
+        "behavior": "draws while thinking"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M37,72 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M126,54 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M70,54 L102,54"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M193,61 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M137,61 L169,61"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M280,78 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M224,78 L256,78"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.755,
+        "understanding_band": "proficient",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "targeted feedback",
+        "expected_verdict": "partially_correct"
+      }
+    },
+    {
+      "session_id": "sess_5e2fb9f66c224120b6972580b9df4cc1",
+      "student_id": "stu_045_3f73ac3e",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.384055Z",
+      "persona": {
+        "persona_id": "stu_045_3f73ac3e",
+        "name": "Theo 45",
+        "subject": "photosynthesis",
+        "ability": 0.483,
+        "understanding_band": "developing",
+        "confidence": 0.519,
+        "pace": "steady",
+        "learning_style": "reflective",
+        "language_profile": "English language learner",
+        "behavior": "answers quickly but revises",
+        "mastered_concepts": [
+          "oxygen is released as a byproduct",
+          "plants use light energy",
+          "chlorophyll captures light"
+        ],
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "photosynthesis only happens in flowers",
+          "plants do not respire"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.384055Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:27.384055Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:44.384055Z",
+          "speaker": "student",
+          "text": "I think oxygen is the main input plants consume."
+        },
+        {
+          "t": "2026-06-27T20:34:51.384055Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:05.384055Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: oxygen is released as a byproduct matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:34.384055Z",
+          "speaker": "student",
+          "text": "My confidence is about 52 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 12.0,
+        "hesitation_score": 0.38,
+        "self_revision": true,
+        "confidence": 0.519,
+        "pace": "steady",
+        "behavior": "answers quickly but revises"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M45,75 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "plants use light energy",
+          "svg_path": "M125,61 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M69,61 L101,61"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M196,50 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M140,50 L172,50"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.483,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "oxygen is the main input plants consume",
+          "photosynthesis only happens in flowers",
+          "plants do not respire"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_551591be54a146938c072b7a5ddc6d60",
+      "student_id": "stu_046_7fb1f8f8",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.384055Z",
+      "persona": {
+        "persona_id": "stu_046_7fb1f8f8",
+        "name": "Mateo 46",
+        "subject": "photosynthesis",
+        "ability": 0.368,
+        "understanding_band": "developing",
+        "confidence": 0.494,
+        "pace": "slow",
+        "learning_style": "procedural",
+        "language_profile": "verbose explainer",
+        "behavior": "asks clarifying questions",
+        "mastered_concepts": [
+          "carbon dioxide enters through leaves",
+          "chlorophyll captures light",
+          "oxygen is released as a byproduct"
+        ],
+        "misconceptions": [
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.384055Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:31.384055Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:40.384055Z",
+          "speaker": "student",
+          "text": "I think photosynthesis only happens in flowers."
+        },
+        {
+          "t": "2026-06-27T20:34:51.384055Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:08.384055Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:41.384055Z",
+          "speaker": "student",
+          "text": "My confidence is about 49 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.0,
+        "hesitation_score": 0.72,
+        "self_revision": false,
+        "confidence": 0.494,
+        "pace": "slow",
+        "behavior": "asks clarifying questions"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M41,44 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M119,87 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M63,87 L95,87"
+        },
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M200,52 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M144,52 L176,52"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.368,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_acd441334b9b4b998fb33de970bec407",
+      "student_id": "stu_047_39796bd2",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.384055Z",
+      "persona": {
+        "persona_id": "stu_047_39796bd2",
+        "name": "Theo 47",
+        "subject": "photosynthesis",
+        "ability": 0.455,
+        "understanding_band": "developing",
+        "confidence": 0.424,
+        "pace": "slow",
+        "learning_style": "verbal",
+        "language_profile": "verbose explainer",
+        "behavior": "asks clarifying questions",
+        "mastered_concepts": [
+          "chlorophyll captures light",
+          "carbon dioxide enters through leaves"
+        ],
+        "misconceptions": [
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.384055Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:33.384055Z",
+          "speaker": "student",
+          "text": "I can explain part of it, but I get mixed up in the middle."
+        },
+        {
+          "t": "2026-06-27T20:34:38.384055Z",
+          "speaker": "student",
+          "text": "I think photosynthesis only happens in flowers."
+        },
+        {
+          "t": "2026-06-27T20:34:59.384055Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:11.384055Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: chlorophyll captures light matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:28.384055Z",
+          "speaker": "student",
+          "text": "My confidence is about 42 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 10.8,
+        "hesitation_score": 0.72,
+        "self_revision": true,
+        "confidence": 0.424,
+        "pace": "slow",
+        "behavior": "asks clarifying questions"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M31,82 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M124,65 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M68,65 L100,65"
+        },
+        {
+          "type": "node",
+          "label": "photosynthesis only happens in flowers",
+          "svg_path": "M205,85 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M149,85 L181,85"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.455,
+        "understanding_band": "developing",
+        "has_misconception": true,
+        "misconceptions": [
+          "photosynthesis only happens in flowers"
+        ],
+        "support_need": "guided practice",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_b89fa0ed85b341c6b9327b5cc4f67f0e",
+      "student_id": "stu_048_858e6c86",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.384055Z",
+      "persona": {
+        "persona_id": "stu_048_858e6c86",
+        "name": "Amina 48",
+        "subject": "photosynthesis",
+        "ability": 0.286,
+        "understanding_band": "novice",
+        "confidence": 0.635,
+        "pace": "steady",
+        "learning_style": "example-driven",
+        "language_profile": "uses informal language",
+        "behavior": "hesitates before committing",
+        "mastered_concepts": [
+          "oxygen is released as a byproduct"
+        ],
+        "misconceptions": [
+          "photosynthesis only happens in flowers",
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "high scaffolding"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.384055Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:27.384055Z",
+          "speaker": "student",
+          "text": "I kind of remember the words, but I am not sure how they fit together."
+        },
+        {
+          "t": "2026-06-27T20:34:37.384055Z",
+          "speaker": "student",
+          "text": "I think photosynthesis only happens in flowers."
+        },
+        {
+          "t": "2026-06-27T20:34:56.384055Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:05.384055Z",
+          "speaker": "student",
+          "text": "I need another hint before I can fix that."
+        },
+        {
+          "t": "2026-06-27T20:35:46.384055Z",
+          "speaker": "student",
+          "text": "My confidence is about 64 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 9.2,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.635,
+        "pace": "steady",
+        "behavior": "hesitates before committing"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M39,55 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "photosynthesis only happens in flowers",
+          "svg_path": "M117,61 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "maybe",
+          "svg_path": "M61,61 L93,61"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.286,
+        "understanding_band": "novice",
+        "has_misconception": true,
+        "misconceptions": [
+          "photosynthesis only happens in flowers",
+          "oxygen is the main input plants consume"
+        ],
+        "support_need": "high scaffolding",
+        "expected_verdict": "needs_review"
+      }
+    },
+    {
+      "session_id": "sess_fa60d5788e324aa18cc1aa0037959b9f",
+      "student_id": "stu_049_37d996cf",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.384055Z",
+      "persona": {
+        "persona_id": "stu_049_37d996cf",
+        "name": "Amina 49",
+        "subject": "photosynthesis",
+        "ability": 0.681,
+        "understanding_band": "proficient",
+        "confidence": 0.498,
+        "pace": "slow",
+        "learning_style": "verbal",
+        "language_profile": "native English",
+        "behavior": "asks clarifying questions",
+        "mastered_concepts": [
+          "water is absorbed by roots",
+          "glucose stores chemical energy",
+          "carbon dioxide enters through leaves"
+        ],
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.384055Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:29.384055Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:41.384055Z",
+          "speaker": "student",
+          "text": "I think sunlight turns directly into oxygen."
+        },
+        {
+          "t": "2026-06-27T20:34:59.384055Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:03.384055Z",
+          "speaker": "student",
+          "text": "Wait, I should revise that: water is absorbed by roots matters, but my earlier idea was too broad."
+        },
+        {
+          "t": "2026-06-27T20:35:38.384055Z",
+          "speaker": "student",
+          "text": "My confidence is about 50 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 10.8,
+        "hesitation_score": 0.72,
+        "self_revision": true,
+        "confidence": 0.498,
+        "pace": "slow",
+        "behavior": "asks clarifying questions"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M38,62 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M117,75 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M61,75 L93,75"
+        },
+        {
+          "type": "node",
+          "label": "carbon dioxide enters through leaves",
+          "svg_path": "M205,90 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M149,90 L181,90"
+        },
+        {
+          "type": "node",
+          "label": "sunlight turns directly into oxygen",
+          "svg_path": "M287,79 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M231,79 L263,79"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.681,
+        "understanding_band": "proficient",
+        "has_misconception": true,
+        "misconceptions": [
+          "sunlight turns directly into oxygen"
+        ],
+        "support_need": "targeted feedback",
+        "expected_verdict": "partially_correct"
+      }
+    },
+    {
+      "session_id": "sess_2032e85f07b34736873b4904cd75ddd9",
+      "student_id": "stu_050_1fba723c",
+      "subject": "photosynthesis",
+      "created_at": "2026-06-27T20:34:24.384055Z",
+      "persona": {
+        "persona_id": "stu_050_1fba723c",
+        "name": "Will 50",
+        "subject": "photosynthesis",
+        "ability": 0.663,
+        "understanding_band": "proficient",
+        "confidence": 0.427,
+        "pace": "steady",
+        "learning_style": "verbal",
+        "language_profile": "uses informal language",
+        "behavior": "asks clarifying questions",
+        "mastered_concepts": [
+          "oxygen is released as a byproduct",
+          "chlorophyll captures light",
+          "water is absorbed by roots",
+          "glucose stores chemical energy"
+        ],
+        "misconceptions": [],
+        "support_need": "targeted feedback"
+      },
+      "transcript": [
+        {
+          "t": "2026-06-27T20:34:24.384055Z",
+          "speaker": "tutor",
+          "text": "Explain the most important idea in photosynthesis."
+        },
+        {
+          "t": "2026-06-27T20:34:28.384055Z",
+          "speaker": "student",
+          "text": "I think I can explain it if I go step by step."
+        },
+        {
+          "t": "2026-06-27T20:34:36.384055Z",
+          "speaker": "student",
+          "text": "The key is that oxygen is released as a byproduct, and that connects to chlorophyll captures light."
+        },
+        {
+          "t": "2026-06-27T20:34:58.384055Z",
+          "speaker": "tutor",
+          "text": "What evidence or mechanism supports that answer?"
+        },
+        {
+          "t": "2026-06-27T20:35:19.384055Z",
+          "speaker": "student",
+          "text": "So the stronger explanation is that oxygen is released as a byproduct because chlorophyll captures light."
+        },
+        {
+          "t": "2026-06-27T20:35:44.384055Z",
+          "speaker": "student",
+          "text": "My confidence is about 43 percent."
+        }
+      ],
+      "behavioral_signals": {
+        "avg_student_turn_words": 12.8,
+        "hesitation_score": 0.38,
+        "self_revision": false,
+        "confidence": 0.427,
+        "pace": "steady",
+        "behavior": "asks clarifying questions"
+      },
+      "drawing_sequence": [
+        {
+          "type": "node",
+          "label": "oxygen is released as a byproduct",
+          "svg_path": "M38,73 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "node",
+          "label": "chlorophyll captures light",
+          "svg_path": "M117,54 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M61,54 L93,54"
+        },
+        {
+          "type": "node",
+          "label": "water is absorbed by roots",
+          "svg_path": "M205,88 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M149,88 L181,88"
+        },
+        {
+          "type": "node",
+          "label": "glucose stores chemical energy",
+          "svg_path": "M290,65 m-24,0 a24,16 0 1,0 48,0 a24,16 0 1,0 -48,0"
+        },
+        {
+          "type": "edge",
+          "label": "connects to",
+          "svg_path": "M234,65 L266,65"
+        }
+      ],
+      "ground_truth": {
+        "mastery_score": 0.663,
+        "understanding_band": "proficient",
+        "has_misconception": false,
+        "misconceptions": [],
+        "support_need": "targeted feedback",
+        "expected_verdict": "correct"
+      }
+    }
+  ]
+}

@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FerbAI Architecture — AIEWF Hackathon 2026</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=general-sans@400,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+  --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;
+  --space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;
+  --radius-sm:0.375rem;--radius-md:0.5rem;--radius-lg:0.75rem;--radius-xl:1rem;--radius-full:9999px;
+  --transition-interactive:180ms cubic-bezier(0.16,1,0.3,1);
+  --font-display:'Satoshi','Inter',sans-serif;
+  --font-body:'General Sans','Helvetica Neue',sans-serif;
+}
+:root,[data-theme="light"]{
+  --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;
+  --color-surface-offset:#f3f0ec;--color-divider:#dcd9d5;--color-border:#d4d1ca;
+  --color-text:#28251d;--color-text-muted:#7a7974;--color-text-faint:#bab9b4;
+  --color-primary:#01696f;--color-primary-hover:#0c4e54;--color-primary-highlight:#cedcd8;
+  --color-blue:#006494;--color-gold:#d19900;--color-orange:#da7101;
+  --color-success:#437a22;--color-purple:#7a39bb;
+  --shadow-sm:0 1px 2px oklch(0.2 0.01 80/0.06);--shadow-md:0 4px 12px oklch(0.2 0.01 80/0.08);--shadow-lg:0 12px 32px oklch(0.2 0.01 80/0.12);
+}
+[data-theme="dark"]{
+  --color-bg:#0f0e0c;--color-surface:#171614;--color-surface-2:#1c1b19;
+  --color-surface-offset:#201f1d;--color-divider:#262523;--color-border:#393836;
+  --color-text:#cdccca;--color-text-muted:#797876;--color-text-faint:#5a5957;
+  --color-primary:#4f98a3;--color-primary-hover:#227f8b;--color-primary-highlight:#1e3335;
+  --color-blue:#5591c7;--color-gold:#e8af34;--color-orange:#fdab43;
+  --color-success:#6daa45;--color-purple:#a86fdf;
+  --shadow-sm:0 1px 2px oklch(0 0 0/0.3);--shadow-md:0 4px 12px oklch(0 0 0/0.4);--shadow-lg:0 12px 32px oklch(0 0 0/0.5);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){
+  --color-bg:#0f0e0c;--color-surface:#171614;--color-surface-2:#1c1b19;
+  --color-surface-offset:#201f1d;--color-divider:#262523;--color-border:#393836;
+  --color-text:#cdccca;--color-text-muted:#797876;--color-text-faint:#5a5957;
+  --color-primary:#4f98a3;--color-primary-highlight:#1e3335;
+  --color-blue:#5591c7;--color-gold:#e8af34;--color-orange:#fdab43;--color-success:#6daa45;--color-purple:#a86fdf;
+}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+body{min-height:100dvh;line-height:1.6;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);transition:background var(--transition-interactive),color var(--transition-interactive)}
+img{display:block;max-width:100%}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+a,button,[role="button"]{transition:color var(--transition-interactive),background var(--transition-interactive),border-color var(--transition-interactive),box-shadow var(--transition-interactive)}
+
+/* ─── LAYOUT ─── */
+.page{max-width:1160px;margin-inline:auto;padding:var(--space-8) var(--space-6)}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-10);gap:var(--space-4);flex-wrap:wrap}
+.logo-lockup{display:flex;align-items:center;gap:var(--space-3)}
+.logo-svg{flex-shrink:0}
+.header-meta{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1)}
+.theme-toggle{width:36px;height:36px;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);border:1px solid var(--color-border);background:var(--color-surface)}
+.theme-toggle:hover{color:var(--color-text);background:var(--color-surface-offset)}
+
+/* ─── PRIZES BANNER ─── */
+.prizes-row{display:flex;gap:var(--space-3);margin-bottom:var(--space-8);flex-wrap:wrap}
+.prize-chip{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-4);border-radius:var(--radius-full);border:1px solid;font-size:var(--text-xs);font-weight:600}
+.prize-chip.gold{background:oklch(from var(--color-gold) l c h/0.1);border-color:oklch(from var(--color-gold) l c h/0.3);color:var(--color-gold)}
+.prize-chip.teal{background:oklch(from var(--color-primary) l c h/0.1);border-color:oklch(from var(--color-primary) l c h/0.3);color:var(--color-primary)}
+.prize-chip.blue{background:oklch(from var(--color-blue) l c h/0.1);border-color:oklch(from var(--color-blue) l c h/0.3);color:var(--color-blue)}
+.prize-chip.purple{background:oklch(from var(--color-purple) l c h/0.1);border-color:oklch(from var(--color-purple) l c h/0.3);color:var(--color-purple)}
+
+/* ─── MAIN DIAGRAM ─── */
+.diagram{display:flex;flex-direction:column;align-items:center;gap:0}
+
+.layer{width:100%;display:flex;flex-direction:column;align-items:center}
+
+.node{width:100%;max-width:700px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-5) var(--space-6);position:relative;cursor:pointer;box-shadow:var(--shadow-sm);transition:box-shadow var(--transition-interactive),border-color var(--transition-interactive),transform 120ms ease}
+.node:hover{box-shadow:var(--shadow-lg);transform:translateY(-1px)}
+.node.active{border-color:var(--node-accent,var(--color-primary));box-shadow:0 0 0 1px var(--node-accent,var(--color-primary)),var(--shadow-lg)}
+
+.node-header{display:flex;align-items:flex-start;gap:var(--space-3)}
+.node-icon{width:36px;height:36px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.node-title{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;line-height:1.2}
+.node-subtitle{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1)}
+.host-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:var(--radius-full);font-size:11px;font-weight:600;margin-top:var(--space-2);border:1px solid;letter-spacing:0.03em}
+
+/* detail panel */
+.node-detail{display:none;margin-top:var(--space-4);padding-top:var(--space-4);border-top:1px solid var(--color-divider)}
+.node.active .node-detail{display:block}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);margin-top:var(--space-3)}
+@media(max-width:600px){.detail-grid{grid-template-columns:1fr}}
+.detail-card{background:var(--color-surface-offset);border-radius:var(--radius-lg);padding:var(--space-4)}
+.detail-card-title{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text-muted);margin-bottom:var(--space-2)}
+.detail-card ul{list-style:none;display:flex;flex-direction:column;gap:var(--space-1)}
+.detail-card li{font-size:var(--text-sm);color:var(--color-text);display:flex;gap:var(--space-2);align-items:flex-start}
+.detail-card li::before{content:"→";color:var(--node-accent,var(--color-primary));flex-shrink:0;margin-top:1px}
+.detail-card code{font-family:monospace;font-size:0.85em;background:var(--color-surface-2);border:1px solid var(--color-border);padding:1px 5px;border-radius:3px;color:var(--color-primary)}
+.detail-note{font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-3);padding:var(--space-3);background:var(--color-surface-offset);border-radius:var(--radius-lg);border-left:3px solid var(--node-accent,var(--color-primary))}
+
+/* arrow connector */
+.arrow{display:flex;flex-direction:column;align-items:center;gap:0;padding:var(--space-1) 0;color:var(--color-text-faint);position:relative}
+.arrow-line{width:2px;height:24px;background:linear-gradient(to bottom,var(--color-divider),var(--color-divider))}
+.arrow-head{width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:10px solid var(--color-divider)}
+.arrow-label{position:absolute;left:50%;transform:translateX(calc(-50% + 20px));font-size:11px;color:var(--color-text-faint);white-space:nowrap;top:4px;background:var(--color-bg);padding:0 4px}
+
+/* dual node row */
+.dual-row{width:100%;max-width:700px;display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4)}
+@media(max-width:600px){.dual-row{grid-template-columns:1fr}}
+.dual-row .node{max-width:none}
+
+/* ─── TEAL: FastAPI ─── */
+.node-fastapi{--node-accent:var(--color-primary)}
+.node-fastapi .node-icon{background:oklch(from var(--color-primary) l c h/0.15);color:var(--color-primary)}
+.node-fastapi .host-badge{background:oklch(from var(--color-primary) l c h/0.1);border-color:oklch(from var(--color-primary) l c h/0.25);color:var(--color-primary)}
+
+/* ─── ORANGE: Feature extraction ─── */
+.node-features{--node-accent:var(--color-orange)}
+.node-features .node-icon{background:oklch(from var(--color-orange) l c h/0.15);color:var(--color-orange)}
+.node-features .host-badge{background:oklch(from var(--color-orange) l c h/0.1);border-color:oklch(from var(--color-orange) l c h/0.25);color:var(--color-orange)}
+
+/* ─── GOLD: Gemini / MiniMax ─── */
+.node-gemini{--node-accent:var(--color-gold)}
+.node-gemini .node-icon{background:oklch(from var(--color-gold) l c h/0.15);color:var(--color-gold)}
+.node-gemini .host-badge{background:oklch(from var(--color-gold) l c h/0.1);border-color:oklch(from var(--color-gold) l c h/0.25);color:var(--color-gold)}
+.node-minimax{--node-accent:var(--color-purple)}
+.node-minimax .node-icon{background:oklch(from var(--color-purple) l c h/0.15);color:var(--color-purple)}
+.node-minimax .host-badge{background:oklch(from var(--color-purple) l c h/0.1);border-color:oklch(from var(--color-purple) l c h/0.25);color:var(--color-purple)}
+
+/* ─── BLUE: verdict ─── */
+.node-verdict{--node-accent:var(--color-blue)}
+.node-verdict .node-icon{background:oklch(from var(--color-blue) l c h/0.15);color:var(--color-blue)}
+.node-verdict .host-badge{background:oklch(from var(--color-blue) l c h/0.1);border-color:oklch(from var(--color-blue) l c h/0.25);color:var(--color-blue)}
+
+/* ─── GREEN: MongoDB ─── */
+.node-mongo{--node-accent:var(--color-success)}
+.node-mongo .node-icon{background:oklch(from var(--color-success) l c h/0.15);color:var(--color-success)}
+.node-mongo .host-badge{background:oklch(from var(--color-success) l c h/0.1);border-color:oklch(from var(--color-success) l c h/0.25);color:var(--color-success)}
+
+/* ─── TEAL: Swarm ─── */
+.node-swarm{--node-accent:var(--color-primary)}
+.node-swarm .node-icon{background:oklch(from var(--color-primary) l c h/0.15);color:var(--color-primary)}
+.node-swarm .host-badge{background:oklch(from var(--color-primary) l c h/0.1);border-color:oklch(from var(--color-primary) l c h/0.25);color:var(--color-primary)}
+
+/* FERBAI source pill */
+.node-ferb{--node-accent:var(--color-orange)}
+.node-ferb .node-icon{background:oklch(from var(--color-orange) l c h/0.15);color:var(--color-orange)}
+.node-ferb .host-badge{background:oklch(from var(--color-orange) l c h/0.1);border-color:oklch(from var(--color-orange) l c h/0.25);color:var(--color-orange)}
+
+/* ─── LEGEND ─── */
+.legend{margin-top:var(--space-12);border-top:1px solid var(--color-divider);padding-top:var(--space-8)}
+.legend h2{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;margin-bottom:var(--space-6)}
+.legend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:var(--space-4)}
+.legend-item{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4)}
+.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:var(--space-2)}
+.legend-item-title{font-weight:600;font-size:var(--text-sm);display:flex;align-items:center;margin-bottom:var(--space-2)}
+.legend-item p{font-size:var(--text-xs);color:var(--color-text-muted)}
+
+/* ─── TIMELINE ─── */
+.timeline{margin-top:var(--space-12)}
+.timeline h2{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;margin-bottom:var(--space-6)}
+.timeline-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--space-4)}
+.tl-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);position:relative}
+.tl-phase{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:var(--space-2)}
+.tl-card h3{font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-2)}
+.tl-card ul{list-style:none;display:flex;flex-direction:column;gap:4px}
+.tl-card li{font-size:var(--text-xs);color:var(--color-text-muted)}
+.tl-card li::before{content:"· ";color:var(--color-text-faint)}
+
+/* ─── HINTS ─── */
+.hint{text-align:center;font-size:var(--text-xs);color:var(--color-text-faint);margin-bottom:var(--space-6)}
+
+/* ─── FOOTER ─── */
+footer{margin-top:var(--space-12);border-top:1px solid var(--color-divider);padding-top:var(--space-6);font-size:var(--text-xs);color:var(--color-text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--space-2)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header>
+  <div class="logo-lockup">
+    <svg class="logo-svg" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-label="FerbAI Logo">
+      <rect width="40" height="40" rx="10" fill="currentColor" style="color:var(--color-primary);opacity:0.15"/>
+      <path d="M10 12h8v3h-5v4h4v3h-4v6h-3V12zm10 0h8c2 0 4 1.5 4 4s-2 4-4 4h-1l5 7h-4l-4.5-7H20v7h-3V12zm3 3v3h4.5c.8 0 1.5-.7 1.5-1.5S28.3 15 27.5 15H23z" fill="currentColor" style="color:var(--color-primary)"/>
+    </svg>
+    <div>
+      <div style="font-family:var(--font-display);font-weight:700;font-size:var(--text-lg)">FerbAI System Architecture</div>
+      <div class="header-meta">AIEWF Hackathon 2026 · June 27–28 · Shack15, SF</div>
+    </div>
+  </div>
+  <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+</header>
+
+<!-- PRIZE CHIPS -->
+<div class="prizes-row">
+  <div class="prize-chip gold">🏆 $5k — Best Gemini 3.5</div>
+  <div class="prize-chip teal">💧 DO Credits — Best DigitalOcean</div>
+  <div class="prize-chip blue">🥇 $2.5k — 1st Place</div>
+  <div class="prize-chip purple">📦 $5k MiniMax Credits w/ 1st</div>
+</div>
+
+<p class="hint">Click any node to expand implementation details ↓</p>
+
+<!-- ═══════════════════════════════════ DIAGRAM ═══════════════════════════════════ -->
+<div class="diagram">
+
+  <!-- ① FERB AI SOURCE -->
+  <div class="layer">
+    <div class="node node-ferb" onclick="toggle(this)" tabindex="0" role="button" aria-expanded="false">
+      <div class="node-header">
+        <div class="node-icon">🎓</div>
+        <div>
+          <div class="node-title">FerbAI Session Outputs</div>
+          <div class="node-subtitle">Raw multi-modal data from tutoring sessions</div>
+          <div class="host-badge">External → POSTs to your FastAPI</div>
+        </div>
+      </div>
+      <div class="node-detail">
+        <div class="detail-grid">
+          <div class="detail-card">
+            <div class="detail-card-title">Data Types</div>
+            <ul>
+              <li>Transcripts (text, timestamps)</li>
+              <li>Whiteboard drawings (SVG/pixel paths)</li>
+              <li>Interaction events (clicks, pauses, rewatches)</li>
+              <li>Session metadata (duration, subject, student ID)</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Payload Schema</div>
+            <ul>
+              <li><code>session_id</code>, <code>timestamp</code></li>
+              <li><code>transcript: [{t, speaker, text}]</code></li>
+              <li><code>events: [{type, t, payload}]</code></li>
+              <li><code>drawings: [SVG string | base64]</code></li>
+            </ul>
+          </div>
+        </div>
+        <div class="detail-note">🔑 Hackathon strategy: FerbAI doesn't need to be real on day 1. The Synthetic Student Swarm (bottom) mimics it perfectly — build the swarm first, demo with swarm data, and the real FerbAI integration is a drop-in.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+  <!-- ② FASTAPI INGESTOR -->
+  <div class="layer">
+    <div class="node node-fastapi" onclick="toggle(this)" tabindex="0" role="button" aria-expanded="false">
+      <div class="node-header">
+        <div class="node-icon">⚡</div>
+        <div>
+          <div class="node-title">FastAPI Ingestor</div>
+          <div class="node-subtitle">Public-facing ingestion API — your system's front door</div>
+          <div class="host-badge">🌊 Hosted on DigitalOcean App Platform</div>
+        </div>
+      </div>
+      <div class="node-detail">
+        <div class="detail-grid">
+          <div class="detail-card">
+            <div class="detail-card-title">Key Endpoints</div>
+            <ul>
+              <li><code>POST /sessions</code> — ingest full session</li>
+              <li><code>POST /sessions/{id}/event</code> — stream events</li>
+              <li><code>GET /sessions/{id}/report</code> — fetch verdict</li>
+              <li><code>GET /health</code> — DO health check</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">DO App Platform Setup</div>
+            <ul>
+              <li>Push Dockerfile → DO auto-deploys</li>
+              <li>DO gives you a live <code>*.ondigitalocean.app</code> URL</li>
+              <li>Persistent 24/7 — no cold starts during judging</li>
+              <li>Use $200 credits from DO table → claim at hackathon</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">FastAPI Best Practices</div>
+            <ul>
+              <li>Pydantic models for request validation</li>
+              <li>Background tasks for async extraction</li>
+              <li><code>asyncio</code> + <code>httpx</code> for outbound API calls</li>
+              <li>Structured logging (JSON) for DO log aggregation</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Demo Tip</div>
+            <ul>
+              <li>Add <code>/demo</code> endpoint that runs a full synthetic session end-to-end</li>
+              <li>Judges can hit this URL live during your 3-min demo</li>
+              <li>Returns verdict JSON + saves to MongoDB — shows full stack in one call</li>
+            </ul>
+          </div>
+        </div>
+        <div class="detail-note">🏆 Prize target: Best Usage of DigitalOcean. The more you use DO App Platform features (auto-scaling, managed env vars, DO monitoring), the stronger your case. Screenshot your DO dashboard for the demo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+  <!-- ③ FEATURE EXTRACTION -->
+  <div class="layer">
+    <div class="node node-features" onclick="toggle(this)" tabindex="0" role="button" aria-expanded="false">
+      <div class="node-header">
+        <div class="node-icon">🔬</div>
+        <div>
+          <div class="node-title">Feature Extraction Module</div>
+          <div class="node-subtitle">Pure Python functions — co-located in the same DO container</div>
+          <div class="host-badge">🌊 Runs inside DO App — no extra infra</div>
+        </div>
+      </div>
+      <div class="node-detail">
+        <div class="detail-grid">
+          <div class="detail-card">
+            <div class="detail-card-title">Branch A: Claim Extraction</div>
+            <ul>
+              <li>Parse transcript → sentence-level claims</li>
+              <li>Tag claims as verifiable (factual) vs. opinion</li>
+              <li>Use spaCy NER + rule-based filters for speed</li>
+              <li>Output: <code>[{claim, sentence_idx, verifiable}]</code></li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Branch B: Behavioral Signals</div>
+            <ul>
+              <li>Detect rewatch events (segment replay)</li>
+              <li>Detect hesitation (long pause before response)</li>
+              <li>Drawing complexity score (stroke count, coverage)</li>
+              <li>Output: <code>{rewatch_rate, hesitation_ms, drawing_score}</code></li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Implementation</div>
+            <ul>
+              <li>Single <code>feature_extraction.py</code> module</li>
+              <li>Call from FastAPI background task (non-blocking)</li>
+              <li>No GPU needed — pure CPU logic, runs fast on DO</li>
+              <li>Unit testable independently</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Output Contract</div>
+            <ul>
+              <li><code>FeatureBundle</code> Pydantic model</li>
+              <li>Passed directly to both LLM routers</li>
+              <li>Serialized to MongoDB on verdict save</li>
+              <li>Used by swarm to generate varied test signals</li>
+            </ul>
+          </div>
+        </div>
+        <div class="detail-note">⚡ Keep extraction under 500ms. Use async where possible. This is in the critical path before the LLM calls — latency here multiplies across 50 swarm sessions.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+  <!-- ④ DUAL LLM ROW -->
+  <div class="layer">
+    <div class="dual-row">
+      <!-- GEMINI -->
+      <div class="node node-gemini" onclick="toggle(this)" tabindex="0" role="button" aria-expanded="false">
+        <div class="node-header">
+          <div class="node-icon">🔵</div>
+          <div>
+            <div class="node-title">Gemini 3.5 Flash</div>
+            <div class="node-subtitle">Primary evaluator via Antigravity agent</div>
+            <div class="host-badge">☁️ Google-hosted external API call</div>
+          </div>
+        </div>
+        <div class="node-detail">
+          <div class="detail-grid">
+            <div class="detail-card">
+              <div class="detail-card-title">What to Use</div>
+              <ul>
+                <li>Antigravity agent (<code>antigravity-preview-05-2026</code>)</li>
+                <li>Interactions API for managed agent execution</li>
+                <li>Pass <code>env_id</code> for stateful session memory</li>
+                <li>Computer Use for screenshot-based drawing eval</li>
+              </ul>
+            </div>
+            <div class="detail-card">
+              <div class="detail-card-title">Prompt Strategy</div>
+              <ul>
+                <li>System: Teacher evaluation rubric (clarity, accuracy, pacing)</li>
+                <li>User: Extracted claims + behavioral signals</li>
+                <li>Ask for: verdict (0–1), confidence, top 3 reasoning flags</li>
+                <li>Use structured output (JSON mode)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-note">🏆 $5k Prize: Best Gemini 3.5. You MUST use Antigravity agent or Computer Use to qualify. Wrap drawing evaluation in Computer Use — the agent sees the whiteboard screenshot and flags visual hallucinations (e.g., wrong diagram drawn).</div>
+        </div>
+      </div>
+
+      <!-- MINIMAX -->
+      <div class="node node-minimax" onclick="toggle(this)" tabindex="0" role="button" aria-expanded="false">
+        <div class="node-header">
+          <div class="node-icon">🟣</div>
+          <div>
+            <div class="node-title">MiniMax MoE</div>
+            <div class="node-subtitle">Cross-check evaluator for agreement scoring</div>
+            <div class="host-badge">☁️ External API — $30 credits available</div>
+          </div>
+        </div>
+        <div class="node-detail">
+          <div class="detail-grid">
+            <div class="detail-card">
+              <div class="detail-card-title">Role in Pipeline</div>
+              <ul>
+                <li>Independent hallucination check on same claims</li>
+                <li>MoE = different expert routing than Gemini</li>
+                <li>Disagreement between models → high-confidence flag</li>
+                <li>Agreement → confident verdict output</li>
+              </ul>
+            </div>
+            <div class="detail-card">
+              <div class="detail-card-title">API Integration</div>
+              <ul>
+                <li>Claim $30 credits at MiniMax table on-site</li>
+                <li>Use <code>httpx.AsyncClient</code> for non-blocking call</li>
+                <li>Run Gemini + MiniMax calls in parallel with <code>asyncio.gather()</code></li>
+                <li>Timeout: 8s max, fallback to Gemini-only verdict</li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-note">⚡ Run both LLM calls in parallel — <code>await asyncio.gather(call_gemini(), call_minimax())</code> — shaves ~3s off per session evaluation. Critical for 50-session swarm throughput.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+  <!-- ⑤ VERDICT -->
+  <div class="layer">
+    <div class="node node-verdict" onclick="toggle(this)" tabindex="0" role="button" aria-expanded="false">
+      <div class="node-header">
+        <div class="node-icon">⚖️</div>
+        <div>
+          <div class="node-title">Agreement Check → Verdict Engine</div>
+          <div class="node-subtitle">Consensus logic — runs in DO container, no extra infra</div>
+          <div class="host-badge">🌊 Runs inside DO App container</div>
+        </div>
+      </div>
+      <div class="node-detail">
+        <div class="detail-grid">
+          <div class="detail-card">
+            <div class="detail-card-title">Agreement Logic</div>
+            <ul>
+              <li>Both models agree → verdict confidence HIGH</li>
+              <li>Models disagree on any claim → flag for review</li>
+              <li>Score delta &gt;0.3 → escalate to "uncertain" tier</li>
+              <li>Behavioral signals amplify/dampen confidence</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Verdict Schema</div>
+            <ul>
+              <li><code>overall_score</code>: 0.0–1.0</li>
+              <li><code>confidence</code>: low / medium / high</li>
+              <li><code>flagged_claims</code>: [{claim, reason}]</li>
+              <li><code>behavioral_notes</code>: {rewatch, hesitation}</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Self-Improvement Hook</div>
+            <ul>
+              <li>Store disagreement cases as training seeds</li>
+              <li>Build feedback loop: flag → human/LLM label → retrain prompt</li>
+              <li>This is your Continual Learning / Self-Improvement Stack story for judges</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Performance</div>
+            <ul>
+              <li>Pure Python logic — runs in microseconds</li>
+              <li>No I/O here, only after this (MongoDB write)</li>
+              <li>Produces final <code>VerdictDocument</code> Pydantic model</li>
+            </ul>
+          </div>
+        </div>
+        <div class="detail-note">🎯 Judge pitch: "Two independent LLMs evaluate each session. When they disagree, FerbAI learns — those cases become the training signal for continuous prompt improvement." This hits the Continual Learning theme directly.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+  <!-- ⑥ MONGODB -->
+  <div class="layer">
+    <div class="node node-mongo" onclick="toggle(this)" tabindex="0" role="button" aria-expanded="false">
+      <div class="node-header">
+        <div class="node-icon">🍃</div>
+        <div>
+          <div class="node-title">MongoDB Atlas</div>
+          <div class="node-subtitle">Persistent storage for verdicts, sessions, and feedback loops</div>
+          <div class="host-badge">☁️ External — Atlas Sandbox on GCP (claim at hackathon)</div>
+        </div>
+      </div>
+      <div class="node-detail">
+        <div class="detail-grid">
+          <div class="detail-card">
+            <div class="detail-card-title">Collections</div>
+            <ul>
+              <li><code>sessions</code> — raw ingest + feature bundles</li>
+              <li><code>verdicts</code> — final evaluated outputs</li>
+              <li><code>disagreements</code> — training seed pool</li>
+              <li><code>personas</code> — synthetic student profiles</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Atlas Features to Use</div>
+            <ul>
+              <li>Vector search on <code>flagged_claims</code> embeddings</li>
+              <li>Atlas Search (text) for claim dedup</li>
+              <li>Time-series: track verdict drift over swarm runs</li>
+              <li>Aggregation pipelines for swarm analytics dashboard</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Connection from DO</div>
+            <ul>
+              <li><code>motor</code> (async PyMongo) for FastAPI compat</li>
+              <li>Store Atlas URI in DO App env vars (secure)</li>
+              <li>Connection pooling — reuse across requests</li>
+              <li>Write verdicts after consensus, not before</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Self-Improvement Loop</div>
+            <ul>
+              <li>Query <code>disagreements</code> → feed back to prompt tuner</li>
+              <li>Prompt versions stored → A/B tracked in Atlas</li>
+              <li>This is your recursive intelligence story</li>
+            </ul>
+          </div>
+        </div>
+        <div class="detail-note">🍃 MongoDB prize: Atlas Sandbox is provided free. Use Vector Search on claim embeddings — it's a premium feature that impresses judges and enables semantic claim deduplication across swarm sessions.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow"><div class="arrow-line"></div><div class="arrow-head"></div></div>
+
+  <!-- ⑦ SWARM -->
+  <div class="layer">
+    <div class="node node-swarm" onclick="toggle(this)" tabindex="0" role="button" aria-expanded="false">
+      <div class="node-header">
+        <div class="node-icon">🤖</div>
+        <div>
+          <div class="node-title">Synthetic Student Swarm</div>
+          <div class="node-subtitle">50+ Gemma 4 personas running in parallel on DO workers</div>
+          <div class="host-badge">🌊 DO Droplets / Workers — this is where DO scales</div>
+        </div>
+      </div>
+      <div class="node-detail">
+        <div class="detail-grid">
+          <div class="detail-card">
+            <div class="detail-card-title">Persona Architecture</div>
+            <ul>
+              <li>Gemma 4 on-device (lightweight, edge-ready)</li>
+              <li>Each persona = unique learning profile (confused, advanced, ELL)</li>
+              <li>Personas defined in <code>AGENTS.md</code> + <code>SKILL.md</code></li>
+              <li>Stored in MongoDB <code>personas</code> collection</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">DO Scaling</div>
+            <ul>
+              <li>Spin up N DO worker processes (or Droplets)</li>
+              <li>Each worker runs one persona agent loop</li>
+              <li>Workers POST to <code>/sessions</code> FastAPI endpoint</li>
+              <li>DO App auto-scales — demo with 50 concurrent sessions</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">What Swarm Generates</div>
+            <ul>
+              <li>Realistic transcripts with deliberate hallucinations</li>
+              <li>Varied behavioral signals (some confused, some fast)</li>
+              <li>Drawing sequences (simple SVG paths)</li>
+              <li>Ground truth labels for evaluation accuracy scoring</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <div class="detail-card-title">Self-Improvement Role</div>
+            <ul>
+              <li>Run swarm → collect verdicts → check accuracy vs. ground truth</li>
+              <li>Feed errors back → refine system prompts automatically</li>
+              <li>Run again → measure improvement</li>
+              <li>This is your live recursive self-improvement demo loop</li>
+            </ul>
+          </div>
+        </div>
+        <div class="detail-note">🚀 Killer demo move: Live during judging, run 20 swarm sessions in real-time, show MongoDB filling with verdicts, then show the accuracy improving after one prompt-refinement loop. This is recursive intelligence made visual.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end diagram -->
+
+<!-- ═════════════════════════════ BUILD TIMELINE ═════════════════════════════ -->
+<div class="timeline">
+  <h2>⏱ Hackathon Build Timeline</h2>
+  <div class="timeline-grid">
+    <div class="tl-card">
+      <div class="tl-phase" style="color:var(--color-orange)">Phase 1 · Hrs 0–2</div>
+      <h3>Foundation</h3>
+      <ul>
+        <li>Claim DO + MongoDB + MiniMax + Gemini credits</li>
+        <li>FastAPI skeleton + <code>/health</code> endpoint</li>
+        <li>Deploy to DO App Platform (get live URL)</li>
+        <li>MongoDB Atlas connection test</li>
+      </ul>
+    </div>
+    <div class="tl-card">
+      <div class="tl-phase" style="color:var(--color-gold)">Phase 2 · Hrs 2–4</div>
+      <h3>Core Pipeline</h3>
+      <ul>
+        <li>Claim extractor (spaCy or regex MVP)</li>
+        <li>Behavioral signal parser</li>
+        <li>Gemini 3.5 Flash call (JSON mode)</li>
+        <li>MiniMax call in parallel</li>
+      </ul>
+    </div>
+    <div class="tl-card">
+      <div class="tl-phase" style="color:var(--color-primary)">Phase 3 · Hrs 4–7</div>
+      <h3>Verdict + Storage</h3>
+      <ul>
+        <li>Agreement logic + VerdictDocument model</li>
+        <li>MongoDB write (motor async)</li>
+        <li>Atlas Vector Search setup</li>
+        <li>End-to-end test with mock session</li>
+      </ul>
+    </div>
+    <div class="tl-card">
+      <div class="tl-phase" style="color:var(--color-blue)">Phase 4 · Hrs 7–11</div>
+      <h3>Swarm + Self-Improve</h3>
+      <ul>
+        <li>Gemma 4 persona generator</li>
+        <li>Swarm worker loop (10 personas first)</li>
+        <li>Disagreement → prompt refinement pipeline</li>
+        <li>Scale to 50 workers on DO</li>
+      </ul>
+    </div>
+    <div class="tl-card">
+      <div class="tl-phase" style="color:var(--color-gold)">Phase 5 · Antigravity</div>
+      <h3>Gemini 3.5 Prize</h3>
+      <ul>
+        <li>Integrate Antigravity agent API</li>
+        <li>Pass env_id for stateful eval</li>
+        <li>Computer Use on drawing screenshots</li>
+        <li>Add AGENTS.md + SKILL.md</li>
+      </ul>
+    </div>
+    <div class="tl-card">
+      <div class="tl-phase" style="color:var(--color-success)">Phase 6 · Demo Prep</div>
+      <h3>Polish + Submit</h3>
+      <ul>
+        <li><code>/demo</code> endpoint (one-click full run)</li>
+        <li>Swarm live run during judging</li>
+        <li>DO dashboard screenshot</li>
+        <li>1-min demo video + GitHub public repo</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════════════════════ LEGEND ═════════════════════════════ -->
+<div class="legend">
+  <h2>🗺 Infrastructure Legend</h2>
+  <div class="legend-grid">
+    <div class="legend-item">
+      <div class="legend-item-title"><span class="legend-dot" style="background:var(--color-primary)"></span>DigitalOcean App Platform</div>
+      <p>Hosts FastAPI + Feature Extraction + Verdict Engine + Swarm Workers. One $200 credit pool covers all of it.</p>
+    </div>
+    <div class="legend-item">
+      <div class="legend-item-title"><span class="legend-dot" style="background:var(--color-success)"></span>MongoDB Atlas (GCP)</div>
+      <p>External persistent storage. DO app connects via Atlas SDK (motor). Atlas Sandbox provided free at hackathon.</p>
+    </div>
+    <div class="legend-item">
+      <div class="legend-item-title"><span class="legend-dot" style="background:var(--color-gold)"></span>Google Gemini 3.5</div>
+      <p>External API call from DO app outward. Antigravity agent runs on Google-hosted Linux env. DO is the caller.</p>
+    </div>
+    <div class="legend-item">
+      <div class="legend-item-title"><span class="legend-dot" style="background:var(--color-purple)"></span>MiniMax MoE</div>
+      <p>External API call — parallel to Gemini. $30 credits from MiniMax table. Adds dual-evaluator credibility.</p>
+    </div>
+    <div class="legend-item">
+      <div class="legend-item-title"><span class="legend-dot" style="background:var(--color-orange)"></span>FerbAI / Swarm Source</div>
+      <p>Either real FerbAI sessions POSTing to your URL, or synthetic Gemma 4 swarm agents doing the same.</p>
+    </div>
+    <div class="legend-item">
+      <div class="legend-item-title"><span class="legend-dot" style="background:var(--color-blue)"></span>Hackathon Theme Fit</div>
+      <p>Continual Learning + Self-Improvement Stack. Disagreements → prompt tuning → re-evaluate = recursive improvement loop.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>FerbAI · AIEWF Hackathon 2026 · Henry Qi</span>
+  <span>Shack15 · Ferry Building, SF · Submit by Sun 12:00PM</span>
+</footer>
+
+</div><!-- end .page -->
+
+<script>
+// Theme toggle
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=r.getAttribute('data-theme')||'dark';
+  r.setAttribute('data-theme',d);
+  const icons={light:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',dark:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'};
+  t.innerHTML=icons[d==='dark'?'light':'dark'];
+  t.addEventListener('click',()=>{
+    d=d==='dark'?'light':'dark';
+    r.setAttribute('data-theme',d);
+    t.innerHTML=icons[d==='dark'?'light':'dark'];
+    t.setAttribute('aria-label','Switch to '+(d==='dark'?'light':'dark')+' mode');
+  });
+})();
+
+// Node toggle expand/collapse
+function toggle(el){
+  const isActive=el.classList.contains('active');
+  document.querySelectorAll('.node.active').forEach(n=>{ n.classList.remove('active'); n.setAttribute('aria-expanded','false'); });
+  if(!isActive){ el.classList.add('active'); el.setAttribute('aria-expanded','true'); }
+}
+
+// Keyboard support
+document.querySelectorAll('.node[tabindex]').forEach(n=>{
+  n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(n);}});
+});
+</script>
+</body>
+</html>

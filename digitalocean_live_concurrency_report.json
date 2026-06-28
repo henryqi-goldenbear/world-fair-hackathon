@@ -1,0 +1,100 @@
+{
+  "base_url": "https://ferbai-fastapi-ingestor-ej6yt.ondigitalocean.app",
+  "concurrency": 12,
+  "events_per_session": 3,
+  "total_requests": 64,
+  "total_ms": 2244.5,
+  "groups": {
+    "GET /health": {
+      "count": 1,
+      "ok": 1,
+      "errors": [],
+      "status_counts": {
+        "200": 1
+      },
+      "latency_ms": {
+        "min": 952.1,
+        "p50": 952.1,
+        "p95": 952.1,
+        "max": 952.1
+      }
+    },
+    "GET /demo": {
+      "count": 3,
+      "ok": 3,
+      "errors": [],
+      "status_counts": {
+        "200": 3
+      },
+      "latency_ms": {
+        "min": 109.8,
+        "p50": 206.9,
+        "p95": 301.8,
+        "max": 301.8
+      }
+    },
+    "POST /sessions": {
+      "count": 12,
+      "ok": 12,
+      "errors": [],
+      "status_counts": {
+        "202": 12
+      },
+      "latency_ms": {
+        "min": 162.6,
+        "p50": 400.8,
+        "p95": 457.9,
+        "max": 470.5
+      }
+    },
+    "POST /sessions/{id}/event": {
+      "count": 36,
+      "ok": 36,
+      "errors": [],
+      "status_counts": {
+        "202": 36
+      },
+      "latency_ms": {
+        "min": 96.0,
+        "p50": 363.2,
+        "p95": 539.0,
+        "max": 555.1
+      }
+    },
+    "GET /sessions/{id}/report": {
+      "count": 12,
+      "ok": 12,
+      "errors": [],
+      "status_counts": {
+        "200": 12
+      },
+      "latency_ms": {
+        "min": 196.1,
+        "p50": 276.2,
+        "p95": 400.5,
+        "max": 469.9
+      }
+    }
+  },
+  "complete_reports": 12,
+  "sample_report": {
+    "session_id": "load_probe_1782599753_09",
+    "status": "complete",
+    "verdict": "needs_targeted_support",
+    "score": 0.62,
+    "generated_at": "2026-06-27T22:35:55.746999Z",
+    "summary": "agent_student session on photosynthesis with 8 transcript turns, 12 events, and 1 drawing artifact(s).",
+    "evidence": {
+      "transcript_turns": 8,
+      "student_turns": 4,
+      "event_count": 12,
+      "drawing_count": 1,
+      "misconception_hits": 4,
+      "revision_hits": 1,
+      "duration_ms": 36000,
+      "student_id": "agent_student_001_byemdl0x",
+      "human_student": false
+    },
+    "saved_to_mongodb": false
+  }
+}
