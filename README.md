@@ -89,19 +89,19 @@ BASE="https://ferbai-fastapi-ingestor-ej6yt.ondigitalocean.app"
 Start continuous generation:
 
 ```bash
-curl -X POST "$BASE/generation/start?interval_seconds=120&limit=0&stream_events=2"
+curl "$BASE/generation/start?interval_seconds=120&limit=0&stream_events=2"
 ```
 
 Run a short bounded smoke test:
 
 ```bash
-curl -X POST "$BASE/generation/start?interval_seconds=5&limit=3&stream_events=2"
+curl "$BASE/generation/start?interval_seconds=5&limit=3&stream_events=2"
 ```
 
 Stop generation:
 
 ```bash
-curl -X POST "$BASE/generation/stop"
+curl "$BASE/generation/stop"
 ```
 
 View human-readable progress:
@@ -212,22 +212,61 @@ Write order:
 
 ## Local Development
 
-Install dependencies:
+Recommended Windows PowerShell setup:
 
-```bash
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
 python -m pip install -r requirements-fastapi.txt
 ```
 
-Run the app locally:
+If `py -3.12` is not available, use whichever Python launcher works on your
+machine:
 
-```bash
-uvicorn fastapi_session_receiver:app --host 127.0.0.1 --port 8899
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements-fastapi.txt
+```
+
+Run the app locally with `python -m uvicorn`, not bare `uvicorn`. This avoids
+the common Windows PATH issue where `uvicorn` is installed but the command is
+not directly discoverable:
+
+```powershell
+python -m uvicorn fastapi_session_receiver:app --host 127.0.0.1 --port 8899
 ```
 
 Then open:
 
 ```text
+http://127.0.0.1:8899/
 http://127.0.0.1:8899/live
+http://127.0.0.1:8899/generation/status.txt
+```
+
+If you only want the one-line install command:
+
+```bash
+python -m pip install -r requirements-fastapi.txt
+```
+
+Then run:
+
+```bash
+python -m uvicorn fastapi_session_receiver:app --host 127.0.0.1 --port 8899
+```
+
+Stop the local server from the terminal with `Ctrl+C`.
+
+Browser-friendly local controls:
+
+```text
+http://127.0.0.1:8899/generation/start?interval_seconds=5&limit=3&stream_events=2
+http://127.0.0.1:8899/generation/start?interval_seconds=120&limit=0&stream_events=2
+http://127.0.0.1:8899/generation/stop
 ```
 
 Run tests:
