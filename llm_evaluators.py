@@ -112,6 +112,13 @@ def coerce_result(provider: str, configured: bool, data: dict[str, Any], latency
     confidence = data.get("confidence")
     if confidence not in {"low", "medium", "high"}:
         confidence = None
+    flagged_claims = []
+    for item in data.get("flagged_claims") or []:
+        if isinstance(item, dict):
+            flagged_claims.append(item)
+        else:
+            flagged_claims.append({"claim": str(item), "reason": "provider_flagged"})
+    reasoning_flags = [str(item) for item in data.get("reasoning_flags") or []]
     return EvaluatorResult(
         provider=provider,
         configured=configured,
@@ -119,8 +126,8 @@ def coerce_result(provider: str, configured: bool, data: dict[str, Any], latency
         verdict=verdict,
         score=score,
         confidence=confidence,
-        flagged_claims=data.get("flagged_claims") or [],
-        reasoning_flags=data.get("reasoning_flags") or [],
+        flagged_claims=flagged_claims,
+        reasoning_flags=reasoning_flags,
         latency_ms=latency_ms,
         raw_text=raw_text[:1500],
     )
