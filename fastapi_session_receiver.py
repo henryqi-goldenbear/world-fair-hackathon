@@ -12,7 +12,7 @@ from typing import Any
 
 import httpx
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, Response, status
-from fastapi.responses import HTMLResponse, PlainTextResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse, RedirectResponse
 from pydantic import BaseModel, Field
 
 from atlas_integration import (
@@ -704,9 +704,9 @@ def render_dashboard_html(status_data: dict[str, Any], latest_report: dict[str, 
         <form method="post" action="/generation/start?interval_seconds=5&limit=3&stream_events=2" style="margin-top:8px">
           <button type="submit">Run 3-session smoke test</button>
         </form>
-        <form method="post" action="/generation/stop" style="margin-top:8px">
-          <button type="submit">Stop generation</button>
-        </form>
+        <div style="margin-top:8px">
+          <a href="/generation/stop">Stop generation</a>
+        </div>
       </section>
       <section>
         <h2>Links</h2>
@@ -1118,18 +1118,31 @@ async def start_generation(
     }
 
 
-@app.post("/generation/stop")
-async def stop_generation() -> dict[str, Any]:
+async def stop_generation_task() -> dict[str, Any]:
     global _generation_stop_reason
 
     task = _generation_task
     if task is None or task.done():
         _generation_stop_reason = "not_running"
         return {"ok": True, "stopped": False, "generation": generation_status()}
+    _generation_stop_reason = "stopping"
     task.cancel()
     with suppress(asyncio.CancelledError):
         await task
+    if not generation_running():
+        _generation_stop_reason = "stopped"
     return {"ok": True, "stopped": True, "generation": generation_status()}
+
+
+@app.post("/generation/stop")
+async def stop_generation() -> dict[str, Any]:
+    return await stop_generation_task()
+
+
+@app.get("/generation/stop")
+async def stop_generation_from_browser() -> RedirectResponse:
+    await stop_generation_task()
+    return RedirectResponse(url="/generation/status.txt", status_code=status.HTTP_303_SEE_OTHER)
 
 
 @app.post("/sessions", status_code=status.HTTP_202_ACCEPTED)
