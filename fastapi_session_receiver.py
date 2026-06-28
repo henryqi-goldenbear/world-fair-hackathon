@@ -6,11 +6,13 @@ import logging
 import os
 from contextlib import suppress
 from datetime import datetime, timezone
+from html import escape
 from pathlib import Path
 from typing import Any
 
 import httpx
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, Response, status
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from pydantic import BaseModel, Field
 
 from feature_extraction import dump_model, extract_feature_bundle
@@ -105,7 +107,7 @@ class VerdictReport(BaseModel):
 app = FastAPI(
     title="FerbAI FastAPI Ingestor",
     description="Public-facing ingestion API for FerbAI session outputs.",
-    version="0.5.0",
+    version="0.6.0",
 )
 
 _mongo_client: Any = None
@@ -377,6 +379,203 @@ def generation_status() -> dict[str, Any]:
     }
 
 
+def human_bool(value: Any) -> str:
+    return "yes" if value else "no"
+
+
+def format_generation_status_text(status_data: dict[str, Any]) -> str:
+    lines = [
+        "FerbAI Live Generation",
+        "======================",
+        f"Running: {human_bool(status_data.get('running'))}",
+        f"Generated sessions: {status_data.get('generated_count', 0)}",
+        f"Interval: {status_data.get('interval_seconds')} seconds",
+        f"Stop reason: {status_data.get('stop_reason')}",
+        f"Started at: {status_data.get('started_at') or 'not started'}",
+        f"Latest session: {status_data.get('last_session_id') or 'none yet'}",
+        f"Latest verdict: {status_data.get('last_verdict') or 'none yet'}",
+        f"Latest score: {status_data.get('last_score') if status_data.get('last_score') is not None else 'none yet'}",
+    ]
+    if status_data.get("last_report_url"):
+        lines.append(f"Latest report: {status_data['last_report_url']}")
+        lines.append(f"Readable report: {status_data['last_report_url']}.txt")
+    return "\n".join(lines) + "\n"
+
+
+def format_report_text(report: dict[str, Any]) -> str:
+    evidence = report.get("evidence", {})
+    doc = report.get("verdict_document") or {}
+    behavior = report.get("behavioral_notes") or doc.get("behavioral_notes") or {}
+    flagged_claims = report.get("flagged_claims") or doc.get("flagged_claims") or []
+    lines = [
+        "FerbAI Verdict Report",
+        "====================",
+        f"Session: {report.get('session_id')}",
+        f"Verdict: {report.get('verdict')}",
+        f"Overall score: {report.get('overall_score', report.get('score'))}",
+        f"Confidence: {report.get('confidence', doc.get('confidence', 'unknown'))}",
+        f"Generated at: {report.get('generated_at')}",
+        "",
+        "Evaluator Agreement",
+        "-------------------",
+        f"Mode: {evidence.get('llm_mode', 'unknown')}",
+        f"Agreement: {evidence.get('llm_agreement')}",
+        f"Score delta: {evidence.get('llm_score_delta')}",
+        f"Claim disagreement: {evidence.get('llm_claim_disagreement')}",
+        f"Self-improvement seed saved: {human_bool(report.get('self_improvement_seed_saved'))}",
+        "",
+        "Behavioral Signals",
+        "------------------",
+        f"Rewatch: {behavior.get('rewatch', {})}",
+        f"Hesitation: {behavior.get('hesitation', {})}",
+        f"Drawing: {behavior.get('drawing', {})}",
+        "",
+        "Flagged Claims",
+        "--------------",
+    ]
+    if flagged_claims:
+        for index, item in enumerate(flagged_claims, start=1):
+            providers = ", ".join(item.get("providers") or [])
+            suffix = f" [{providers}]" if providers else ""
+            lines.append(f"{index}. {item.get('claim')} - {item.get('reason')}{suffix}")
+    else:
+        lines.append("No flagged claims.")
+    lines.extend(
+        [
+            "",
+            "Student Source",
+            "--------------",
+            f"Student ID: {evidence.get('student_id')}",
+            f"Human student: {human_bool(evidence.get('human_student'))}",
+            f"Transcript turns: {evidence.get('transcript_turns')}",
+            f"Events: {evidence.get('event_count')}",
+            f"Drawings: {evidence.get('drawing_count')}",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def render_dashboard_html(status_data: dict[str, Any], latest_report: dict[str, Any] | None = None) -> str:
+    latest_url = status_data.get("last_report_url")
+    latest_id = status_data.get("last_session_id")
+    report = latest_report or {}
+    doc = report.get("verdict_document") or {}
+    llm_evaluation = report.get("llm_evaluation") or {}
+    behavior = report.get("behavioral_notes") or doc.get("behavioral_notes") or {}
+    flagged_claims = report.get("flagged_claims") or doc.get("flagged_claims") or []
+    report_links = ""
+    if latest_url:
+        report_links = (
+            f'<a href="{escape(latest_url)}">JSON report</a>'
+            f'<a href="{escape(latest_url)}.txt">Readable report</a>'
+        )
+    claims_html = "<li>No flagged claims yet.</li>"
+    if flagged_claims:
+        claims_html = "".join(
+            "<li><strong>{claim}</strong><span>{reason}</span></li>".format(
+                claim=escape(str(item.get("claim", ""))),
+                reason=escape(str(item.get("reason", ""))),
+            )
+            for item in flagged_claims
+        )
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="10">
+  <title>FerbAI Live Dashboard</title>
+  <style>
+    :root {{ color-scheme: light dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }}
+    body {{ margin: 0; background: #f6f7f9; color: #1b1d22; }}
+    main {{ max-width: 1040px; margin: 0 auto; padding: 32px 20px 48px; }}
+    header {{ display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 24px; }}
+    h1 {{ margin: 0; font-size: 30px; line-height: 1.1; }}
+    h2 {{ margin: 0 0 12px; font-size: 17px; }}
+    p {{ margin: 6px 0; color: #4b5563; }}
+    .grid {{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }}
+    .wide {{ grid-column: span 2; }}
+    section, .metric {{ background: #fff; border: 1px solid #d9dee7; border-radius: 8px; padding: 16px; }}
+    .metric strong {{ display: block; font-size: 24px; margin-top: 4px; }}
+    .pill {{ display: inline-flex; align-items: center; padding: 4px 9px; border-radius: 999px; background: #e8f2ef; color: #116149; font-size: 13px; font-weight: 700; }}
+    .pill.off {{ background: #f3e8e8; color: #8a2727; }}
+    .actions {{ display: flex; gap: 8px; flex-wrap: wrap; }}
+    form {{ display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }}
+    input {{ width: 88px; padding: 8px; border: 1px solid #cfd6df; border-radius: 6px; }}
+    button, a {{ display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border-radius: 6px; border: 1px solid #b9c3cf; background: #fff; color: #16324f; text-decoration: none; font-weight: 700; }}
+    button.primary {{ background: #0d6b63; border-color: #0d6b63; color: #fff; }}
+    ul {{ padding-left: 18px; }}
+    li span {{ display: block; color: #5b6472; }}
+    code {{ background: #eef1f5; padding: 2px 5px; border-radius: 4px; }}
+    @media (prefers-color-scheme: dark) {{
+      body {{ background: #101215; color: #f3f4f6; }}
+      p, li span {{ color: #a8b0bc; }}
+      section, .metric, button, a {{ background: #181b20; border-color: #2c333d; color: #d9eefb; }}
+      input, code {{ background: #111419; border-color: #2c333d; color: #f3f4f6; }}
+    }}
+    @media (max-width: 780px) {{ .grid {{ grid-template-columns: 1fr; }} .wide {{ grid-column: span 1; }} header {{ display: block; }} }}
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>FerbAI Live Dashboard</h1>
+        <p>Human-readable view of the DigitalOcean app, synthetic student swarm, and dual-evaluator verdict engine. Auto-refreshes every 10 seconds.</p>
+      </div>
+      <span class="pill {' ' if status_data.get('running') else 'off'}">{'RUNNING' if status_data.get('running') else 'STOPPED'}</span>
+    </header>
+    <div class="grid">
+      <div class="metric"><span>Generated sessions</span><strong>{escape(str(status_data.get('generated_count', 0)))}</strong></div>
+      <div class="metric"><span>Latest verdict</span><strong>{escape(str(status_data.get('last_verdict') or 'none yet'))}</strong></div>
+      <div class="metric"><span>Latest score</span><strong>{escape(str(status_data.get('last_score') if status_data.get('last_score') is not None else 'none yet'))}</strong></div>
+      <section class="wide">
+        <h2>Controls</h2>
+        <form method="post" action="/generation/start?interval_seconds=120&limit=0&stream_events=2">
+          <button class="primary" type="submit">Start continuous generation</button>
+        </form>
+        <form method="post" action="/generation/start?interval_seconds=5&limit=3&stream_events=2" style="margin-top:8px">
+          <button type="submit">Run 3-session smoke test</button>
+        </form>
+        <form method="post" action="/generation/stop" style="margin-top:8px">
+          <button type="submit">Stop generation</button>
+        </form>
+      </section>
+      <section>
+        <h2>Links</h2>
+        <div class="actions">
+          <a href="/generation/status.txt">Readable status</a>
+          <a href="/generation/status">JSON status</a>
+          <a href="/demo.txt">Run readable demo</a>
+          <a href="/evaluators/status">Evaluator status</a>
+          {report_links}
+        </div>
+      </section>
+      <section class="wide">
+        <h2>Latest Session</h2>
+        <p><strong>ID:</strong> <code>{escape(str(latest_id or 'none yet'))}</code></p>
+        <p><strong>Started:</strong> {escape(str(status_data.get('started_at') or 'not started'))}</p>
+        <p><strong>Stop reason:</strong> {escape(str(status_data.get('stop_reason')))}</p>
+        <p><strong>Confidence:</strong> {escape(str(report.get('confidence') or doc.get('confidence') or 'none yet'))}</p>
+        <p><strong>Agreement:</strong> {escape(str(llm_evaluation.get('agreement', 'none yet')))}</p>
+        <p><strong>Self-improvement seed saved:</strong> {escape(human_bool(report.get('self_improvement_seed_saved')) if report else 'none yet')}</p>
+      </section>
+      <section>
+        <h2>Behavior</h2>
+        <p><strong>Rewatch:</strong> {escape(str(behavior.get('rewatch', 'none yet')))}</p>
+        <p><strong>Hesitation:</strong> {escape(str(behavior.get('hesitation', 'none yet')))}</p>
+        <p><strong>Drawing:</strong> {escape(str(behavior.get('drawing', 'none yet')))}</p>
+      </section>
+      <section class="wide">
+        <h2>Flagged Claims</h2>
+        <ul>{claims_html}</ul>
+      </section>
+    </div>
+  </main>
+</body>
+</html>"""
+
+
 async def ingest_generated_session(payload: FerbAISessionOutput, stream_events: int) -> dict[str, Any]:
     assert_agent_session(payload)
     record = model_dump(payload)
@@ -455,8 +654,33 @@ async def health() -> dict[str, Any]:
     }
 
 
-@app.get("/")
-async def root() -> dict[str, Any]:
+async def latest_report_for_dashboard() -> dict[str, Any] | None:
+    status_data = generation_status()
+    session_id = status_data.get("last_session_id")
+    if not session_id:
+        return None
+    path = report_path(str(session_id))
+    if not path.exists():
+        return None
+    return await read_json(path)
+
+
+@app.get("/", response_class=HTMLResponse)
+async def root() -> HTMLResponse:
+    status_data = generation_status()
+    latest_report = await latest_report_for_dashboard()
+    return HTMLResponse(render_dashboard_html(status_data, latest_report))
+
+
+@app.get("/live", response_class=HTMLResponse)
+async def live_dashboard() -> HTMLResponse:
+    status_data = generation_status()
+    latest_report = await latest_report_for_dashboard()
+    return HTMLResponse(render_dashboard_html(status_data, latest_report))
+
+
+@app.get("/api")
+async def api_root() -> dict[str, Any]:
     return {
         "service": "ferbai-fastapi-ingestor",
         "ok": True,
@@ -471,6 +695,9 @@ async def root() -> dict[str, Any]:
             "generation_stop": "POST /generation/stop",
             "evaluator_status": "/evaluators/status",
             "disagreement_seed": "GET /sessions/{session_id}/disagreement-seed",
+            "live_dashboard": "/live",
+            "readable_generation_status": "/generation/status.txt",
+            "readable_demo": "/demo.txt",
         },
         "generation": generation_status(),
     }
@@ -503,6 +730,11 @@ async def evaluator_status() -> dict[str, Any]:
 @app.get("/generation/status")
 async def get_generation_status() -> dict[str, Any]:
     return generation_status()
+
+
+@app.get("/generation/status.txt", response_class=PlainTextResponse)
+async def get_generation_status_text() -> PlainTextResponse:
+    return PlainTextResponse(format_generation_status_text(generation_status()))
 
 
 @app.post("/generation/start", status_code=status.HTTP_202_ACCEPTED)
@@ -599,6 +831,16 @@ async def get_report(session_id: str, response: Response) -> dict[str, Any]:
     return await read_json(path)
 
 
+@app.get("/sessions/{session_id}/report.txt", response_class=PlainTextResponse)
+async def get_report_text(session_id: str) -> PlainTextResponse:
+    path = report_path(session_id)
+    if not path.exists():
+        if not session_path(session_id).exists():
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Unknown session_id")
+        return PlainTextResponse(f"Session {session_id} is still processing.\n", status_code=status.HTTP_202_ACCEPTED)
+    return PlainTextResponse(format_report_text(await read_json(path)))
+
+
 @app.get("/sessions/{session_id}/disagreement-seed")
 async def get_disagreement_seed(session_id: str) -> dict[str, Any]:
     path = disagreement_path(session_id)
@@ -641,3 +883,9 @@ async def demo() -> dict[str, Any]:
 @app.post("/demo")
 async def demo_post() -> dict[str, Any]:
     return await demo()
+
+
+@app.get("/demo.txt", response_class=PlainTextResponse)
+async def demo_text() -> PlainTextResponse:
+    result = await demo()
+    return PlainTextResponse(format_report_text(result["verdict"]))
