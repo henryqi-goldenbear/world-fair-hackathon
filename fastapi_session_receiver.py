@@ -124,6 +124,7 @@ app = FastAPI(
 
 _mongo_client: Any = None
 _mongo_failed = False
+_mongo_last_error: str | None = None
 _generation_task: asyncio.Task[None] | None = None
 _generation_started_at: str | None = None
 _generation_last_session_id: str | None = None
@@ -182,7 +183,7 @@ async def read_json(path: Path) -> dict[str, Any]:
 
 
 async def get_mongo() -> Any:
-    global _mongo_client, _mongo_failed
+    global _mongo_client, _mongo_failed, _mongo_last_error
     if not MONGODB_URI or _mongo_failed:
         return None
     if _mongo_client is not None:
@@ -193,11 +194,23 @@ async def get_mongo() -> Any:
         _mongo_client = AsyncIOMotorClient(MONGODB_URI, serverSelectionTimeoutMS=1500)
         await _mongo_client.admin.command("ping")
         logger.info("mongodb_connected")
+        _mongo_last_error = None
         return _mongo_client[MONGODB_DB]
     except Exception as exc:  # pragma: no cover - depends on external service
         _mongo_failed = True
+        _mongo_last_error = str(exc).replace(MONGODB_URI, "<MONGODB_URI>")[:1200]
         logger.warning("mongodb_unavailable_using_local_fallback: %s", exc)
         return None
+
+
+async def reset_mongo_connection() -> Any:
+    global _mongo_client, _mongo_failed, _mongo_last_error
+    if _mongo_client is not None:
+        _mongo_client.close()
+    _mongo_client = None
+    _mongo_failed = False
+    _mongo_last_error = None
+    return await get_mongo()
 
 
 async def require_mongo() -> Any:
@@ -716,12 +729,15 @@ async def latest_report_for_dashboard() -> dict[str, Any] | None:
 async def mongo_status_payload() -> dict[str, Any]:
     configured = bool(MONGODB_URI)
     db = await get_mongo()
+    if configured and db is None and _mongo_failed:
+        db = await reset_mongo_connection()
     if db is None:
         return {
             "configured": configured,
             "connected": False,
             "database": MONGODB_DB,
             "provider": "MongoDB Atlas on GCP",
+            "last_error": _mongo_last_error,
             "collections": ["sessions", "events", "verdicts", "disagreements", "personas"],
         }
     names = await db.list_collection_names()
@@ -730,6 +746,7 @@ async def mongo_status_payload() -> dict[str, Any]:
         "connected": True,
         "database": MONGODB_DB,
         "provider": "MongoDB Atlas on GCP",
+        "last_error": None,
         "collections": sorted(name for name in names if not name.startswith("system.")),
     }
 
@@ -803,6 +820,21 @@ async def atlas_bootstrap() -> dict[str, Any]:
         "search_index_definitions": atlas_search_index_definitions(),
         "note": "Create the Atlas Search and Vector Search definitions in Atlas if your cluster does not allow driver-managed search index creation.",
     }
+
+
+@app.post("/atlas/reconnect")
+async def atlas_reconnect() -> dict[str, Any]:
+    db = await reset_mongo_connection()
+    if db is None:
+        payload = await mongo_status_payload()
+        payload["ok"] = False
+        return payload
+    if ATLAS_BOOTSTRAP_ON_STARTUP:
+        await ensure_atlas_indexes(db)
+        await seed_personas(db, load_personas())
+    payload = await mongo_status_payload()
+    payload["ok"] = True
+    return payload
 
 
 @app.get("/atlas/analytics")
